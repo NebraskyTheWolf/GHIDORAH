@@ -48,6 +48,22 @@ module.exports = async (client, interaction) => {
                 });
             }
             break;
+            case "userVerify": {
+                let userId = type.split('_')[1];
+                let buttonType = type.split('_')[2];
+                let step = type.split('_')[3];
+
+                button.execute(interaction, interactionUser, {
+                    type: "VERIFY_ACTION",
+                    userId: userId,
+                    buttonType: buttonType,
+                    permissions: [
+                        Permissions.FLAGS.KICK_MEMBERS
+                    ],
+                    stepId: step
+                });
+            }
+            break;
             default:
                 console.log(`Unresolved action ID: ${type} for interaction ID: ${interaction.customId} executed by ${interaction.user.id}`)
             break;

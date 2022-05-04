@@ -79,6 +79,18 @@ module.exports = async client => {
             }
     }
 
+	const modalsFolders = fs.readdirSync("./modals");
+    for (const files of modalsFolders) {
+        const folder = fs
+			.readdirSync(`./modals/${files}/`)
+			.filter(file => file.endsWith(".js"));
+            for (const commands of folder) {
+                const command = require(`../../modals/${files}/${commands}`);
+				client.modals.set(command.data.name, command);
+		        console.log(`Button POST : ${command.name} from ${commands}`);
+            }
+    }
+
 	setInterval(() => {
 		const filtered = client.moderationdb.filter(p => p.isMuted == true);
 		const rightNow = Date.now();

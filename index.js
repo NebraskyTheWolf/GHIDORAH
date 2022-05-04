@@ -2,6 +2,7 @@ const db = require("quick.db");
 const Enmap = require("enmap");
 const DisTube = require("distube");
 const { Collection, Client, Intents } = require("discord.js");
+const discordModals = require('discord-modals')
 
 const { GiveawaysManager } = require("discord-giveaways");
 
@@ -31,6 +32,8 @@ const client = new Client({
       ],
 });
 
+discordModals(client);
+
 client.config = config;
 global.client = client;
 global.nowyear = new Date().getFullYear();
@@ -49,6 +52,7 @@ client.snipes = new Collection();
 client.mapss = new Collection();
 client.mapss.set("uptimedate", nz_date_string);
 client.buttons = new Collection();
+client.modals = new Collection();
 
 ["command", "event", "music"].forEach(x => require(`./handlers/${x}.js`)(client));
 ["alwaysOn", "http"].forEach(x => require(`./server/${x}.js`));

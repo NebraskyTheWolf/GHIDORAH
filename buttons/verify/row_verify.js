@@ -19,6 +19,20 @@ module.exports = {
 
         await interaction.reply({
             embeds: [embed], 
+            components: [
+                {
+                    type: 1,
+                    components: [
+                        {
+                            "style": 2,
+                            "label": `Next`,
+                            "custom_id": `row_id_userVerify_${interactionUser.id}_next_1`,
+                            "disabled": false,
+                            "type": 2
+                        }
+                    ]
+                }
+            ],
             ephemeral: true
         });
     }
