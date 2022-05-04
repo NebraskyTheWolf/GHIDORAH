@@ -90,7 +90,7 @@ module.exports = {
                                 type: 1,
                                 components: [
                                     {
-                                        style: 5,
+                                        style: 3,
                                         label: "Action informations",
                                         custom_id: `row_id_userAction_${interaction.user.id}_checkAction`,
                                         disabled: false,
@@ -154,7 +154,7 @@ module.exports = {
                                 type: 1,
                                 components: [
                                     {
-                                        style: 5,
+                                        style: 3,
                                         label: "Action informations",
                                         custom_id: `row_id_userAction_${interaction.user.id}_checkAction`,
                                         disabled: false,
