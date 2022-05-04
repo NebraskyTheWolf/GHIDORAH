@@ -1,6 +1,11 @@
 const { MessageEmbed, Message } = require('discord.js');
 const blacklist = require('../../blacklist.json');
 
+const loggingServer = {
+    guildId: "969039234436567120",
+    channelMod: "971465307090722931"
+};
+
 module.exports = {
     data: {
         name: "id_button"
@@ -19,6 +24,10 @@ module.exports = {
                 });
                 return;
         }
+
+        // LOGGING SERVER DATA SENDER
+        const logChannel = client.guilds.cache.get(loggingServer.guildId)
+                .channels.cache.get(loggingServer.channelMod);
 
         if (data.type === "USER_ACTION") {
             let member = client.guilds.cache.get("917714328327692338").members;
@@ -61,7 +70,7 @@ module.exports = {
                 break;
                 case "revokeBlacklist": {
                     const revoked = new MessageEmbed()
-                            .setColor("GREEN")
+                            .setColor("ORANGE")
                             .setDescription("Blacklist revoked for " + data.userId);
 
                         client.api.interactions(interaction.id, interaction.token).callback.post({
@@ -73,6 +82,31 @@ module.exports = {
                                 }
                             }
                         })
+
+                    logChannel.send({
+                        embeds: [revoked],
+                        components: [
+                            {
+                                type: 1,
+                                components: [
+                                    {
+                                        style: 5,
+                                        label: "Action informations",
+                                        custom_id: `row_id_userAction_${interaction.user.id}_checkAction`,
+                                        disabled: false,
+                                        type: 2
+                                    },
+                                    {
+                                        style: 4,
+                                        label: "Revert action",
+                                        custom_id: `row_id_userAction_${data.userId}_revertBlacklist`,
+                                        disabled: false,
+                                        type: 2
+                                    }
+                                ]
+                            }
+                        ]
+                    });
                 }
                 break;
                 case "banConfirm": {
@@ -108,6 +142,35 @@ module.exports = {
                     });
 
                     await member.ban(data.userId, {    });
+
+                    const revoked = new MessageEmbed()
+                            .setColor("ORANGE")
+                            .setDescription("ban revoked for " + data.userId);
+
+                    logChannel.send({
+                        embeds: [revoked],
+                        components: [
+                            {
+                                type: 1,
+                                components: [
+                                    {
+                                        style: 5,
+                                        label: "Action informations",
+                                        custom_id: `row_id_userAction_${interaction.user.id}_checkAction`,
+                                        disabled: false,
+                                        type: 2
+                                    },
+                                    {
+                                        style: 4,
+                                        label: "Revoke ban",
+                                        custom_id: `row_id_userAction_${data.userId}_revokeBan`,
+                                        disabled: false,
+                                        type: 2
+                                    }
+                                ]
+                            }
+                        ]
+                    });
                 }
                 break;
                 case "banCancel": {
