@@ -142,35 +142,6 @@ module.exports = {
                     });
 
                     await member.ban(data.userId, {    });
-
-                    const revoked = new MessageEmbed()
-                            .setColor("ORANGE")
-                            .setDescription("ban revoked for " + data.userId);
-
-                    logChannel.send({
-                        embeds: [revoked],
-                        components: [
-                            {
-                                type: 1,
-                                components: [
-                                    {
-                                        style: 3,
-                                        label: "Action informations",
-                                        custom_id: `row_id_userAction_${interaction.user.id}_checkAction`,
-                                        disabled: false,
-                                        type: 2
-                                    },
-                                    {
-                                        style: 4,
-                                        label: "Revoke ban",
-                                        custom_id: `row_id_userAction_${data.userId}_revokeBan`,
-                                        disabled: false,
-                                        type: 2
-                                    }
-                                ]
-                            }
-                        ]
-                    });
                 }
                 break;
                 case "banCancel": {
@@ -192,6 +163,37 @@ module.exports = {
                         .setColor("ORANGE")
                         .setDescription("You tested me Rawrrrr.")
                     interaction.reply({embeds: [embed]})
+                }
+                break;
+                case "revokeBan": {
+                    await member.unban(data.userId);
+                    const embed = new MessageEmbed()
+                        .setColor("ORANGE")
+                        .setDescription("You unbanned " + data.userId);
+                    interaction.update({
+                        components: [
+                            {
+                                type: 1,
+                                components: [
+                                    {
+                                        style: 3,
+                                        label: "Action informations",
+                                        custom_id: `row_id_userAction_${interaction.user.id}_checkAction`,
+                                        disabled: false,
+                                        type: 2
+                                    },
+                                    {
+                                        style: 4,
+                                        label: "Revoke ban",
+                                        custom_id: `row_id_userAction_${data.userId}_revokeBan`,
+                                        disabled: true,
+                                        type: 2
+                                    }
+                                ]
+                            }
+                        ]
+                    });
+                    interaction.followUp({embeds: [embed], ephemeral: true});
                 }
                 break;
             }
