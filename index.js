@@ -6,9 +6,19 @@ const discordModals = require('discord-modals')
 
 const { GiveawaysManager } = require("discord-giveaways");
 
+const mongoose = require('mongoose');
+
+
 const emojis = require("./config/emoji.json");
 const config = require("./config/config.json");
 const keepAlive = require("./server/http");
+
+const redis = require('redis');
+const redisClient = redis.createClient(config.RedisClient);
+
+const ModuleManager = require('./modules/ModulesManager');
+const ConsoleColors = require('./utils/ConsoleColor');
+const Logger = require('./utils/Logger');
 
 const client = new Client({
 	partials: ["MESSAGE", "USER", "REACTION"],
@@ -43,6 +53,11 @@ const nz_date_string = new Date().toLocaleString("en-UK", {
 	timeZone: "Europe/London",
 });
 
+client.Database = require('./Database/MongoDB');
+
+client.consoleColors = ConsoleColors;
+client.logger = Logger;
+
 client.commands = new Collection();
 client.slcommands = new Collection();
 client.aliases = new Collection();
@@ -54,10 +69,28 @@ client.mapss.set("uptimedate", nz_date_string);
 client.buttons = new Collection();
 client.modals = new Collection();
 
+client.redis = redisClient;
+client.packets = new Collection();
+
+client.modules = new Collection();
+client.moduleManager = ModuleManager;
+
 ["command", "event", "music"].forEach(x => require(`./handlers/${x}.js`)(client));
 ["alwaysOn", "http"].forEach(x => require(`./server/${x}.js`));
 
 keepAlive();
+
+mongoose.connect(config.MongoDBInfo.host, config.MongoDBInfo.options).then(() => {
+    client.logger.log('INFO', 'Connected to MongoDB');
+}).catch((err) => {
+    client.logger.log('WARN', 'Unable to connect to MongoDB Database.');
+});
+
+redisClient.connect().then(() => {
+    client.logger.log('INFO', 'Connected to Redis.');
+}).catch((err) => {
+    client.logger.log('WARN', 'Unable to connect to Redis server.')
+});
 
 client.settings = new Enmap({
     name: "settings",
@@ -136,8 +169,8 @@ client.ws.on("INTERACTION_CREATE", async interaction => {
     try {
         client.commands.get(interaction.data.name).execute(interaction);
     } catch (error) {
-        console.log(`Error from command ${interaction.data.name} : ${error.message}`);
-        console.log(`${error.stack}\n`);
+        client.logger.log('ERROR', `Error from command ${interaction.data.name} : ${error.message}`);
+        client.logger.log('ERROR', `${error.stack}\n`);
         client.api.interactions(interaction.id, interaction.token).callback.post({
             data: {
                 type: 4,

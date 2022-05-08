@@ -1,0 +1,326 @@
+diff --git a/config/config.json b/config/config.json
+index 65772f3..26163d8 100644
+--- a/config/config.json
++++ b/config/config.json
+@@ -1,6 +1,6 @@
+ {
+-	"prefix": "d!",
+-	"ownerID": "611804698856521728",
++	"prefix": "/",
++	"ownerID": "382918201241108481",
+ 	"everyoneMention": false,
+ 	"hostedBy": true,
+ 	"emoji": {
+@@ -10,5 +10,25 @@
+ 		"success": "☑️",
+ 		"repeat": "🔁",
+ 		"error": "❌"
+-	}
++	},
++	"MongoDBInfo": {
++		"host": "mongodb://localhost:27017/GHIDORAH",
++		"options": {
++			"useNewUrlParser": true,
++        	"useUnifiedTopology": true
++		}
++	},
++	"RedisClient": {
++		"url": "redis://localhost:6379"
++	},
++	"protocols": [
++		"security@ghidorah.net/*",
++		"security@ghidorah.net/logging",
++		"security@ghidorah.net/dashboard",
++		"security@ghidorah.net/user",
++		"security@ghidorah.net/search",
++		"security@ghidorah.net/database",
++		"info@ghidorah.net/manifest"
++	],
++	"baseProtocol": "security@ghidorah.net"
+ }
+\ No newline at end of file
+diff --git a/events/client/ready.js b/events/client/ready.js
+index e167d1d..ae74ae1 100644
+--- a/events/client/ready.js
++++ b/events/client/ready.js
+@@ -1,3 +1,4 @@
++const { config } = require("dotenv");
+ const fs = require("fs");
+ 
+ module.exports = async client => {
+@@ -8,11 +9,10 @@ module.exports = async client => {
+ 		"By Leona",
+ 	];
+ 
+-	console.log("Registering commands..");
++	client.logger.log('INFO', "Registering commands..");
+ 
+     const folders = fs.readdirSync("./commands");
+     for (const files of folders) {
+-		if (files === "moderation") continue;
+         const folder = fs
+ 			.readdirSync(`./commands/${files}/`)
+ 			.filter(file => file.endsWith(".js"));
+@@ -26,35 +26,15 @@ module.exports = async client => {
+                     },
+                 });
+                 client.commands.set(command.name, command);
+-		        console.log(`Command POST : ${command.name} from ${commands}`);
++				client.logger.log('INFO', ` > Command POST : ${command.name} from ${commands}`);
+             }
+     }
+-	for (const files of folders) {
+-		if (files !== "moderation") continue;
+-        const folder = fs
+-			.readdirSync(`./commands/${files}/`)
+-			.filter(file => file.endsWith(".js"));
+-            for (const commands of folder) {
+-                const command = require(`../../commands/${files}/${commands}`);
+-                client.api.applications(client.user.id).commands.post({
+-                    data: {
+-                        name: command.name,
+-                        description: command.description,
+-                        options: command.commandOptions,
+-						permission: 0x0000010000000000
+-                    },
+-                });
+-                client.commands.set(command.name, command);
+-		        console.log(`Command POST : ${command.name} from ${commands}`);
+-            }
+-    }
+-    console.log("Finished.");
+ 	
+ 	const cmdArrGlobal = await client.api
+ 		.applications(client.user.id)
+ 		.commands.get();
+ 	cmdArrGlobal.forEach(element => {
+-		console.log(`Global command loaded : ${element.name} (${element.id})`);
++		client.logger.log('INFO', ` > Global command loaded : ${element.name} (${element.id})`);
+ 	});
+ 
+ 	let i = 0;
+@@ -67,6 +47,8 @@ module.exports = async client => {
+ 		15000
+ 	);
+ 
++	client.logger.log('WARN', `Loading Buttons...`);
++
+ 	const buttonFolders = fs.readdirSync("./buttons");
+     for (const files of buttonFolders) {
+         const folder = fs
+@@ -75,10 +57,12 @@ module.exports = async client => {
+             for (const commands of folder) {
+                 const command = require(`../../buttons/${files}/${commands}`);
+ 				client.buttons.set(command.data.name, command);
+-		        console.log(`Button POST : ${command.name} from ${commands}`);
++		        client.logger.log('INFO', ` > Button POST : ${command.data.name} from ${commands}`);
+             }
+     }
+ 
++	client.logger.log('WARN', `Loading Modals...`);
++
+ 	const modalsFolders = fs.readdirSync("./modals");
+     for (const files of modalsFolders) {
+         const folder = fs
+@@ -87,36 +71,50 @@ module.exports = async client => {
+             for (const commands of folder) {
+                 const command = require(`../../modals/${files}/${commands}`);
+ 				client.modals.set(command.data.name, command);
+-		        console.log(`Button POST : ${command.name} from ${commands}`);
++		        client.logger.log('INFO', ` > Modal POST : ${command.data.name} from ${commands}`);
+             }
+     }
+ 
+-	setInterval(() => {
+-		const filtered = client.moderationdb.filter(p => p.isMuted == true);
+-		const rightNow = Date.now();
+-		filtered.forEach(async data => {
+-			const mutedendstime = data.timeMuteEnd;
+-			if (rightNow > mutedendstime) {
+-				const serverr = client.guilds.cache.get(data.guildid);
+-				if (!serverr.members.cache.has(data.userid)) return;
+-				const member = serverr.members.cache.get(data.userid);
+-				const muterole = serverr.roles.cache.find(role => {
+-					return role.name === "Muted";
++	client.logger.log('WARN', `Loading Packets...`);
++
++	const packetsFolder = fs.readdirSync("./packets");
++    for (const files of packetsFolder) {
++        const folder = fs
++			.readdirSync(`./packets/${files}/`)
++			.filter(file => file.endsWith(".js"));
++            for (const commands of folder) {
++                const command = require(`../../packets/${files}/${commands}`);
++				client.packets.set(command.packet.name, command);
++
++				client.redis.subscribe(`${client.config.baseProtocol}/${command.packet.protocol}`).then(() => {
++					client.logger.log('INFO', ` > Packet: ${command.packet.name} registered.`);
+ 				});
+-				member.roles.remove(muterole);
+-				console.log("removed role");
+-
+-				await client.moderationdb.set(
+-					`${data.guildid}-${data.userid}`,
+-					false,
+-					"isMuted"
+-				);
+-				await client.moderationdb.set(
+-					`${data.guildid}-${data.userid}`,
+-					0,
+-					"timeMuteEnd"
+-				);
+-			}
+-		});
+-	}, 30000);
++            }
++    }
++
++	client.logger.log('WARN', `Loading protocols...`);
++
++	client.config.protocols.forEach(value => {
++		client.redis.subscribe(value);
++		client.logger.log('WARN', ` > ${value} protocol registered.`);
++	});
++
++	client.redis.on('message', (channel, data) => {
++		let name = data.packet.name;
++		let userData = data.packet.output;
++
++		let packet = client.packets.get(name);
++		let URL = `${client.config.baseProtocol}/${data.packet.protocol}`;
++
++		if (channel.equals(URL) 
++			&& packet) {
++			packet.execute(userData, {
++				callback: `${URL}/callback`,
++			});
++		} else {
++			client.logger.log('INFO', `Invalid protocol : ${URL} for packet : ${packet.packet.name}`);
++		}
++	});
++	
++	client.logger.log('INFO', 'Initialization phase finished.');
+ };
+\ No newline at end of file
+diff --git a/handlers/event.js b/handlers/event.js
+index dc9030b..497ee79 100644
+--- a/handlers/event.js
++++ b/handlers/event.js
+@@ -5,7 +5,7 @@ module.exports = client => {
+ 		if (err) console.log(err);
+ 		files.forEach(file => {
+ 			const event = require(`../events/client/${file}`);
+-			console.log(`loaded Event: ${file}`);
++			client.logger.log('INFO', ` > Loaded Event: ${file}`);
+ 			const eventName = file.split(".")[0];
+ 			client.on(eventName, event.bind(null, client));
+ 		});
+diff --git a/handlers/music.js b/handlers/music.js
+index 5703243..ccdaf9a 100644
+--- a/handlers/music.js
++++ b/handlers/music.js
+@@ -5,7 +5,7 @@ module.exports = client => {
+ 		if (err) console.log(err);
+ 		files.forEach(file => {
+ 			const event = require(`../events/music/${file}`);
+-			console.log(`loaded Event: ${file}`);
++			client.logger.log('INFO', ` > Loaded Event: ${file}`);
+ 			const eventName = file.split(".")[0];
+ 			client.distube.on(eventName, event.bind(null, client));
+ 		});
+diff --git a/index.js b/index.js
+index 4efb314..ef3d1e6 100644
+--- a/index.js
++++ b/index.js
+@@ -6,10 +6,20 @@ const discordModals = require('discord-modals')
+ 
+ const { GiveawaysManager } = require("discord-giveaways");
+ 
++const mongoose = require('mongoose');
++
++
+ const emojis = require("./config/emoji.json");
+ const config = require("./config/config.json");
+ const keepAlive = require("./server/http");
+ 
++const redis = require('redis');
++const redisClient = redis.createClient(config.RedisClient);
++
++const ModuleManager = require('./modules/ModulesManager');
++const ConsoleColors = require('./utils/ConsoleColor');
++const Logger = require('./utils/Logger');
++
+ const client = new Client({
+ 	partials: ["MESSAGE", "USER", "REACTION"],
+ 	disableMentions: "everyone",
+@@ -43,6 +53,11 @@ const nz_date_string = new Date().toLocaleString("en-UK", {
+ 	timeZone: "Europe/London",
+ });
+ 
++client.Database = require('./Database/MongoDB');
++
++client.consoleColors = ConsoleColors;
++client.logger = Logger;
++
+ client.commands = new Collection();
+ client.slcommands = new Collection();
+ client.aliases = new Collection();
+@@ -54,11 +69,29 @@ client.mapss.set("uptimedate", nz_date_string);
+ client.buttons = new Collection();
+ client.modals = new Collection();
+ 
++client.redis = redisClient;
++client.packets = new Collection();
++
++client.modules = new Collection();
++client.moduleManager = ModuleManager;
++
+ ["command", "event", "music"].forEach(x => require(`./handlers/${x}.js`)(client));
+ ["alwaysOn", "http"].forEach(x => require(`./server/${x}.js`));
+ 
+ keepAlive();
+ 
++mongoose.connect(config.MongoDBInfo.host, config.MongoDBInfo.options).then(() => {
++    client.logger.log('INFO', 'Connected to MongoDB');
++}).catch((err) => {
++    client.logger.log('WARN', 'Unable to connect to MongoDB Database.');
++});
++
++redisClient.connect().then(() => {
++    client.logger.log('INFO', 'Connected to Redis.');
++}).catch((err) => {
++    client.logger.log('WARN', 'Unable to connect to Redis server.')
++});
++
+ client.settings = new Enmap({
+     name: "settings",
+     fetchAll: false,
+@@ -136,8 +169,8 @@ client.ws.on("INTERACTION_CREATE", async interaction => {
+     try {
+         client.commands.get(interaction.data.name).execute(interaction);
+     } catch (error) {
+-        console.log(`Error from command ${interaction.data.name} : ${error.message}`);
+-        console.log(`${error.stack}\n`);
++        client.logger.log('ERROR', `Error from command ${interaction.data.name} : ${error.message}`);
++        client.logger.log('ERROR', `${error.stack}\n`);
+         client.api.interactions(interaction.id, interaction.token).callback.post({
+             data: {
+                 type: 4,
+diff --git a/package.json b/package.json
+index 20e04f1..1467bb6 100644
+--- a/package.json
++++ b/package.json
+@@ -28,11 +28,13 @@
+ 		"express": "^4.17.3",
+ 		"ffmpeg-static": "^5.0.0",
+ 		"moment": "^2.29.2",
++		"mongoose": "^6.3.2",
+ 		"ms": "^2.1.3",
+ 		"node-fetch": "^2.6.7",
+ 		"opusscript": "^0.0.8",
+ 		"pet-pet-gif": "^1.0.9",
+ 		"quick.db": "^7.1.3",
++		"redis": "^4.1.0",
+ 		"request": "^2.88.2",
+ 		"superagent": "^7.1.1",
+ 		"topgg-autoposter": "^2.0.1",

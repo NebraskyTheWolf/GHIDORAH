@@ -5,7 +5,7 @@ module.exports = client => {
 		if (err) console.log(err);
 		files.forEach(file => {
 			const event = require(`../events/music/${file}`);
-			console.log(`loaded Event: ${file}`);
+			client.logger.log('INFO', ` > Loaded Event: ${file}`);
 			const eventName = file.split(".")[0];
 			client.distube.on(eventName, event.bind(null, client));
 		});

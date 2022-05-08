@@ -1,6 +1,6 @@
 {
-	"prefix": "d!",
-	"ownerID": "611804698856521728",
+	"prefix": "/",
+	"ownerID": "382918201241108481",
 	"everyoneMention": false,
 	"hostedBy": true,
 	"emoji": {
@@ -10,5 +10,25 @@
 		"success": "☑️",
 		"repeat": "🔁",
 		"error": "❌"
-	}
+	},
+	"MongoDBInfo": {
+		"host": "mongodb://localhost:27017/GHIDORAH",
+		"options": {
+			"useNewUrlParser": true,
+        	"useUnifiedTopology": true
+		}
+	},
+	"RedisClient": {
+		"url": "redis://localhost:6379"
+	},
+	"protocols": [
+		"security@ghidorah.net/*",
+		"security@ghidorah.net/logging",
+		"security@ghidorah.net/dashboard",
+		"security@ghidorah.net/user",
+		"security@ghidorah.net/search",
+		"security@ghidorah.net/database",
+		"info@ghidorah.net/manifest"
+	],
+	"baseProtocol": "security@ghidorah.net"
 }
