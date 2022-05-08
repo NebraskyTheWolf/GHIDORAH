@@ -26,7 +26,6 @@ module.exports = {
             switch (data.buttonType) {
                 case "userInfo": {
                     let dataD = blacklist.data.find(d => d.id === data.userId);
-                    console.log(data)
 
                     const blacklistInfo = new MessageEmbed()
                         .setTitle("SKF Industries - Blacklist info of <@" + data.userId + ">")
@@ -35,10 +34,7 @@ module.exports = {
                         .addField("ID", `${dataD.id}`, false)
                         .addField("Reason", `${dataD.reason}`, false)
                         .addField("By", `${dataD.author}`, false);
-                    client.api.interactions(interaction.id, interaction.token).callback.post({
-                        data: {
-                            type: 4,
-                            data: {
+                    interaction.reply({
                                 embeds: [blacklistInfo],
                                 components: [
                                     {
@@ -54,25 +50,18 @@ module.exports = {
                                         ]
                                     }
                                 ]
-                            }
-                        }
-                    })
+                    });
                 }
                 break;
                 case "revokeBlacklist": {
                     const revoked = new MessageEmbed()
                             .setColor("ORANGE")
                             .setDescription("Blacklist revoked for " + data.userId);
-
-                        client.api.interactions(interaction.id, interaction.token).callback.post({
-                            data: {
-                                type: 4,
-                                data: {
-                                    embeds: [revoked],
-                                    flags: 64
-                                }
-                            }
-                        })
+                    
+                    interaction.reply({
+                        embeds: [revoked],
+                        ephemeral: true
+                    });
 
                     logChannel.send({
                         embeds: [revoked],
@@ -266,18 +255,12 @@ module.exports = {
             }
         } else if (data.type === "channelAction") {
             let channel = client.guilds.cache.get("917714328327692338").channels.cache.get(data.channelId);
-
-            switch (data.buttonType) {
-
-            }
+            switch (data.buttonType) {}
         } else if (data.type === "VERIFY_ACTION") {
-            console.log("VERIFY_ACTION type detected!")
             switch (data.buttonType) {
                 case "next": {
-                    console.log("NEXT action type detected!")
                     switch (data.stepId) {
                         case "1": {
-                            console.log("STEP 1 type detected!")
                             const modal = new Modal()
                                 .setCustomId(`row_modal_id_userVerify_${interaction.user.id}_verify`)
                                 .setTitle("Verification")
