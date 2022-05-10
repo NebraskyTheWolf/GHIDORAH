@@ -76,6 +76,7 @@ client.tasks = new Collection();
 
 client.modules = new Collection();
 client.moduleManager = ModuleManager;
+client.Modlog = require('./Utils/ModLog');
 
 function createOrSet(array, key, value) {
     if (array[key] !== undefined)

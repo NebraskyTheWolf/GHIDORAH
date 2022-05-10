@@ -17,9 +17,6 @@ module.exports = async (client, interaction) => {
 
         const button = client.buttons.get("id_button");
 
-        console.log(type)
-        console.log(finalType)
-
         switch (finalType) {
             case "userAction": {
                 let userId = type.split('_')[1];
@@ -65,22 +62,37 @@ module.exports = async (client, interaction) => {
                 });
             }
             break;
+            case "moderationAction": {
+                let types = type.split('_')[1];
+                let target = type.split('_')[2];
+                let reason = type.split('_')[3];
+                let action = type.split('_')[4];
+
+                button.execute(interaction, interactionUser, {
+                    type: "MODERATION",
+                    types: types,
+                    target: target,
+                    reason: reason,
+                    actionId: action
+                });
+            }
+            break;
             default:
-                console.log(`Unresolved action ID: ${type} for interaction ID: ${interaction.customId} executed by ${interaction.user.id}`)
+               client.logger.log('ERROR', `Unresolved action ID: ${types} for interaction ID: ${interaction.customId} executed by ${interaction.user.id}`)
             break;
         }
     } else if(interaction.isButton() 
         || interaction.isSelectMenu()) {
         const button = client.buttons.get(interaction.customId);
         if(!button) {
-            console.error(`No handler for button ${interaction.customId} : ${interaction.customId}.js not found.`);
+            client.logger.log('ERROR', `No handler for button ${interaction.customId} : ${interaction.customId}.js not found.`);
             return;
         }
 
         try {
             await button.execute(interaction, interactionUser);
         } catch (error) {
-            console.error(error);
+            client.logger.log('ERROR', error);
             await interaction.reply({ content: 'There was an error while executing the button script !', ephemeral: true});
         }
     } else {

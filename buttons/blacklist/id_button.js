@@ -24,203 +24,6 @@ module.exports = {
             let member = client.guilds.cache.get("917714328327692338").members;
 
             switch (data.buttonType) {
-                case "userInfo": {
-                    let dataD = blacklist.data.find(d => d.id === data.userId);
-
-                    const blacklistInfo = new MessageEmbed()
-                        .setTitle("SKF Industries - Blacklist info of <@" + data.userId + ">")
-                        .setColor("RED")
-                        .addField("Username", `${dataD.username}`, false)
-                        .addField("ID", `${dataD.id}`, false)
-                        .addField("Reason", `${dataD.reason}`, false)
-                        .addField("By", `${dataD.author}`, false);
-                    interaction.reply({
-                                embeds: [blacklistInfo],
-                                components: [
-                                    {
-                                        type: 1,
-                                        components: [
-                                            {
-                                                "style": 4,
-                                                "label": `Revoke blacklist`,
-                                                "custom_id": `row_id_userAction_${dataD.id}_revokeBlacklist`,
-                                                "disabled": false,
-                                                "type": 2
-                                            }
-                                        ]
-                                    }
-                                ]
-                    });
-                }
-                break;
-                case "revokeBlacklist": {
-                    const revoked = new MessageEmbed()
-                            .setColor("ORANGE")
-                            .setDescription("Blacklist revoked for " + data.userId);
-                    
-                    interaction.reply({
-                        embeds: [revoked],
-                        ephemeral: true
-                    });
-
-                    logChannel.send({
-                        embeds: [revoked],
-                        components: [
-                            {
-                                type: 1,
-                                components: [
-                                    {
-                                        style: 3,
-                                        label: "Action informations",
-                                        custom_id: `row_id_userAction_${interaction.user.id}_checkAction`,
-                                        disabled: false,
-                                        type: 2
-                                    },
-                                    {
-                                        style: 4,
-                                        label: "Revert action",
-                                        custom_id: `row_id_userAction_${data.userId}_revertBlacklist`,
-                                        disabled: false,
-                                        type: 2
-                                    }
-                                ]
-                            }
-                        ]
-                    });
-                }
-                break;
-                case "banConfirm": {
-                    interaction.update({
-                        components: [
-                            {
-                                type: 1,
-                                components: [
-                                    {
-                                        style: 3,
-                                        label: "Confirm",
-                                        custom_id: `row_id_userAction_${data.userId}_banConfirm`,
-                                        disabled: true,
-                                        type: 2
-                                    },
-                                    {
-                                        style: 4,
-                                        label: "Cancel",
-                                        custom_id: `row_id_userAction_${data.userId}_banCancel`,
-                                        disabled: true,
-                                        type: 2
-                                    },
-                                    {
-                                        style: 4,
-                                        label: "Delete",
-                                        custom_id: `row_id_userAction_${data.userId}_msgDelete`,
-                                        disabled: false,
-                                        type: 2
-                                    }
-                                ]
-                            }
-                        ]
-                    });
-
-                    let userBan = member.cache.get(data.userId);
-
-                    client.Database.createSanction(data.userId, {
-                        username: userBan.user.username,
-                        reason: 'Ghidorah auto ban',
-                        expirationDate: -1,
-                        type: 'BAN',
-                        active: true
-                    });
-
-                    await member.ban(data.userId, {    });
-                }
-                break;
-                case "banCancel": {
-                    const embed = new MessageEmbed()
-                        .setDescription("Ban cancelled.")
-                    interaction.reply({
-                        embeds: [embed],
-                        ephemeral: true
-                    })
-                    await interaction.message.delete();
-                }
-                break;
-                case "msgDelete": {
-                    await interaction.message.delete();
-                }
-                break;
-                case "clearConfirm": {
-                    const embed = new MessageEmbed()
-                        .setColor("ORANGE")
-                        .setDescription("You tested me Rawrrrr.")
-                    interaction.reply({embeds: [embed]})
-                }
-                break;
-                case "revokeBan": {
-                    await member.unban(data.userId);
-                    const embed = new MessageEmbed()
-                        .setColor("ORANGE")
-                        .setDescription("You unbanned " + data.userId);
-                    interaction.update({
-                        components: [
-                            {
-                                type: 1,
-                                components: [
-                                    {
-                                        style: 3,
-                                        label: "Action informations",
-                                        custom_id: `row_id_userAction_${interaction.user.id}_checkAction`,
-                                        disabled: false,
-                                        type: 2
-                                    },
-                                    {
-                                        style: 4,
-                                        label: "Revoke ban",
-                                        custom_id: `row_id_userAction_${data.userId}_revokeBan`,
-                                        disabled: true,
-                                        type: 2
-                                    }
-                                ]
-                            }
-                        ]
-                    });
-
-                    client.Database.updateSanction(data.userId, {
-                        active: false
-                    });
-
-                    interaction.followUp({embeds: [embed], ephemeral: true});
-                }
-                break;
-                case "kickUser": {
-                    interaction.update({
-                        components: [
-                            {
-                                type: 1,
-                                components: [
-                                    {
-                                        "style": 4,
-                                        "label": `Kick`,
-                                        "custom_id": `row_id_userAction_${data.userId}_kickUser`,
-                                        "disabled": true,
-                                        "type": 2
-                                    }
-                                ]
-                            }
-                        ]
-                    });
-
-                    let userBan = member.cache.get(data.userId);
-                    client.Database.createSanction(data.userId, {
-                        username: userBan.user.username,
-                        reason: 'Ghidorah auto kick',
-                        expirationDate: -1,
-                        type: 'KICK',
-                        active: false
-                    });
-                    
-                    await member.kick(data.userId, {    });
-                }
-                break;
                 case "acceptVerify": {
                     let memberU = client.guilds.cache.get("917714328327692338").members.cache.get(data.userId);
 
@@ -308,6 +111,98 @@ module.exports = {
                 }
                 break;
             }
+        } else if (data.type === "MODERATION") {
+            let member = client.guilds.cache.get("917714328327692338").members;
+            let target = member.cache.get(data.target);
+            
+            let datay = `row_id_moderationAction_${data.types}_${data.target}_${data.reason}`;
+            client.logger.log('WARN', `${datay}_${data.types}`);
+
+            switch (data.actionId) {
+                case "confirm": {
+                    interaction.update({
+                        components: [
+                            {
+                                type: 1,
+                                components: [
+                                    {
+                                        style: 3,
+                                        label: "Confirm",
+                                        custom_id: `${datay}_confirm`,
+                                        disabled: true,
+                                        type: 2
+                                    },
+                                    {
+                                        style: 4,
+                                        label: "Cancel",
+                                        custom_id: `${datay}_cancel`,
+                                        disabled: true,
+                                        type: 2
+                                    },
+                                    {
+                                        style: 4,
+                                        label: "Delete",
+                                        custom_id: `${datay}_remove`,
+                                        disabled: false,
+                                        type: 2
+                                    }
+                                ]
+                            }
+                        ]
+                    });
+
+                    switch(data.types) {
+                        case "KICK": {
+                            client.Modlog.addLog(client, target, {
+                                reason: data.reason,
+                                expiration: -1,
+                                type: data.types,
+                                active: true
+                            }, async (fdata) => {
+                                if (fdata.status) {
+                                    let R = fdata.data.reason;
+                                    await member.kick(data.target, { R });
+                                }
+                            });
+                        }
+                        break;
+                        case "BAN": {
+                            client.Modlog.addLog(client, target, {
+                                reason: data.reason,
+                                expiration: -1,
+                                type: data.types,
+                                active: true
+                            }, async (fdata) => {
+                                if (fdata.status) {
+                                    let R = fdata.data.reason;
+                                    await member.ban(data.target, { R });
+                                }
+                            });
+                        }
+                        break;
+                        case "WARN": {
+                            client.Modlog.addLog(client, target, {
+                                reason: data.reason,
+                                expiration: -1,
+                                type: data.types,
+                                active: true
+                            }, async (fdata) => {
+                                if (fdata.status) {
+                                    target.send(`You got warned on SKF Industries for ${fdata.data.reason}.`);
+                                }
+                            });
+                        }
+                        break;
+                    }
+                }
+                break;
+                case "remove":
+                case "cancel": {
+                    await interaction.message.delete();
+                }
+                break;
+            }
         }
     }
 }
+
