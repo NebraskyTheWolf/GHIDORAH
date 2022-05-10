@@ -10,8 +10,6 @@ const loggingServer = {
 module.exports = function (client, member) {
     let channel = client.guilds.cache.get(loggingServer.guildId).channels.cache.get(loggingServer.channelMod);
 
-    console.log(member.id);
-
     if (member.bot 
         && member.flags !== 1 << 16) {
         const embedBlacklist = new Discord.MessageEmbed()
@@ -38,34 +36,29 @@ module.exports = function (client, member) {
 
     const embedBlacklist = new Discord.MessageEmbed()
         .setTitle("SKF Industries - BAD LURKER INTRUSION")
-        .setDescription(`<@${member.id}> are blacklisted and tried to join. (ACTION: KICKED)`)
+        .setDescription(`<@${member.id}> are blacklisted and tried to join. (ACTION: KICKED)`);
 
-    for (bl in blacklist.data) {
-        let data = blacklist.data[bl];
-        console.log(data);
-        console.log(bl);
+    let blacklistInfo = client.ModLog.isBlacklisted(member.id);
 
-        if (data.id === member.id 
-                && data.active === true) {
-            member.kick(data.user.reason);
-            channel.send({
-                embeds: [embedBlacklist],
-                components: [
-                    {
-                        type: 1,
-                        components: [
-                            {
-                                "style": 4,
-                                "label": `User Informations`,
-                                "custom_id": `row_id_userAction_${data.id}_userInfo`,
-                                "disabled": false,
-                                "type": 2
-                            }
-                        ]
-                    }
-                ]
-            })
-        }
+    if (blacklistInfo.data.active) {
+        member.kick(blacklistInfo.data.reason);
+        channel.send({
+            embeds: [embedBlacklist],
+            components: [
+                {
+                    type: 1,
+                    components: [
+                        {
+                            "style": 4,
+                            "label": `User Informations`,
+                            "custom_id": `row_id_userAction_${blacklistInfo.id}_userInfo`,
+                            "disabled": false,
+                            "type": 2
+                        }
+                    ]
+                }
+            ]
+        });
     }
 };
 

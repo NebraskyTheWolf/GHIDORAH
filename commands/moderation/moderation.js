@@ -20,6 +20,10 @@ module.exports = {
                 {
                     "name": "warn",
                     "value": "WARN"
+                },
+                {
+                    "name": "blacklist",
+                    "value": "BLACKLIST"
                 }
             ]
         },
@@ -40,6 +44,21 @@ module.exports = {
         let type = interaction.data.options[0].value;
         let target = interaction.data.options[1].value;
         let reason = interaction.data.options[2].value;
+
+        if (interaction.member.user.id === target) {
+            const silly = new Discord.MessageEmbed()
+                .setColor("ORANGE")
+                .setDescription("You can't use that command on yourself. ( SILLY BEAN )");
+            client.api.interactions(interaction.id, interaction.token).callback.post({
+                    data: {
+                        type: 4,
+                        data: {
+                            embeds: [silly]
+                        }
+                    }
+            });
+            return;
+        }
 
         const actionEmbed = new Discord.MessageEmbed()
             .setColor("ORANGE")

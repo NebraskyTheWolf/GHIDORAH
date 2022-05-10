@@ -7,11 +7,7 @@ module.exports = async (client, interaction) => {
 
     const interactionUser = await interaction.guild.members.fetch(interaction.user.id)
 
-    console.log(`Interaction called: ${interaction.customId}`)
-
     if (interaction.customId.startsWith('row_id_')) {
-        console.log(interaction.customId)
-
         let type = interaction.customId.split('row_id_')[1];
         let finalType = type.split('_')[0];
 

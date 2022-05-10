@@ -8,6 +8,8 @@ const sanctionSchema = require("./Models/Sanctions");
 
 const factionSchema = require("./Models/Faction");
 
+const blacklistSchema = require("./Models/Blacklist");
+
 const { v4 } = require('uuid');
 
 module.exports.fetchUser = async function(key) {
@@ -201,6 +203,31 @@ module.exports.createFaction = async function(data) {
     });
     await faction.save().catch(err => console.error(err));
     return faction;
+}
+
+// BLACKLIST 
+
+module.exports.isBlacklisted = async function(userID) {
+    return await blacklistSchema.findOne({ id: userID });
+}
+
+module.exports.disableBlacklist = async function(userID) {
+    return await blacklistSchema.updateOne({ id: userID }, { data: { active: false } }, {  });
+}
+
+module.exports.createBlacklist = async function(userID, data) {
+    let blacklist = new blacklistSchema({
+        id: userID,
+        data: {
+            targetId: data.targetId,
+            authorId: data.authorId,
+            reason: data.reason,
+            action: data.action,
+            active: true
+        }
+    });
+    await blacklist.save().catch(err => console.error(err));
+    return blacklist;
 }
 
 // RANKED RANK 

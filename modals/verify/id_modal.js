@@ -58,11 +58,7 @@ module.exports = {
                         .setTitle("SKF Industries - Verification sent!")
                         .setColor("ORANGE")
                         .setDescription("Please wait for an answer, this can take 12 max 24 hours to have a answer, If ever you didn't get any in this delay please contact an administrator.");
-
-                    interaction.reply({
-                        embeds: [embedSent],
-                        ephemeral: true
-                    });
+                    await interaction.reply({embeds: [embedSent], ephemeral: true});
                 }
             }
         }

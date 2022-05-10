@@ -3,15 +3,11 @@ module.exports = async function (client, event) {
 
     const interactionUser = await event.guild.members.fetch(event.user.id)
 
-    console.log(event)
-
     if (event.customId.startsWith('row_modal_id_')) {
         let type = event.customId.split('row_modal_id_')[1];
         let finalType = type.split('_')[0];
 
         const modal = client.modals.get("id_modal");
-        console.log(type)
-        console.log(finalType)
 
         switch (finalType) {
             case "userVerify": {

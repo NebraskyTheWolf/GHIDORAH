@@ -116,7 +116,6 @@ module.exports = {
             let target = member.cache.get(data.target);
             
             let datay = `row_id_moderationAction_${data.types}_${data.target}_${data.reason}`;
-            client.logger.log('WARN', `${datay}_${data.types}`);
 
             switch (data.actionId) {
                 case "confirm": {
@@ -199,6 +198,28 @@ module.exports = {
                 case "remove":
                 case "cancel": {
                     await interaction.message.delete();
+                }
+                break;
+                case "BLACKLIST": {
+                    client.ModLog.addBlacklist(client, target, {
+                        authorId: interaction.user.id,
+                        reason: data.reason,
+                        action: data.types,
+                    }, async (fdata) => {
+                        if (fdata.status) {
+                            let R = fdata.data.reason;
+                            await member.ban(target, { R });
+
+                            const embed = new MessageEmbed()
+                                .setColor("ORANGE")
+                                .setTitle("SKF Industries - Blacklist.")
+                                .setDescription(`<@${target}> has been blacklisted.`);
+                            interaction.reply({
+                                embeds: [embed],
+                                ephemeral: true
+                            });
+                        }
+                    });
                 }
                 break;
             }

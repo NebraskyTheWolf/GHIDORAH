@@ -16,7 +16,7 @@ module.exports = async client => {
     for (const files of folders) {
         const folder = fs
 			.readdirSync(`./commands/${files}/`)
-			.filter(file => file.endsWith(".js"));
+			.filter(file => file.endsWith(".js"));don'
             for (const commands of folder) {
                 const command = require(`../../commands/${files}/${commands}`);
                 client.api.applications(client.user.id).commands.post({
