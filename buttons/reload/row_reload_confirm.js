@@ -18,7 +18,7 @@ module.exports = {
                 .setColor("RED")
                 .setAuthor("Action Reload")
                 .addField("Target", `Commands`)
-                .setDescription("Reloaded sucessfully.")
+                .setDescription("Restarting main system...")
                 .setTimestamp()
                 .setFooter("• Reload Action Information");
             interaction.update({
@@ -45,6 +45,7 @@ module.exports = {
                     }
                 ]
             });
+            process.exit(5);
         }
     }
 }

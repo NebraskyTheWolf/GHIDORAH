@@ -72,13 +72,22 @@ client.modals = new Collection();
 client.redis = redisClient;
 client.packets = new Collection();
 
+client.tasks = new Collection();
+
 client.modules = new Collection();
 client.moduleManager = ModuleManager;
 
-["command", "event", "music"].forEach(x => require(`./handlers/${x}.js`)(client));
-["alwaysOn", "http"].forEach(x => require(`./server/${x}.js`));
+function createOrSet(array, key, value) {
+    if (array[key] !== undefined)
+        array[key].push(value);
+    else
+        array[key] = [value];
+}
 
-keepAlive();
+client.createOrSet = createOrSet;
+
+["command", "event", "music"].forEach(x => require(`./handlers/${x}.js`)(client));
+["alwaysOn", "http"].forEach(x => require(`./server/${x}.js`)(client));
 
 mongoose.connect(config.MongoDBInfo.host, config.MongoDBInfo.options).then(() => {
     client.logger.log('INFO', 'Connected to MongoDB');

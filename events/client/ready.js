@@ -1,5 +1,6 @@
 const { config } = require("dotenv");
 const fs = require("fs");
+const cron = require('node-cron');
 
 module.exports = async client => {
 	console.log("Ready!");
@@ -89,6 +90,21 @@ module.exports = async client => {
 				client.redis.subscribe(`${client.config.baseProtocol}/${command.packet.protocol}`).then(() => {
 					client.logger.log('INFO', ` > Packet: ${command.packet.name} registered.`);
 				});
+            }
+    }
+
+	client.logger.log('WARN', `Loading Tasks...`);
+
+	const tasksFolder = fs.readdirSync("./tasks");
+    for (const files of tasksFolder) {
+        const folder = fs
+			.readdirSync(`./tasks/${files}/`)
+			.filter(file => file.endsWith(".js"));
+            for (const commands of folder) {
+                const command = require(`../../tasks/${files}/${commands}`);
+				client.tasks.set(command.task.name, command);
+				
+				cron.schedule(command.task.cronTime, () => command.execute());
             }
     }
 

@@ -121,6 +121,16 @@ module.exports = {
                         ]
                     });
 
+                    let userBan = member.cache.get(data.userId);
+
+                    client.Database.createSanction(data.userId, {
+                        username: userBan.user.username,
+                        reason: 'Ghidorah auto ban',
+                        expirationDate: -1,
+                        type: 'BAN',
+                        active: true
+                    });
+
                     await member.ban(data.userId, {    });
                 }
                 break;
@@ -173,6 +183,11 @@ module.exports = {
                             }
                         ]
                     });
+
+                    client.Database.updateSanction(data.userId, {
+                        active: false
+                    });
+
                     interaction.followUp({embeds: [embed], ephemeral: true});
                 }
                 break;
@@ -185,13 +200,22 @@ module.exports = {
                                     {
                                         "style": 4,
                                         "label": `Kick`,
-                                        "custom_id": `row_id_userAction_${member.id}_kickUser`,
+                                        "custom_id": `row_id_userAction_${data.userId}_kickUser`,
                                         "disabled": true,
                                         "type": 2
                                     }
                                 ]
                             }
                         ]
+                    });
+
+                    let userBan = member.cache.get(data.userId);
+                    client.Database.createSanction(data.userId, {
+                        username: userBan.user.username,
+                        reason: 'Ghidorah auto kick',
+                        expirationDate: -1,
+                        type: 'KICK',
+                        active: false
                     });
                     
                     await member.kick(data.userId, {    });
