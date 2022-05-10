@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-module.exports = mongoose.model("Member", new mongoose.Schema({
+module.exports = mongoose.model("Blacklist", new mongoose.Schema({
     id: { type: String }, 
     registeredAt: { type: Number, default: Date.now() },
 

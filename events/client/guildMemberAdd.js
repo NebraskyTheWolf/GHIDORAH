@@ -7,7 +7,7 @@ const loggingServer = {
     channelMod: "971477475651616858"
 };
 
-module.exports = function (client, member) {
+module.exports = async function (client, member) {
     let channel = client.guilds.cache.get(loggingServer.guildId).channels.cache.get(loggingServer.channelMod);
 
     if (member.bot 
@@ -60,6 +60,23 @@ module.exports = function (client, member) {
             ]
         });
     }
+
+    // INVITE TRACKING
+
+    const newInvites = await member.guild.invites.fetch();
+    const oldInvites = await client.invites.get(member.guild.id);
+
+    const invite = newInvites.find(i => i.uses > oldInvites.get(i.code));
+    const inviter = await client.users.fetch(invite.inviter.id);
+
+    const inviteChannel = client.guilds.get('917714328327692338').channels.cache.get('934501121223950366');
+
+    const embedJoin = new Discord.MessageEmbed()
+        .setColor('ORANGE')
+        .setDescription(`<@${member.id}> invited by <@${inviter.id}> and has now ${invite.uses} invites.`);
+    inviteChannel.send({
+        embeds: [embedJoin]
+    });
 };
 
 module.exports = function formatUser(member) {

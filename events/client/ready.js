@@ -2,8 +2,9 @@ const { config } = require("dotenv");
 const fs = require("fs");
 const cron = require('node-cron');
 
+const Discord = require('discord.js')
+
 module.exports = async client => {
-	console.log("Ready!");
 	const activities = [
 		`Lurking cuties fluffies`,
 		`${client.guilds.cache.reduce((a, b) => a + b.memberCount, 0)} Users`,
@@ -16,7 +17,7 @@ module.exports = async client => {
     for (const files of folders) {
         const folder = fs
 			.readdirSync(`./commands/${files}/`)
-			.filter(file => file.endsWith(".js"));don'
+			.filter(file => file.endsWith(".js")); 
             for (const commands of folder) {
                 const command = require(`../../commands/${files}/${commands}`);
                 client.api.applications(client.user.id).commands.post({
@@ -130,6 +131,11 @@ module.exports = async client => {
 		} else {
 			client.logger.log('INFO', `Invalid protocol : ${URL} for packet : ${packet.packet.name}`);
 		}
+	});
+
+	client.guilds.cache.forEach(async (guild) => {
+		const firstInvites = await guild.invites.fetch();
+		client.invites.set(guild.id, new Discord.Collection(firstInvites.map((invite) => [invite.code, invite.uses])));
 	});
 	
 	client.logger.log('INFO', 'Initialization phase finished.');

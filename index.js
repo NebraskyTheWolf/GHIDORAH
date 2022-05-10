@@ -78,6 +78,13 @@ client.modules = new Collection();
 client.moduleManager = ModuleManager;
 client.Modlog = require('./Utils/ModLog');
 
+const Levels = require("discord-xp");
+Levels.setURL(config.MongoDBInfo.host)
+
+client.levels = Levels;
+
+client.invites = new Collection();
+
 function createOrSet(array, key, value) {
     if (array[key] !== undefined)
         array[key].push(value);
