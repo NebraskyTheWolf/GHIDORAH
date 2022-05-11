@@ -105,6 +105,23 @@ module.exports = {
                                     client: client,
                                     interaction: interaction
                                 });
+
+                                await interaction.update({
+                                    components: [
+                                        {
+                                            type: 1,
+                                            components: [
+                                                {
+                                                    "style": 3,
+                                                    "label": `Next`,
+                                                    "custom_id": `row_id_userVerify_${interaction.user.id}_next_1`,
+                                                    "disabled": true,
+                                                    "type": 2
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                });
                         }
                         break;
                     }

@@ -8,6 +8,8 @@ const { GiveawaysManager } = require("discord-giveaways");
 
 const mongoose = require('mongoose');
 
+const events = require('events');
+
 
 const emojis = require("./config/emoji.json");
 const config = require("./config/config.json");
@@ -84,6 +86,7 @@ Levels.setURL(config.MongoDBInfo.host)
 client.levels = Levels;
 
 client.invites = new Collection();
+client.events = new events.EventEmitter();
 
 function createOrSet(array, key, value) {
     if (array[key] !== undefined)
