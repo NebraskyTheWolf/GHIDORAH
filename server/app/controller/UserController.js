@@ -80,5 +80,23 @@ module.exports = {
         });
     },
     fetchStaff: function (req, res) {},
+    getSanctionById: function (req, res) {
+        if (req.params.id === undefined)
+            return res.status(400).json({status: false, error: 'Missing sanction id.'});
+    },
+    isBlacklisted: function (req, res) {
+        if (req.params.id === undefined)
+            return res.status(400).json({status: false, error: 'Missing user id.'});
+    },
+    getUserLevel: function (req, res) {
+        if (req.params.id === undefined)
+            return res.status(400).json({status: false, error: 'Missing user id.'});
+    },
+    getUserPresence: function (req, res) {
+        if (req.params.id === undefined)
+            return res.status(400).json({status: false, error: 'Missing user id.'});
+        
+        
+    },
 }
 

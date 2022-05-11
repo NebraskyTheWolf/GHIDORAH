@@ -1,5 +1,6 @@
 const express = require("express");
 const server = express();
+const bodyParser = require("body-parser")
 
 module.exports = client => {
 	server.use(express.static('public'))
@@ -11,6 +12,8 @@ module.exports = client => {
 		res.append('Access-Control-Allow-Headers', 'Content-Type');
 		next();
 	});
+
+	server.use(bodyParser.json());
 
 	// configured
 	var routes = require('./app/config/routes')
