@@ -10,6 +10,8 @@ const factionSchema = require("./Models/Faction");
 
 const blacklistSchema = require("./Models/Blacklist");
 
+const verificationSchema = require("./Models/Verification");
+
 const { v4 } = require('uuid');
 
 module.exports.fetchUser = async function(key) {
@@ -232,3 +234,51 @@ module.exports.createBlacklist = async function(userID, data) {
 
 // RANKED RANK 
 
+module.exports.createVerification = async function(userID, data) {
+    let oauth = await verificationSchema.findOne({ id: userID });
+
+    if (oauth) {
+        return oauth;
+    } else {
+        oauth = new oauthSchema({
+            id: userID,
+            registeredAt: Date.now(),
+            code: `${client.Modlog.generateCode()}`,
+            user: {
+                username: data.username,
+                avatar: data.avatar,
+                banner: data.banner,
+                discriminator: data.discriminator,
+                system: data.system,
+                bot: data.bot
+            }
+        });
+        await oauth.save().catch(err => console.error(err));
+        return oauth;
+    }
+}
+
+module.exports.fetchVerify = async function(userID) {
+    return await verificationSchema.findOne({ id: userID });
+}
+
+module.exports.fetchAllVerify = async function(callback) {
+    return await verificationSchema.find({ }).then((results) => callback(results))
+}
+
+
+module.exports.fetchVerifyByName = async function(username) {
+    return await verificationSchema.findOne({ user: { username: username } });
+}
+
+module.exports.getVerifyByCode = async function(token) {
+    return await verificationSchema.findOne({ code: token });
+}
+
+module.exports.updateVerify = async function(userID) {
+    return await verificationSchema.updateOne({ id: userID, verified: false }, { verified: true }, {});
+}
+
+module.exports.updateVerifyData = async function(userID, data) {
+    return await verificationSchema.updateOne({ id: userID }, { data: data }, {});
+}

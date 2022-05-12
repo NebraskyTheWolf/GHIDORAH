@@ -14,4 +14,4 @@ setInterval(async () => {
             hook.send('<@382918201241108481> keep alive timed out.')
             hook.error(`Monitoring failed for GHIDORAH`, `Exception handled`, `${err}`);
         });
-}, 15000)
+}, 15000);

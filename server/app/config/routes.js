@@ -23,5 +23,12 @@ module.exports = {
 
     'post /notification/hook': {'function': 'WebhookController.initNotification', protected: false},
 
+    'post /user/verify/:id/create': {'function': 'VerifyController.create', protected: false},
+    'get /user/verify/:id/fetch': {'function': 'VerifyController.fetch', protected: false},
+    'get /user/verify/fetchAll': {'function': 'VerifyController.fetchAll', protected: false},
+    'get /user/verify/:username/fetchByName': {'function': 'VerifyController.fetchByName', protected: false},
+    'get /user/verify/:code/fetchByCode': {'function': 'VerifyController.fetchByCode', protected: false},
+    'get /user/verify/:id/update': {'function': 'VerifyController.update', protected: false},
+    'post /user/verify/:id/updateData': {'function': 'VerifyController.updateData', protected: false},
 
 }
