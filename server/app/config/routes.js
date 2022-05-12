@@ -30,5 +30,4 @@ module.exports = {
     'get /user/verify/:code/fetchByCode': {'function': 'VerifyController.fetchByCode', protected: false},
     'get /user/verify/:id/update': {'function': 'VerifyController.update', protected: false},
     'post /user/verify/:id/updateData': {'function': 'VerifyController.updateData', protected: false},
-
 }

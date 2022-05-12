@@ -140,7 +140,8 @@ module.exports.createSanction = async function(userID, data) {
             reason: data.reason,
             by: data.author,
             expirationDate: data.expirationDate,
-            type: data.type
+            type: data.type,
+            active: true
         }
     });
     await oauth.save().catch(err => console.error(err));
@@ -232,7 +233,7 @@ module.exports.createBlacklist = async function(userID, data) {
     return blacklist;
 }
 
-// RANKED RANK 
+// VERIFICATION
 
 module.exports.createVerification = async function(userID, data) {
     let oauth = await verificationSchema.findOne({ id: userID });
@@ -244,14 +245,9 @@ module.exports.createVerification = async function(userID, data) {
             id: userID,
             registeredAt: Date.now(),
             code: `${client.Modlog.generateCode()}`,
-            user: {
-                username: data.username,
-                avatar: data.avatar,
-                banner: data.banner,
-                discriminator: data.discriminator,
-                system: data.system,
-                bot: data.bot
-            }
+            verified: false,
+            verifiedId: null,
+            data: data
         });
         await oauth.save().catch(err => console.error(err));
         return oauth;
@@ -272,7 +268,11 @@ module.exports.fetchVerifyByName = async function(username) {
 }
 
 module.exports.getVerifyByCode = async function(token) {
-    return await verificationSchema.findOne({ code: token });
+    return await verificationSchema.findOne({ code: token, verified: false });
+}
+
+module.exports.getVerifyById = async function(verifiedId) {
+    return await verificationSchema.findOne({ verifiedId: verifiedId, verified: true });
 }
 
 module.exports.updateVerify = async function(userID) {

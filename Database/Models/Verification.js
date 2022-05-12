@@ -1,19 +1,13 @@
 const mongoose = require("mongoose");
 
 module.exports = mongoose.model("Verification", new mongoose.Schema({
-    id: { type: String },
+    id: { type: String }, // USER ID
     registeredAt: { type: Number, default: Date.now() },
 
-    code: { type: String }, // 000-000-00
-    verified: { type: Boolean, default: false },
-    user: { type: Object, default: {
-        username: null,
-        avatar: null,
-        banner: null,
-        discriminator: null,
-        system: false,
-        bot: false
-    }},
+    code: { type: String }, // 000-000-00 // USER MODE CODE
 
-    data: { type: Object, default: []}
+    verified: { type: Boolean, default: false }, // VERIFIED STATUS
+    verifiedId: { type: String }, // UUID V4
+
+    data: { type: Object, default: []} // EXTRA DATA
 }));

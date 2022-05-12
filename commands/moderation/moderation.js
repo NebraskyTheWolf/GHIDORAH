@@ -24,6 +24,10 @@ module.exports = {
                 {
                     "name": "blacklist",
                     "value": "BLACKLIST"
+                },
+                {
+                    "name": "history",
+                    "value": "HISTORY"
                 }
             ]
         },
@@ -44,6 +48,94 @@ module.exports = {
         let type = interaction.data.options[0].value;
         let target = interaction.data.options[1].value;
         let reason = interaction.data.options[2].value;
+
+        let data = `row_id_moderationAction_${type}_${target}_${reason}`;
+
+        if (type === 'HISTORY') {
+            let sanction = client.Database.fetchSanction(target, true).data;
+            let blacklist = client.Database.isBlacklisted(target).data;
+
+            if (sanction === undefined) return;
+
+            if (sanction.active) {
+                client.api.interactions(interaction.id, interaction.token).callback.post({
+                    "data": {
+                        "type": 4,
+                        "data": {
+                            "components": [
+                                {
+                                "type": 1,
+                                "components": [
+                                    {
+                                        "style": 4,
+                                        "label": `Revoke`,
+                                        "custom_id": `${data}_revoke`,
+                                        "disabled": false,
+                                        "type": 2
+                                    },
+                                    {
+                                        "style": 4,
+                                        "label": `Moderator profile`,
+                                        "custom_id": `${data}_moderator`,
+                                        "disabled": true,
+                                        "type": 2
+                                    }
+                                ]
+                                }
+                            ],
+                            "embeds": [
+                                {
+                                    "type": "rich",
+                                    "title": `SKF Industries - Sanction history`,
+                                    "description": `Active saction found for <@${sanction.id}>`,
+                                    "color": 0xff8400,
+                                    "fields": [
+                                        {
+                                            "name": `Reason`,
+                                            "value": `\u200B${sanction.reason}`,
+                                            "inline": true
+                                        },
+                                        {
+                                            "name": `Date`,
+                                            "value": `\u200B${sanction.registeredAt}`,
+                                            "inline": true
+                                        },
+                                        {
+                                            "name": `Issued By`,
+                                            "value": `\u200B${sanction.by}`,
+                                            "inline": true
+                                        },
+                                        {
+                                            "name": `Type`,
+                                            "value": `\u200B${sanction.type}`,
+                                            "inline": true
+                                        },
+                                        {
+                                            "name": `Blacklisted`,
+                                            "value": `${blacklist ? 'Yes.' : 'No.'}`,
+                                            "inline": true
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                });
+            } else {
+                const NYE = new Discord.MessageEmbed()
+                    .setColor("ORANGE")
+                    .setDescription(`No records found for <@${target}>`);
+                client.api.interactions(interaction.id, interaction.token).callback.post({
+                        data: {
+                            type: 4,
+                            data: {
+                                embeds: [NYE]
+                            }
+                        }
+                });
+            }
+            return;
+        }
 
         if (interaction.member.user.id === target) {
             const silly = new Discord.MessageEmbed()
@@ -68,12 +160,6 @@ module.exports = {
             .setDescription("Are you sure to confirm this action?")
             .setTimestamp()
             .setFooter(`• ${type} User Information`);
-
-        // DATA FORMAT
-        // 1   2   3   4
-        // T   T   R   C
-
-        let data = `row_id_moderationAction_${type}_${target}_${reason}`;
 
         client.api.interactions(interaction.id, interaction.token).callback.post({
             data: {
