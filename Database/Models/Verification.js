@@ -9,5 +9,5 @@ module.exports = mongoose.model("Verification", new mongoose.Schema({
     verified: { type: Boolean, default: false }, // VERIFIED STATUS
     verifiedId: { type: String }, // UUID V4
 
-    data: { type: Object, default: []} // EXTRA DATA
+    data: { type: Object, default: {}} // EXTRA DATA
 }));

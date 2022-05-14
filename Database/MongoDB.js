@@ -2,15 +2,12 @@ const Discord = require('discord.js');
 const userSchema = require("./Models/User");
 const guildSchema = require("./Models/Guild");
 const memberSchema = require("./Models/Member");
-
 const oauthSchema = require("./Models/Oauth");
 const sanctionSchema = require("./Models/Sanctions");
-
 const factionSchema = require("./Models/Faction");
-
 const blacklistSchema = require("./Models/Blacklist");
-
 const verificationSchema = require("./Models/Verification");
+const modulesSchema = require('./Models/Modules');
 
 const { v4 } = require('uuid');
 
@@ -241,12 +238,16 @@ module.exports.createVerification = async function(userID, data) {
     if (oauth) {
         return oauth;
     } else {
-        oauth = new oauthSchema({
+        let sniff = client.Modlog.generateCode();
+        oauth = new verificationSchema({
             id: userID,
             registeredAt: Date.now(),
-            code: `${client.Modlog.generateCode()}`,
+
+            code: sniff,
+
             verified: false,
             verifiedId: null,
+
             data: data
         });
         await oauth.save().catch(err => console.error(err));
@@ -281,4 +282,36 @@ module.exports.updateVerify = async function(userID) {
 
 module.exports.updateVerifyData = async function(userID, data) {
     return await verificationSchema.updateOne({ id: userID }, { data: data }, {});
+}
+
+// MODULES MANAGER
+
+module.exports.createServer = async function(guildId) {
+    let module = await modulesSchema.findOne({ guild: guildId });
+
+    if (module) {
+        return module;
+    } else {
+        module = modulesSchema({
+            id: v4(),
+            guild: guildId,
+            
+            modules: [
+                {
+                    id: v4(),
+                    name: 'Core',
+                    description: 'Main loader system',
+                    category: 'System',
+                    status: 'enabled',
+                    option: {}
+                }
+            ]
+        });
+        await module.save().catch((err) => client.logger.log('ERROR', `Error occurred: ${err}`));
+        return module;
+    }
+}
+
+module.exports.fetchModule = async function(moduleId) {
+    return await modulesSchema.findOne({ modules: [ { id: moduleId } ] });
 }

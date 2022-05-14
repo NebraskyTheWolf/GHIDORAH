@@ -1,6 +1,5 @@
 const db = require("quick.db");
 const Enmap = require("enmap");
-const DisTube = require("distube");
 const { Collection, Client, Intents } = require("discord.js");
 const discordModals = require('discord-modals')
 
@@ -9,7 +8,6 @@ const { GiveawaysManager } = require("discord-giveaways");
 const mongoose = require('mongoose');
 
 const events = require('events');
-
 
 const emojis = require("./config/emoji.json");
 const config = require("./config/config.json");
@@ -21,6 +19,10 @@ const redisClient = redis.createClient(config.RedisClient);
 const ModuleManager = require('./modules/ModulesManager');
 const ConsoleColors = require('./utils/ConsoleColor');
 const Logger = require('./utils/Logger');
+
+const StringUtils = require('./utils/StringUtils');
+
+const LXDUtils = require('./utils/LXDUtils');
 
 const client = new Client({
 	partials: ["MESSAGE", "USER", "REACTION"],
@@ -78,7 +80,7 @@ client.tasks = new Collection();
 
 client.modules = new Collection();
 client.moduleManager = ModuleManager;
-client.Modlog = require('./Utils/ModLog');
+client.Modlog = require('./utils/ModLog');
 
 const Levels = require("discord-xp");
 Levels.setURL(config.MongoDBInfo.host)
@@ -87,6 +89,9 @@ client.levels = Levels;
 
 client.invites = new Collection();
 client.events = new events.EventEmitter();
+client.StringUtils = StringUtils;
+
+client.lxdNetwotk = LXDUtils;
 
 function createOrSet(array, key, value) {
     if (array[key] !== undefined)
@@ -120,14 +125,6 @@ client.settings = new Enmap({
 });
 
 client.moderationdb = new Enmap("moderation");
-client.distube = new DisTube(client, {
-    leaveOnFinish: true,
-    leaveOnEmpty: true,
-    leaveOnStop: true,
-    youtubeDL: true,
-    updateYoutubeDL: false,
-    youtubeCookie: "GPS=1; YSC=w5dGoHzqQRI; VISITOR_INFO1_LIVE=B4ElBqxSDv4; PREF=tz=Asia.Hong_Kong"
-});
 
 if (!db.get("giveaways")) db.set("giveaways", []);
 

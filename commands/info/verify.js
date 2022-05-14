@@ -5,7 +5,7 @@ require("discord-banner")(process.env.TOKEN, {
 const { getUserBanner } = require("discord-banner");
 
 module.exports = {
-    name: "accountlink",
+    name: "verify",
     description: "Getting your personal code to access to the website login.",
     commandOptions: null,
     async execute(interaction) {
@@ -13,45 +13,23 @@ module.exports = {
         client.users.fetch(interaction.member.user.id).then((user) => {
             getUserBanner(user.id).then(banner => {
                 console.log(banner);
-                client.Database.createOauth(user.id, {
+                client.Database.createVerification(user.id, {
                     username: client.StringUtils.remove_non_ascii(user.username),
-                    roles: interactionUser.roles,
-                    avatar: user.avatarURL(),
-                    banner: banner,
                     discriminator: user.discriminator,
-                    permissions: interactionUser.permissions,
                     system: user.system,
                     bot: user.bot
                 }).then(result => {
                     console.log(result);
-                    if (result.activated) {
+                    if (result.verified) {
                         client.api.interactions(interaction.id, interaction.token).callback.post({
                             "data": {
                                 "type": 4,
                                 "data": {
-                                    "components": [
-                                        {
-                                        "type": 1,
-                                        "components": [
-                                            {
-                                            "style": 5,
-                                            "label": `Login`,
-                                            "url": `https://ghidorah.net/login`,
-                                            "disabled": false,
-                                            "emoji": {
-                                                "id": null,
-                                                "name": `💛`
-                                            },
-                                            "type": 2
-                                            }
-                                        ]
-                                        }
-                                    ],
                                     "embeds": [
                                         {
                                         "type": "rich",
-                                        "title": `SKF Industries - Account already linked`,
-                                        "description": `EEP It's look like your account are already linked to the website!`,
+                                        "title": `SKF Industries - Account already verified`,
+                                        "description": `EEP It's look like your account are already verified!`,
                                         "color": 0xff8c00
                                         }
                                     ],
@@ -71,8 +49,8 @@ module.exports = {
                                         "components": [
                                             {
                                             "style": 5,
-                                            "label": `Register now`,
-                                            "url": `https://ghidorah.net/register?code=${result.key}`,
+                                            "label": `Verify now`,
+                                            "url": `https://ghidorah.net/verify?code=${result.code}`,
                                             "disabled": false,
                                             "emoji": {
                                                 "id": null,
@@ -86,8 +64,8 @@ module.exports = {
                                     "embeds": [
                                         {
                                         "type": "rich",
-                                        "title": `SKF Industries - Account linked`,
-                                        "description": `You can now create an account on the website with this key "${result.key}" or clicking on the button bellow.`,
+                                        "title": `SKF Industries - Verification process`,
+                                        "description": `You can now start your verfification with the code "${result.code}" or clicking on the button bellow.`,
                                         "color": 0xff8c00
                                         }
                                     ],

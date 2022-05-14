@@ -4,6 +4,7 @@ module.exports = {
         if (req.params.id === undefined)
             return res.status(400).json({status: false, error: 'Missing user id.'});
         client.Database.fetchVerify(req.params.id).then((user) => {
+            console.log(user);
             res.status(200).json({status: true, data: user});
         }).catch(() => {
             res.status(404).json({status: false, error: 'User not found.'});
@@ -22,7 +23,7 @@ module.exports = {
     fetchByCode: function (req, res) {
         if (req.params.code === undefined)
             return res.status(400).json({status: false, error: 'Missing user code.'});
-        client.Database.fetchVerifyByName(req.params.username).then((user) => {
+        client.Database.getVerifyByCode(req.params.code).then((user) => {
             res.status(200).json({status: true, data: user});
         }).catch(() => {
             res.status(404).json({status: false, error: 'User not found.'});
@@ -35,10 +36,10 @@ module.exports = {
         res.status(200).json({status: true, data: result});
     },
     updateData: function (req, res) {
-        if (req.body.id === undefined || req.body.data === undefined)
+        if (req.params.id === undefined)
             return res.status(400).json({status: false, error: 'Missing user id or data object.'});
         
-        let result = client.Database.updateVerify(req.body.id, req.body.data);
+        let result = client.Database.updateVerifyData(req.body.id, req.body.data);
         res.status(200).json({status: true, data: result});
     },
 }

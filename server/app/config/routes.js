@@ -22,6 +22,7 @@ module.exports = {
     // HOOK NOTIFICATION
 
     'post /notification/hook': {'function': 'WebhookController.initNotification', protected: false},
+    'post /notification/verify': {'function': 'WebhookController.verifyNotification', protected: false},
 
     'post /user/verify/:id/create': {'function': 'VerifyController.create', protected: false},
     'get /user/verify/:id/fetch': {'function': 'VerifyController.fetch', protected: false},
