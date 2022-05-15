@@ -335,26 +335,26 @@ module.exports.deleteOperation = async function (id, callback) {
 
 /** SERVER */
 
-module.exports.info = async function () {
+module.exports.info = async function (callback) {
     await lxc.info('local')
         .then(response => callback({status: true, data: response}))
         .catch(error => callback({status: false, data: error}));
 }
 
-module.exports.resources = async function () {
+module.exports.resources = async function (callback) {
     await lxc.server.resources('local')
         .then(response => callback({status: true, data: response}))
         .catch(error => callback({status: false, data: error}));
 }
 
-module.exports.remotes = async function () {
+module.exports.remotes = async function (callback) {
     await lxc.server.remotes()
         .then(response => callback({status: true, data: response}))
         .catch(error => callback({status: false, data: error}));
 }
 
 
-module.exports.local = async function () {
+module.exports.local = async function (callback) {
     await lxc.local('lxc list')
         .then(response => callback({status: true, data: response}))
         .catch(error => callback({status: false, data: error}));

@@ -44,3 +44,24 @@ module.exports.generateCode = function () {
 
     return `${part1}${part2}${part3}-${part4}${part5}${part6}-${part7}${part8}`;
 }
+
+module.exports.getChannel = function (interaction) {
+    const guild = client.guilds.cache.get(interaction.guild_id)
+    const member = guild.members.cache.get(interaction.member.user.id);
+    return member.voice.channel;
+}
+
+module.exports.sendMessage = function(content = "", embeds = [], components = [], ephemeral = false, flags = 0) {
+    client.api.interactions(interaction.id, interaction.token).callback.post({
+        "data": {
+            "type": 4,
+            "data": {
+                "content": content,
+                "embeds": embeds,
+                "components": components,
+                "ephemeral": ephemeral,
+                "flags": flags
+            }
+        }
+    });
+}

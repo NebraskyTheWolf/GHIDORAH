@@ -5,7 +5,7 @@ const timestamp = currentDate.getTime() + (1 * 24 * 60 * 60 * 1000);
 
 module.exports = {
     task: {
-        name: 'reminder',
+        name: 'purge',
         cronTime: '20 * * * * *'
     },
     async execute() {

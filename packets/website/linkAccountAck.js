@@ -1,9 +1,7 @@
 module.exports = {
     packet: {
-        side: "CLIENT",
-        dataType: ["STRING", "INTEGER"],
-        name: "accountLink",
-        protocol: "userProfile"
+        protocol: 'user',
+        name: "accountLink"
     },
     
     async execute(data, options) {}

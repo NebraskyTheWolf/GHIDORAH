@@ -14,6 +14,7 @@
 	"license": "MIT",
 	"dependencies": {
 		"@discordjs/opus": "^0.7.0",
+		"@discordjs/voice": "^0.9.0",
 		"better-sqlite3": "^7.5.1",
 		"blapi": "^2.2.2",
 		"body-parser": "^1.20.0",
@@ -31,6 +32,7 @@
 		"enmap": "^5.9.0",
 		"express": "^4.17.3",
 		"ffmpeg-static": "^5.0.0",
+		"humanize-duration": "^3.27.1",
 		"lxc-query": "^1.0.13",
 		"moment": "^2.29.2",
 		"mongoose": "^6.3.2",
@@ -42,13 +44,18 @@
 		"quick.db": "^7.1.3",
 		"redis": "^4.1.0",
 		"request": "^2.88.2",
+		"string-progressbar": "^1.0.4",
 		"superagent": "^7.1.1",
 		"topgg-autoposter": "^2.0.1",
 		"twemoji-parser": "^14.0.0",
 		"urban": "^0.3.4",
 		"uuid": "^8.3.2",
 		"weather-js": "^2.0.0",
-		"ytdl-core": "^4.11.0"
+		"ytdl-core": "^4.11.0",
+		"distube": "^3.3.1-1",
+		"@distube/soundcloud": "^1.1.0",
+		"@distube/spotify": "^1.2.1",
+		"@distube/yt-dlp": "^0.0.2"
 	},
 	"devDependencies": {
 		"prettier": "2.6.2"

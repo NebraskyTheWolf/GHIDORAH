@@ -105,33 +105,11 @@ module.exports = async client => {
                 const command = require(`../../tasks/${files}/${commands}`);
 				client.tasks.set(command.task.name, command);
 				
+				client.logger.log('INFO', `Loading task ${command.task.name} time pattern ${command.task.cronTime}`)
+
 				cron.schedule(command.task.cronTime, () => command.execute());
             }
     }
-
-	client.logger.log('WARN', `Loading protocols...`);
-
-	client.config.protocols.forEach(value => {
-		client.redis.subscribe(value);
-		client.logger.log('WARN', ` > ${value} protocol registered.`);
-	});
-
-	client.redis.on('message', (channel, data) => {
-		let name = data.packet.name;
-		let userData = data.packet.output;
-
-		let packet = client.packets.get(name);
-		let URL = `${client.config.baseProtocol}/${data.packet.protocol}`;
-
-		if (channel.equals(URL) 
-			&& packet) {
-			packet.execute(userData, {
-				callback: `${URL}/callback`,
-			});
-		} else {
-			client.logger.log('INFO', `Invalid protocol : ${URL} for packet : ${packet.packet.name}`);
-		}
-	});
 
 	client.guilds.cache.forEach(async (guild) => {
 		const firstInvites = await guild.invites.fetch();

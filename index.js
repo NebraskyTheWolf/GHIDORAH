@@ -24,6 +24,11 @@ const StringUtils = require('./utils/StringUtils');
 
 const LXDUtils = require('./utils/LXDUtils');
 
+const moment = require("moment");
+const humanizeDuration = require("humanize-duration");
+const Timeout = new Set();
+const path = require("path")
+
 const client = new Client({
 	partials: ["MESSAGE", "USER", "REACTION"],
 	disableMentions: "everyone",
@@ -102,7 +107,7 @@ function createOrSet(array, key, value) {
 
 client.createOrSet = createOrSet;
 
-["command", "event", "music"].forEach(x => require(`./handlers/${x}.js`)(client));
+["command", "event", "music", "anticrash"].forEach(x => require(`./handlers/${x}.js`)(client));
 ["alwaysOn", "http"].forEach(x => require(`./server/${x}.js`)(client));
 
 mongoose.connect(config.MongoDBInfo.host, config.MongoDBInfo.options).then(() => {
@@ -117,58 +122,21 @@ redisClient.connect().then(() => {
     client.logger.log('WARN', 'Unable to connect to Redis server.')
 });
 
-client.settings = new Enmap({
-    name: "settings",
-    fetchAll: false,
-    autoFetch: true,
-    cloneLevel: "deep"
-});
-
-client.moderationdb = new Enmap("moderation");
-
-if (!db.get("giveaways")) db.set("giveaways", []);
-
-const GiveawayManagerWithOwnDatabase = class extends GiveawaysManager {
-    async getAllGiveaways() {
-        return db.get("giveaways");
-    }
-
-    async saveGiveway(messageID, giveawayData) {
-        db.push("giveaways", giveawayData);
-        return true;
-    }
-
-    async editGiveaway(messageID, giveawayData) {
-        const giveaways = db.get("giveaways");
-        const newGiveawaysArray = giveaways.filter(
-                giveaway => giveaway.messageID !== messageID
-        );
-        newGiveawaysArray.push(giveawayData);
-        db.set("giveaways", newGiveawaysArray);
-        return true;
-    }
-
-    async deleteGiveaway(messageID) {
-        const newGiveawaysArray = db
-			.get("giveaways")
-			.filter(giveaway => giveaway.messageID !== messageID);
-		db.set("giveaways", newGiveawaysArray);
-		return true;
-    }
-}
-
-client.giveawaysManager = new GiveawayManagerWithOwnDatabase(client, {
-    storage: true,
-    updateCountdownEvery: 10000,
-    endedGiveawaysLifetime: 30000,
-    hasGuildMembersIntent: false,
-    default: {
-        botsCanWin: false,
-        exemptPermissions: ["MANAGE_MESSAGES", "ADMINISTRATOR"],
-        embedColor: "#ff6969",
-        embedColorEnd: "#505050",
-        reaction: "🎉"
-    }
+// Distube
+const Distube = require("distube")
+const { SoundCloudPlugin } = require("@distube/soundcloud")
+const { SpotifyPlugin } = require("@distube/spotify")
+const { YouTubeDLPlugin } = require("@distube/yt-dlp")
+/* eslint new-cap: ["error", { "properties": false }] */
+client.distube = new Distube.default(client, {
+    youtubeDL: false,
+    leaveOnEmpty: true,
+    emptyCooldown: 30,
+    leaveOnFinish: false,
+    emitNewSongOnly: true,
+    updateYouTubeDL: true,
+    nsfw: true,
+    plugins: [new SoundCloudPlugin(), new SpotifyPlugin(), new YouTubeDLPlugin()]
 });
 
 client.status = queue => `Volume: \`${queue.volume}%\` | Filter: \`${

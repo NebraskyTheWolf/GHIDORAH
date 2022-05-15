@@ -14,9 +14,6 @@ module.exports = {
         const logChannel = client.guilds.cache.get(channelVerification.guildId)
             .channels.cache.get(channelVerification.channelId);
 
-        console.log(interaction)
-
-
         if (data.type === "USER_ACTION") {
             switch (data.modalType) {
                 case "verify": {
