@@ -28,7 +28,7 @@ module.exports = {
             "options": []
         }
     ],
-    execute(interaction) {
+    async execute(interaction) {
         
     }
 }

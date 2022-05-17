@@ -10,29 +10,7 @@ const loggingServer = {
 module.exports = async function (client, member) {
     let channel = client.guilds.cache.get(loggingServer.guildId).channels.cache.get(loggingServer.channelMod);
 
-    if (member.bot 
-        && member.flags !== 1 << 16) {
-        const embedBlacklist = new Discord.MessageEmbed()
-            .setTitle("SKF Industries - SECURITY WARNING")
-            .setDescription(`<@${member.id}> are UNVERIFIED bot!, please be careful on using it.`);
-        channel.send({
-            embeds: [embedBlacklist],
-            components: [
-                {
-                    type: 1,
-                    components: [
-                        {
-                            "style": 4,
-                            "label": `Kick`,
-                            "custom_id": `row_id_userAction_${member.id}_kickUser`,
-                            "disabled": false,
-                            "type": 2
-                        }
-                    ]
-                }
-            ]
-        });
-    }
+    await client.Database.fetchMember(member.user.id, loggingServer.guildId);
 
     const embedBlacklist = new Discord.MessageEmbed()
         .setTitle("SKF Industries - BAD LURKER INTRUSION")

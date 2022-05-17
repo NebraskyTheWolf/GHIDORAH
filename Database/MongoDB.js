@@ -8,6 +8,8 @@ const factionSchema = require("./Models/Faction");
 const blacklistSchema = require("./Models/Blacklist");
 const verificationSchema = require("./Models/Verification");
 const modulesSchema = require('./Models/Modules');
+const messagesSchema = require('./Models/Messages');
+const giveawaysSchema = require('./Models/Giveaways');
 
 const { v4 } = require('uuid');
 
@@ -314,4 +316,51 @@ module.exports.createServer = async function(guildId) {
 
 module.exports.fetchModule = async function(moduleId) {
     return await modulesSchema.findOne({ modules: [ { id: moduleId } ] });
+}
+
+// MESSAGES
+
+module.exports.createMessage = async function (data) {
+    let message = await messagesSchema.findOne({ id: data.userId });
+
+    if (message) {
+        return message;
+    } else {
+        message = messagesSchema({
+            id: data.userId,
+            guild: data.guildId,
+            registeredAt: Date.now(),
+
+            messageId: data.messageId,
+            messageContent: data.content
+        });
+        await message.save().catch((err) => client.logger.log('ERROR', `Error occcurred: ${err}`));
+        return message;
+    }
+}
+
+module.exports.countMessages = async function () {
+    return await messagesSchema.find().toArray().length();
+}
+
+module.exports.fetchMessage = async function (messageId) {
+    return await messagesSchema.findOne({ messageId: messageId });
+}
+
+// LEVELS
+
+module.exports.addEXP = async function (id, amounts = 0) {
+    const data = await memberSchema.findOne({ id: id });
+    const newEXP = data.experience + amounts;  
+    await memberSchema.updateOne({ id: id }, { experience: newEXP }, {});
+};
+
+module.exports.removeEXP = async function (id, amounts = 0) {
+    const data = await memberSchema.findOne({ id: id });
+    const newEXP = data.experience - amounts;  
+    await memberSchema.updateOne({ id: id }, { experience: newEXP }, {});
+};
+
+module.exports.updateLevel = async function(id, level) {
+    await memberSchema.updateOne({ id: id }, { level: level }, {});
 }

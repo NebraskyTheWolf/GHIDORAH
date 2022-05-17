@@ -3,7 +3,7 @@ const Enmap = require("enmap");
 const { Collection, Client, Intents } = require("discord.js");
 const discordModals = require('discord-modals')
 
-const { GiveawaysManager } = require("discord-giveaways");
+
 
 const mongoose = require('mongoose');
 
@@ -49,6 +49,7 @@ const client = new Client({
         Intents.FLAGS.DIRECT_MESSAGE_REACTIONS,
         Intents.FLAGS.DIRECT_MESSAGE_TYPING,
       ],
+      ws: { properties: { $browser: "Discord iOS" } }
 });
 
 discordModals(client);
@@ -96,7 +97,13 @@ client.invites = new Collection();
 client.events = new events.EventEmitter();
 client.StringUtils = StringUtils;
 
+client.networks = new Collection();
 client.lxdNetwotk = LXDUtils;
+
+client.movieRooms = new Collection();
+client.movieReservedVLAN = new Collection();
+
+client.mainGuild = client.guilds.cache.get('917714328327692338');
 
 function createOrSet(array, key, value) {
     if (array[key] !== undefined)

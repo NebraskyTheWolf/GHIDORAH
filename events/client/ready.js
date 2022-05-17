@@ -1,7 +1,6 @@
 const { config } = require("dotenv");
 const fs = require("fs");
 const cron = require('node-cron');
-
 const Discord = require('discord.js')
 
 module.exports = async client => {
@@ -11,7 +10,9 @@ module.exports = async client => {
 		"By Leona",
 	];
 
-	client.logger.log('INFO', "Registering commands..");
+	client.logger.log('INFO', "Registering commands 1/2 ( DELETING )...");
+
+	client.logger.log('INFO', "Registering commands 2/2 ( LOADING )...");
 
     const folders = fs.readdirSync("./commands");
     for (const files of folders) {
@@ -32,22 +33,10 @@ module.exports = async client => {
             }
     }
 	
-	const cmdArrGlobal = await client.api
-		.applications(client.user.id)
-		.commands.get();
-	cmdArrGlobal.forEach(element => {
-		client.logger.log('INFO', ` > Global command loaded : ${element.name} (${element.id})`);
-	});
-
-	let i = 0;
-	setInterval(
-		() =>
-			client.user.setActivity(
-				`/help | ${activities[i++ % activities.length]}`,
-				{ type: "WATCHING" }
-			),
-		15000
-	);
+	await client.api.applications(client.user.id).commands.get();
+	
+	client.user.setStatus('dnd');
+	client.user.setActivity(`Starting system...`, { type: "LISTENING" });
 
 	client.logger.log('WARN', `Loading Buttons...`);
 
@@ -116,5 +105,16 @@ module.exports = async client => {
 		client.invites.set(guild.id, new Discord.Collection(firstInvites.map((invite) => [invite.code, invite.uses])));
 	});
 	
+	client.user.setStatus('online');
+
+	let i = 0;
+	setInterval(
+		() =>
+			client.user.setActivity(
+				`/help | ${activities[i++ % activities.length]}`,
+				{ type: "WATCHING" }
+			),
+		15000
+	);
 	client.logger.log('INFO', 'Initialization phase finished.');
 };

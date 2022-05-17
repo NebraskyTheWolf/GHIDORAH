@@ -148,6 +148,14 @@ module.exports = {
         } else if (data.type === "MODERATION") {
             let member = client.guilds.cache.get("917714328327692338").members;
             let target = member.cache.get(data.target);
+
+            if (target === undefined) {
+                interaction.reply({
+                    content: 'Invalid user',
+                    ephemeral: true
+                });
+                return;
+            }
             
             let datay = `row_id_moderationAction_${data.types}_${data.target}_${data.reason}`;
 
@@ -196,7 +204,7 @@ module.exports = {
                                     let R = fdata.data.reason;
                                     await member.kick(data.target, { R });
                                 }
-                            });
+                            }, interaction);
                         }
                         break;
                         case "BAN": {
@@ -210,7 +218,7 @@ module.exports = {
                                     let R = fdata.data.reason;
                                     await member.ban(data.target, { R });
                                 }
-                            });
+                            }, interaction);
                         }
                         break;
                         case "WARN": {
@@ -223,7 +231,17 @@ module.exports = {
                                 if (fdata.status) {
                                     target.send(`You got warned on SKF Industries for ${fdata.data.reason}.`);
                                 }
-                            });
+                            }, interaction);
+                        }
+                        break;
+                        case "BLACKLIST": {
+                            client.Modlog.addBlacklist(client, data.userId, {
+                                authorId: interaction.user.id,
+                                reason: data.reason,
+                                action: 'kick'
+                            }, data => {
+
+                            })
                         }
                         break;
                     }
@@ -232,28 +250,6 @@ module.exports = {
                 case "remove":
                 case "cancel": {
                     await interaction.message.delete();
-                }
-                break;
-                case "BLACKLIST": {
-                    client.ModLog.addBlacklist(client, target, {
-                        authorId: interaction.user.id,
-                        reason: data.reason,
-                        action: data.types,
-                    }, async (fdata) => {
-                        if (fdata.status) {
-                            let R = fdata.data.reason;
-                            await member.ban(target, { R });
-
-                            const embed = new MessageEmbed()
-                                .setColor("ORANGE")
-                                .setTitle("SKF Industries - Blacklist.")
-                                .setDescription(`<@${target}> has been blacklisted.`);
-                            interaction.reply({
-                                embeds: [embed],
-                                ephemeral: true
-                            });
-                        }
-                    });
                 }
                 break;
             }

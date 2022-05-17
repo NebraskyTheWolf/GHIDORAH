@@ -20,6 +20,10 @@ module.exports.log = async function (type, message) {
             console.log(`${prefix}${consoleColors.FgRed}${consoleColors.Blink}${type}${consoleColors.Reset}${consoleColors.FgBlue}] ${consoleColors.FgMagenta}${message}${consoleColors.Reset}`);
         }
         break;
+        case "DELETE": {
+            console.log(`${prefix}${consoleColors.BgRed}${consoleColors.Blink}${type}${consoleColors.Reset}${consoleColors.FgBlue}] ${consoleColors.FgMagenta}${message}${consoleColors.Reset}`);
+        }
+        break;
         default:
             console.log(consoleColors.FgRed + 'Invalid logger: ' + type + `${consoleColors.Reset}`);
         break;

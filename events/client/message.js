@@ -5,6 +5,18 @@ module.exports = async (client, message) => {
 	if (!message.guild) return;
     if (message.author.bot) return;
 
+    client.Database.createMessage({
+        userId: message.author.id,
+        guildId: message.guild.id,
+
+        messageId: message.id,
+        content: message.content
+    }).then((data) => {
+        client.logger.log('WARN', `MessageID: ${data.messageId} registered by ${data.id} from ${data.guild} date: ${data.registeredAt}`);
+    });
+
+    const member = await client.Database.fetchMember(message.author.id, message.guild.id);
+
     const target = message.author;
 
     const randomAmountXp = Math.floor(Math.random() * 29) + 1;
