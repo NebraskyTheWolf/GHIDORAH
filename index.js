@@ -23,11 +23,9 @@ const Logger = require('./utils/Logger');
 const StringUtils = require('./utils/StringUtils');
 
 const LXDUtils = require('./utils/LXDUtils');
+const ROOMManager = require('./utils/MovieRoom');
 
-const moment = require("moment");
-const humanizeDuration = require("humanize-duration");
-const Timeout = new Set();
-const path = require("path")
+const func = require('./utils/function');
 
 const client = new Client({
 	partials: ["MESSAGE", "USER", "REACTION"],
@@ -102,8 +100,11 @@ client.lxdNetwotk = LXDUtils;
 
 client.movieRooms = new Collection();
 client.movieReservedVLAN = new Collection();
+client.ROOMManager = ROOMManager;
 
 client.mainGuild = client.guilds.cache.get('917714328327692338');
+
+client.func = func;
 
 function createOrSet(array, key, value) {
     if (array[key] !== undefined)

@@ -3,9 +3,7 @@ const {MessageEmbed, Collection} = require('discord.js');
 module.exports = {
     task: {
         name: 'reminder',
-        cronTime: '* 10 * * * *'
+        cronTime: 10000
     },
-    async execute() {
-        
-    }
+    execute() {}
 }

@@ -113,10 +113,10 @@ module.exports.generateCode = function () {
 
 module.exports.generateVLAN = function (data = { prefix: 0 }) {
   let IP = `10.0.${data.prefix + 1}.${(Math.floor(Math.random() * 255) + 1)}`;
-  const regisrar = client.roomReservedVLAN.get(IP);
+  const regisrar = client.movieReservedVLAN.get(IP);
 
   if (regisrar === undefined) {
-      regisrar.add(data.roomId, IP);
+      client.movieReservedVLAN.set(data.roomId, IP);
       return IP;
   }
   else {

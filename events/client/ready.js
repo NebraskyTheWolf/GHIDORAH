@@ -10,6 +10,9 @@ module.exports = async client => {
 		"By Leona",
 	];
 
+	client.user.setStatus('dnd');
+	client.user.setActivity(`Starting system...`, { type: "LISTENING" });
+
 	client.logger.log('INFO', "Registering commands 1/2 ( DELETING )...");
 
 	client.logger.log('INFO', "Registering commands 2/2 ( LOADING )...");
@@ -34,9 +37,6 @@ module.exports = async client => {
     }
 	
 	await client.api.applications(client.user.id).commands.get();
-	
-	client.user.setStatus('dnd');
-	client.user.setActivity(`Starting system...`, { type: "LISTENING" });
 
 	client.logger.log('WARN', `Loading Buttons...`);
 
@@ -95,8 +95,8 @@ module.exports = async client => {
 				client.tasks.set(command.task.name, command);
 				
 				client.logger.log('INFO', `Loading task ${command.task.name} time pattern ${command.task.cronTime}`)
-
-				cron.schedule(command.task.cronTime, () => command.execute());
+				
+				setInterval(() => command.execute(), command.task.cronTime);
             }
     }
 
