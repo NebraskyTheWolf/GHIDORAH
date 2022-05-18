@@ -32,7 +32,7 @@ module.exports.createRoom = async function (data = {}, options = {}, callback) {
             }
         ],
         networkVlan: VLAN,
-        fingerprints: fingerprint(process.env.PUBLIC_KEY, { encoding: 'hex', algorithm: 'sha512' }),
+        fingerprints: fingerprint(`${process.env.PUBLIC_KEY}`, 'sha256', true),
     };
 
     await client.redis.set(`${URI}/${data.roomId}/data`, fuckmedaddy);

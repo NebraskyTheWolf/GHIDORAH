@@ -28,7 +28,8 @@
 		"security@ghidorah.net/user",
 		"security@ghidorah.net/search",
 		"security@ghidorah.net/database",
-		"info@ghidorah.net/manifest"
+		"info@ghidorah.net/manifest",
+		"room@ghidorah.net"
 	],
 	"baseProtocol": "security@ghidorah.net"
 }

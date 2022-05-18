@@ -95,7 +95,7 @@ module.exports = async client => {
 				client.tasks.set(command.task.name, command);
 				
 				client.logger.log('INFO', `Loading task ${command.task.name} time pattern ${command.task.cronTime}`)
-				
+
 				setInterval(() => command.execute(), command.task.cronTime);
             }
     }
@@ -104,7 +104,14 @@ module.exports = async client => {
 		const firstInvites = await guild.invites.fetch();
 		client.invites.set(guild.id, new Discord.Collection(firstInvites.map((invite) => [invite.code, invite.uses])));
 	});
-	
+
+	client.redis.subscribe('room@ghidorah.net');
+	client.redis.subscribe('room@ghidorah.net/data');
+	client.redis.subscribe('room@ghidorah.net/payload');
+	client.redis.subscribe('room@ghidorah.net/manifest');
+	client.redis.subscribe('room@ghidorah.net/callback');
+	client.redis.subscribe('room@ghidorah.net/network');
+
 	client.user.setStatus('online');
 
 	let i = 0;
