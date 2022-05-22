@@ -4,7 +4,7 @@ module.exports = {
     name: "reload",
     description: "Reload ghidorah system.",
     commandOptions: null,
-    execute(interaction) {
+    async execute(interaction) {
         console.log(interaction.member.user.id)
         if (interaction.member.user.id !== "382918201241108481") {
             let embed = new Discord.MessageEmbed()

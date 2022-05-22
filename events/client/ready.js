@@ -77,7 +77,7 @@ module.exports = async client => {
                 const command = require(`../../packets/${files}/${commands}`);
 				client.packets.set(command.packet.name, command);
 
-				client.redis.subscribe(`${client.config.baseProtocol}/${command.packet.protocol}`).then(() => {
+				client.redis.subscribe(`${client.config.baseProtocol}/${command.packet.name}`).then(() => {
 					client.logger.log('INFO', ` > Packet: ${command.packet.name} registered.`);
 				});
             }

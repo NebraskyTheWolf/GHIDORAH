@@ -44,16 +44,18 @@ module.exports = {
             "required": true
         }
     ],
-    execute(interaction) {
+    async execute(interaction) {
+        const guild = await client.Database.fetchGuild(interaction.member.guild.id);
+
         let type = interaction.data.options[0].value;
         let target = interaction.data.options[1].value;
         let reason = interaction.data.options[2].value;
 
-        let data = `row_id_moderationAction_${type}_${target}_${reason}`;
+        let data = `row_id_moderationAction_${type}_${target}_${reason}_${guild.id}`;
 
         if (type === 'HISTORY') {
-            let sanction = client.Database.fetchSanction(target, true).data;
-            let blacklist = client.Database.isBlacklisted(target).data;
+            let sanction = client.Database.fetchSanction(target, guild.id, true).data;
+            let blacklist = client.Database.isBlacklisted(target, guild.id).data;
 
             if (sanction === undefined) return;
 
@@ -86,7 +88,7 @@ module.exports = {
                             "embeds": [
                                 {
                                     "type": "rich",
-                                    "title": `SKF Industries - Sanction history`,
+                                    "title": `GHIDORAH - Sanction history`,
                                     "description": `Active saction found for <@${sanction.id}>`,
                                     "color": 0xff8400,
                                     "fields": [

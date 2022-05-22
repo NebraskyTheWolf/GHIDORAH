@@ -47,51 +47,58 @@ module.exports = {
 
         
     },
-    verifyNotification: function (req, res) {
-       let userId = req.body.userId;
-       let question1 = req.body.answers.findus;
-       let question2 = req.body.answers.age;
-       let question3 = req.body.answers.furry;
-       let question4 = req.body.answers.fursona;
-       let question5 = req.body.answers.rules;
+    verifyNotification: async function (req, res) {
+      const guild = await client.Database.fetchGuild(req.body.guildId);
 
-       const logChannel = client.guilds.cache.get(channelVerification.guildId).channels.cache.get(channelVerification.channelId);
-       const member = client.guilds.cache.get(channelVerification.guildId).members.cache.get(userId);
+      if (guild.verification.online) {
+        let userId = req.body.userId;
+        let question1 = req.body.answers.findus;
+        let question2 = req.body.answers.age;
+        let question3 = req.body.answers.furry;
+        let question4 = req.body.answers.fursona;
+        let question5 = req.body.answers.rules;
+ 
+        const logChannel = client.guilds.cache.get(guild.id).channels.cache.get(guild.verification.logChannel);
+        const member = client.guilds.cache.get(guild.id).members.cache.get(userId);
+ 
+        const embed = new MessageEmbed()
+           .setColor("ORANGE")
+           .setTitle("GHIDORAH - Verification request (ONLINE BETA FORM).")
+           .setDescription(`How did you find us?: \`\`\`${question1}\`\`\` How old are you?: \`\`\`${question2}\`\`\` What is a furry?: \`\`\`${question3}\`\`\` Do you have a fursona?: \`\`\`${question4}\`\`\` Have you read the rules?: \`\`\`${question5}\`\`\``)
+           .addField("Username", `${member.user.username}`, true)
+           .addField("Descriminator", `${member.user.discriminator}`, true)
+           .addField("ID", `${member.user.id}`, true)
+           .setThumbnail(`https://cdn.discordapp.com/avatars/${userId}/${member.user.avatar}.jpeg`);
 
-       const embed = new MessageEmbed()
-          .setColor("ORANGE")
-          .setTitle("SKF Industries - Verification request (ONLINE BETA FORM).")
-          .setDescription(`How did you find us?: \`\`\`${question1}\`\`\` How old are you?: \`\`\`${question2}\`\`\` What is a furry?: \`\`\`${question3}\`\`\` Do you have a fursona?: \`\`\`${question4}\`\`\` Have you read the rules?: \`\`\`${question5}\`\`\``)
-          .addField("Username", `${member.user.username}`, true)
-          .addField("Descriminator", `${member.user.discriminator}`, true)
-          .addField("ID", `${member.user.id}`, true)
-          .setThumbnail(`https://cdn.discordapp.com/avatars/${userId}/${member.user.avatar}.jpeg`);
-                    
-          logChannel.send({
-              embeds: [embed],
-              components: [
-                    {
-                        type: 1,
-                        components: [
-                              {
-                                  "style": 3,
-                                  "label": `Accept`,
-                                  "custom_id": `row_id_userAction_${member.user.id}_acceptVerify`,
-                                  "disabled": false,
-                                  "type": 2
-                              },
-                              {
-                                  "style": 4,
-                                  "label": `Deny`,
-                                  "custom_id": `row_id_userAction_${member.user.id}_denyVerify`,
-                                  "disabled": false,
-                                  "type": 2
-                              }
-                        ]
-                    }
-              ]
-          });
-
-       res.status(200).end();
+           logChannel.send({
+               embeds: [embed],
+               components: [
+                     {
+                         type: 1,
+                         components: [
+                               {
+                                   "style": 3,
+                                   "label": `Accept`,
+                                   "custom_id": `row_id_userAction_${member.user.id}_acceptVerify`,
+                                   "disabled": false,
+                                   "type": 2
+                               },
+                               {
+                                   "style": 4,
+                                   "label": `Deny`,
+                                   "custom_id": `row_id_userAction_${member.user.id}_denyVerify`,
+                                   "disabled": false,
+                                   "type": 2
+                               }
+                         ]
+                     }
+               ]
+           });
+      } else {
+        res.status(403).json({
+          status: false,
+          error: 'SERVER_NOT_SET_UP'
+        }).end();
+      }
     }
 };

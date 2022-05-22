@@ -22,7 +22,7 @@ module.exports = {
     getRoleById: function (req, res) {
         if (req.params.id === undefined)
             return res.status(400).json({status: false, error: 'Missing role id.'});
-        let role = client.guilds.cache.get("917714328327692338").roles.cache.get(req.params.id);
+        let role = client.guilds.cache.get(req.params.guild).roles.cache.get(req.params.id);
         if (role !== undefined)
             res.status(200).json(role);
         else
@@ -52,7 +52,7 @@ module.exports = {
     getUserSanction: function (req, res) {
         if (req.params.id === undefined)
             return res.status(400).json({status: false, error: 'Missing user id.'});
-        client.Database.fetchSanction(req.params.id).then((sanction) => {
+        client.Database.fetchSanction(req.params.id, req.params.guild, true).then((sanction) => {
             res.status(200).json({status: true, data: sanction});
         }).catch(() => {
             res.status(404).json({status: false, error: 'User not found.'});
@@ -63,7 +63,7 @@ module.exports = {
             return res.status(400).json({status: false, error: 'Missing user id.'});
         if (req.params.sanctionId === undefined)
             return res.status(400).json({status: false, error: 'Missing sanction id.'});
-        client.Database.updateSanction(req.params.id, req.body.data).then((data) => {
+        client.Database.updateSanction(req.params.id, req.params.guild, req.body.data).then((data) => {
             res.status(200).json({status: true, data: data});
         }).catch(() => {
             res.status(404).json({status: false, error: 'User not found.'});
@@ -87,7 +87,7 @@ module.exports = {
     isBlacklisted: function (req, res) {
         if (req.params.id === undefined)
             return res.status(400).json({status: false, error: 'Missing user id.'});
-        let data = client.Modlog.isBlacklisted(client, req.params.id);
+        let data = client.Modlog.isBlacklisted(client, req.params.id, req.params.guild);
         return res.status(200).json({status: true, data: data});
     },
     getUserLevel: function (req, res) {

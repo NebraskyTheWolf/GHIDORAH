@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 module.exports = mongoose.model("Sanctions", new mongoose.Schema({
     id: { type: String },
+    guildId: { type: String }, 
     data: { type: Object, default: {
         username: null,
         reason: null,

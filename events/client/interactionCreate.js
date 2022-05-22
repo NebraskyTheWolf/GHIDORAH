@@ -5,93 +5,90 @@ module.exports = async (client, interaction) => {
     if (interaction.customId === undefined) return; // AVOID BOT CRASHING
     if (!interaction.guild) return; // AVOID USING INTERACTION IN DMS
 
-    const interactionUser = await interaction.guild.members.fetch(interaction.user.id)
+    const interactionUser = await interaction.guild.members.fetch(interaction.user.id);
+    const guild = await client.Database.fetchGuild(interaction.guild.id);
 
-    if (interaction.customId.startsWith('row_id_')) {
-        let type = interaction.customId.split('row_id_')[1];
-        let finalType = type.split('_')[0];
+    if (guild.config.interaction.enabled) {
+        if (interaction.customId.startsWith('row_id_')) {
+            const type = interaction.customId.split('row_id_')[1];
 
-        const button = client.buttons.get("id_button");
+            const key = type.split('_')[1];
+            const value = type.split('_')[2];
 
-        switch (finalType) {
-            case "userAction": {
-                let userId = type.split('_')[1];
-                let buttonType = type.split('_')[2];
-
-                button.execute(interaction, interactionUser, {
-                    type: "USER_ACTION",
-                    userId: userId,
-                    buttonType: buttonType,
-                    permissions: [
-                        Permissions.FLAGS.KICK_MEMBERS
-                    ]
-                });
+            const finalType = type.split('_')[0];
+    
+            const button = client.buttons.get("id_button");
+    
+            switch (finalType) {
+                case "userAction": {
+                    button.execute(interaction, interactionUser, guild, {
+                        type: "USER_ACTION",
+                        userId: key,
+                        buttonType: type.split('_')[3],
+                        permissions: [
+                            Permissions.FLAGS.KICK_MEMBERS
+                        ]
+                    });
+                }
+                break;
+                case "channelAction": {
+                    button.execute(interaction, interactionUser, guild, {
+                        type: "CHANNEL_ACTION",
+                        channelId: key,
+                        buttonType: type.split('_')[3],
+                        permissions: [
+                            Permissions.FLAGS.KICK_MEMBERS
+                        ]
+                    });
+                }
+                break;
+                case "userVerify": {    
+                    button.execute(interaction, interactionUser, guild, {
+                        type: "VERIFY_ACTION",
+                        userId: key,
+                        buttonType: type.split('_')[3],
+                        stepId: type.split('_')[4],
+                        permissions: [
+                            Permissions.FLAGS.KICK_MEMBERS
+                        ]
+                    });
+                }
+                break;
+                case "moderationAction": {
+                    let types = type.split('_')[1];
+                    let target = type.split('_')[2];
+                    let reason = type.split('_')[3];
+                    let action = type.split('_')[4];
+    
+                    button.execute(interaction, interactionUser, guild, {
+                        type: "MODERATION",
+                        types: types,
+                        target: target,
+                        reason: reason,
+                        actionId: action
+                    });
+                }
+                break;
+                default:
+                   client.logger.log('ERROR', `Unresolved action ID: ${types} for interaction ID: ${interaction.customId} executed by ${interaction.user.id}`)
+                break;
             }
-            break;
-            case "channelAction": {
-                let channelId = type.split('_')[1];
-                let buttonType = type.split('_')[2];
-
-                button.execute(interaction, interactionUser, {
-                    type: "CHANNEL_ACTION",
-                    channelId: channelId,
-                    buttonType: buttonType,
-                    permissions: [
-                        Permissions.FLAGS.KICK_MEMBERS
-                    ]
-                });
+        } else if(interaction.isButton() 
+            || interaction.isSelectMenu()) {
+            const button = client.buttons.get(interaction.customId);
+            if(!button) {
+                client.logger.log('ERROR', `No handler for button ${interaction.customId} : ${interaction.customId}.js not found.`);
+                return;
             }
-            break;
-            case "userVerify": {
-                let userId = type.split('_')[1];
-                let buttonType = type.split('_')[2];
-                let step = type.split('_')[3];
-
-                button.execute(interaction, interactionUser, {
-                    type: "VERIFY_ACTION",
-                    userId: userId,
-                    buttonType: buttonType,
-                    permissions: [
-                        Permissions.FLAGS.KICK_MEMBERS
-                    ],
-                    stepId: step
-                });
+    
+            try {
+                await button.execute(interaction, interactionUser, guild);
+            } catch (error) {
+                client.logger.log('ERROR', error);
+                await interaction.reply({ content: 'There was an error while executing the button script !', ephemeral: true});
             }
-            break;
-            case "moderationAction": {
-                let types = type.split('_')[1];
-                let target = type.split('_')[2];
-                let reason = type.split('_')[3];
-                let action = type.split('_')[4];
-
-                button.execute(interaction, interactionUser, {
-                    type: "MODERATION",
-                    types: types,
-                    target: target,
-                    reason: reason,
-                    actionId: action
-                });
-            }
-            break;
-            default:
-               client.logger.log('ERROR', `Unresolved action ID: ${types} for interaction ID: ${interaction.customId} executed by ${interaction.user.id}`)
-            break;
-        }
-    } else if(interaction.isButton() 
-        || interaction.isSelectMenu()) {
-        const button = client.buttons.get(interaction.customId);
-        if(!button) {
-            client.logger.log('ERROR', `No handler for button ${interaction.customId} : ${interaction.customId}.js not found.`);
-            return;
-        }
-
-        try {
-            await button.execute(interaction, interactionUser);
-        } catch (error) {
-            client.logger.log('ERROR', error);
-            await interaction.reply({ content: 'There was an error while executing the button script !', ephemeral: true});
         }
     } else {
-        return;
+        await interaction.reply({ content: 'Interactions disabled on this server.', ephemeral: true});
     }
 }

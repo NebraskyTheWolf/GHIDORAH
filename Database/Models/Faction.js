@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 module.exports = mongoose.model("Factions", new mongoose.Schema({
     id: { type: String }, 
+    guildId: { type: String }, 
     registeredAt: { type: Number, default: Date.now() },
 
     faction: { type: Object, default: {

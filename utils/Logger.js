@@ -1,6 +1,6 @@
 const consoleColors = require('./ConsoleColor');
 
-const prefix = `${consoleColors.FgBlue}[${consoleColors.FgCyan}ModuleManager - ${consoleColors.Reset}`
+const prefix = `${consoleColors.FgBlue}[${consoleColors.FgCyan}GHIDORAH - ${consoleColors.Reset}`
 
 module.exports.log = async function (type, message) {
     switch (type) {

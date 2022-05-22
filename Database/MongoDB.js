@@ -64,6 +64,10 @@ module.exports.fetchGuild = async function(key) {
     }
 }
 
+module.exports.deleteGuild = async function (guildId) {
+    return await guildSchema.deleteOne({ id: guildId });
+}
+
 module.exports.fetchMember = async function(userID, guildID) {
     let member = await memberSchema.findOne({ id: userID, guildID: guildID });
 
@@ -127,13 +131,14 @@ module.exports.activateOauth = async function(userID) {
     return await oauthSchema.updateOne({ id: userID, activated: false }, { activated: true }, {});
 }
 
-module.exports.fetchSanction = async function(userId, active) {
-    return await sanctionSchema.findOne({ id: userId, user: { active: active } });
+module.exports.fetchSanction = async function(userId, guildId, active) {
+    return await sanctionSchema.findOne({ id: userId, guildId: guildId , user: { active: active } });
 }
 
-module.exports.createSanction = async function(userID, data) {
+module.exports.createSanction = async function(userID, guildId, data) {
     let oauth = new sanctionSchema({
         id: userID,
+        guildId: guildId,
         data: {
             username: data.username,
             reason: data.reason,
@@ -147,8 +152,8 @@ module.exports.createSanction = async function(userID, data) {
     return oauth;
 }
 
-module.exports.updateSanction = async function(userId, data) {
-    return await sanctionSchema.updateOne({ id: userId, user: { active: true } }, data, {});
+module.exports.updateSanction = async function(userId, guildId, data) {
+    return await sanctionSchema.updateOne({ id: userId, guildId: guildId, user: { active: true } }, data, {});
 }
 
 // FANCTION FETCHER
@@ -184,6 +189,7 @@ module.exports.updateFactionPointsById = async function(factionId, amount) {
 module.exports.createFaction = async function(data) {
     let faction = new factionSchema({
         id: v4(),
+        guildId: data.guildId, 
         faction: {
             name: data.name,
             prefix: data.prefix,
@@ -209,17 +215,18 @@ module.exports.createFaction = async function(data) {
 
 // BLACKLIST 
 
-module.exports.isBlacklisted = async function(userID) {
-    return await blacklistSchema.findOne({ id: userID });
+module.exports.isBlacklisted = async function(userID, guildId) {
+    return await blacklistSchema.findOne({ id: userID, guildId: guildId });
 }
 
 module.exports.disableBlacklist = async function(userID) {
-    return await blacklistSchema.updateOne({ id: userID }, { data: { active: false } }, {  });
+    return await blacklistSchema.updateOne({ id: userID, guildId: guildId }, { data: { active: false } }, {  });
 }
 
-module.exports.createBlacklist = async function(userID, data) {
+module.exports.createBlacklist = async function(userID, guildId, data) {
     let blacklist = new blacklistSchema({
         id: userID,
+        guildId: guildId,
         data: {
             targetId: data.targetId,
             authorId: data.authorId,
@@ -235,7 +242,7 @@ module.exports.createBlacklist = async function(userID, data) {
 // VERIFICATION
 
 module.exports.createVerification = async function(userID, data) {
-    let oauth = await verificationSchema.findOne({ id: userID });
+    let oauth = await verificationSchema.findOne({ id: userID, guildId: data.guildId });
 
     if (oauth) {
         return oauth;
@@ -243,6 +250,7 @@ module.exports.createVerification = async function(userID, data) {
         let sniff = client.Modlog.generateCode();
         oauth = new verificationSchema({
             id: userID,
+            guildId: data.guildId, 
             registeredAt: Date.now(),
 
             code: sniff,
@@ -257,33 +265,33 @@ module.exports.createVerification = async function(userID, data) {
     }
 }
 
-module.exports.fetchVerify = async function(userID) {
-    return await verificationSchema.findOne({ id: userID });
+module.exports.fetchVerify = async function(userID, guildId) {
+    return await verificationSchema.findOne({ id: userID, guildId: guildId });
 }
 
-module.exports.fetchAllVerify = async function(callback) {
-    return await verificationSchema.find({ }).then((results) => callback(results))
+module.exports.fetchAllVerify = async function(guildId, callback) {
+    return await verificationSchema.find({ guildId: guildId }).then((results) => callback(results))
 }
 
 
-module.exports.fetchVerifyByName = async function(username) {
-    return await verificationSchema.findOne({ user: { username: username } });
+module.exports.fetchVerifyByName = async function(username, guildId) {
+    return await verificationSchema.findOne({ guildId: guildId, user: { username: username } });
 }
 
-module.exports.getVerifyByCode = async function(token) {
-    return await verificationSchema.findOne({ code: token, verified: false });
+module.exports.getVerifyByCode = async function(token, guildId) {
+    return await verificationSchema.findOne({ code: token, guildId: guildId, verified: false });
 }
 
-module.exports.getVerifyById = async function(verifiedId) {
-    return await verificationSchema.findOne({ verifiedId: verifiedId, verified: true });
+module.exports.getVerifyById = async function(verifiedId, guildId) {
+    return await verificationSchema.findOne({ verifiedId: verifiedId, guildId: guildId, verified: true });
 }
 
-module.exports.updateVerify = async function(userID) {
-    return await verificationSchema.updateOne({ id: userID, verified: false }, { verified: true }, {});
+module.exports.updateVerify = async function(userID, guildId) {
+    return await verificationSchema.updateOne({ id: userID, guildId: guildId, verified: false }, { verified: true }, {});
 }
 
-module.exports.updateVerifyData = async function(userID, data) {
-    return await verificationSchema.updateOne({ id: userID }, { data: data }, {});
+module.exports.updateVerifyData = async function(userID, guildId, data) {
+    return await verificationSchema.updateOne({ id: userID, guildId: guildId }, { data: data }, {});
 }
 
 // MODULES MANAGER
@@ -321,7 +329,7 @@ module.exports.fetchModule = async function(moduleId) {
 // MESSAGES
 
 module.exports.createMessage = async function (data) {
-    let message = await messagesSchema.findOne({ id: data.userId });
+    let message = await messagesSchema.findOne({ id: data.userId, guild: data.guildId });
 
     if (message) {
         return message;

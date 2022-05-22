@@ -1,5 +1,7 @@
 module.exports.addLog = async function (client, member, data, callback, interaction) {
-    client.Database.createSanction(member.id, {
+    const guild = await client.Database.fetchGuild(member.guild.id);
+
+    client.Database.createSanction(member.id, guild.id, {
         username: member.user.username,
         reason: data.reason,
         expirationDate: data.expiration,
@@ -9,42 +11,49 @@ module.exports.addLog = async function (client, member, data, callback, interact
     .then(() => callback({status: true, data: data}))
     .catch(() => callback({status: false, error: 'Error occurred during database write.'}));
 
-    const generalChat = client.guilds.cache.get("917714328327692338")
-                .channels.cache.get('975801771752562719');
-    
-    generalChat.send({
-        "components": [],
-        "embeds": [
-            {
-              "type": "rich",
-              "title": `SKF Industries - MODERATIONS`,
-              "description": `Information of the sanction below.`,
-              "color": 0x36393F,
-              "fields": [
+    if (guild.config.logging.loggingEnabled 
+        && guild.config.logging.moderation !== null) {
+          const generalChat = client.guilds.cache.get(guild.id)
+            .channels.cache.get(guild.config.logging.moderation);
+
+          generalChat.send({
+            "components": [],
+            "embeds": [
                 {
-                  "name": `User`,
-                  "value": `${member.user.username}`
-                },
-                {
-                  "name": `Reason`,
-                  "value": `${data.reason}`
-                },
-                {
-                  "name": `Issued by`,
-                  "value": `<@${interaction.user.id}>`
-                },
-                {
-                  "name": `Type`,
-                  "value": `${data.type}`
+                  "type": "rich",
+                  "title": `GHIDORAH - MODERATIONS`,
+                  "description": `Information of the sanction below.`,
+                  "color": 0x36393F,
+                  "fields": [
+                    {
+                      "name": `User`,
+                      "value": `${member.user.username}`
+                    },
+                    {
+                      "name": `Reason`,
+                      "value": `${data.reason}`
+                    },
+                    {
+                      "name": `Issued by`,
+                      "value": `<@${interaction.user.id}>`
+                    },
+                    {
+                      "name": `Type`,
+                      "value": `${data.type}`
+                    }
+                  ]
                 }
-              ]
-            }
-        ]
-    });
+            ]
+          });
+    }
+
+    
 }
 
 module.exports.addBlacklist = async function (client, userId, data, callback) {
-    client.Database.createBlacklist(userId, {
+    const guild = await client.Database.fetchGuild(data.guildId);
+
+    client.Database.createBlacklist(userId, guild.id, {
         targetId: userId,
         authorId: data.authorId,
         reason: data.reason,
@@ -54,42 +63,48 @@ module.exports.addBlacklist = async function (client, userId, data, callback) {
     .then(() => callback({status: true, data: data}))
     .catch(() => callback({status: false, error: 'Error occurred during database write.'}));
 
-    const generalChat = client.guilds.cache.get("917714328327692338")
-                .channels.cache.get('975801771752562719');
+    if (guild.config.logging.loggingEnabled 
+      && guild.config.logging.blacklist !== null) 
+    {
+        const generalChat = client.guilds.cache.get(guild.id)
+          .channels.cache.get(guild.config.logging.blacklist);
+
+        generalChat.send({
+            "components": [],
+            "embeds": [
+              {
+                "type": "rich",
+                "title": `SKF Industries - BLACKLIST`,
+                "description": `Information of the blacklist below.`,
+                "color": 0x36393F,
+                "fields": [
+                  {
+                    "name": `User`,
+                    "value": `<@${userId}>`
+                  },
+                  {
+                    "name": `Reason`,
+                    "value": `${data.reason}`
+                  },
+                  {
+                    "name": `Issued by`,
+                    "value": `<@${data.authorId}>`
+                  },
+                  {
+                    "name": `Action after reconnect`,
+                    "value": `${data.action}`
+                  }
+                ]
+              }
+            ]
+        });
+    }
+
     
-    generalChat.send({
-        "components": [],
-        "embeds": [
-            {
-              "type": "rich",
-              "title": `SKF Industries - BLACKLIST`,
-              "description": `Information of the blacklist below.`,
-              "color": 0x36393F,
-              "fields": [
-                {
-                  "name": `User`,
-                  "value": `<@${userId}>`
-                },
-                {
-                  "name": `Reason`,
-                  "value": `${data.reason}`
-                },
-                {
-                  "name": `Issued by`,
-                  "value": `<@${data.authorId}>`
-                },
-                {
-                  "name": `Action after reconnect`,
-                  "value": `${data.action}`
-                }
-              ]
-            }
-        ]
-    });
 }
 
-module.exports.isBlacklisted = async function (client, userId) {
-    return await client.Database.isBlacklisted(userId);
+module.exports.isBlacklisted = async function (client, userId, guildId) {
+    return await client.Database.isBlacklisted(userId, guildId);
 }
 
 module.exports.generateCode = function () {

@@ -1,9 +1,5 @@
-const db = require("quick.db");
-const Enmap = require("enmap");
 const { Collection, Client, Intents } = require("discord.js");
 const discordModals = require('discord-modals')
-
-
 
 const mongoose = require('mongoose');
 
@@ -159,8 +155,9 @@ client.status = queue => `Volume: \`${queue.volume}%\` | Filter: \`${
 
 client.ws.on("INTERACTION_CREATE", async interaction => {
     if (!client.commands.has(interaction.data.name)) return;
+
     try {
-        client.commands.get(interaction.data.name).execute(interaction);
+        await client.commands.get(interaction.data.name).execute(interaction);
     } catch (error) {
         client.logger.log('ERROR', `Error from command ${interaction.data.name} : ${error.message}`);
         client.logger.log('ERROR', `${error.stack}\n`);

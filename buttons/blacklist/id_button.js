@@ -1,43 +1,44 @@
-const { MessageEmbed, Message } = require('discord.js');
-const blacklist = require('../../blacklist.json');
+const { MessageEmbed } = require('discord.js');
 const { Modal, TextInputComponent, showModal } = require('discord-modals')
-
-const loggingServer = {
-    guildId: "969039234436567120",
-    channelMod: "971465307090722931",
-    channelGeneral: "944836116056518716"
-};
 
 module.exports = {
     data: {
         name: "id_button"
     },
-    async execute(interaction, interactionUser, data) {
-        // LOGGING SERVER DATA SENDER
-        const logChannel = client.guilds.cache.get(loggingServer.guildId)
-                .channels.cache.get(loggingServer.channelMod);
+    async execute(interaction, interactionUser, guild, data) {
+        if (!guild.config.logging.loggingEnabled) {
+            await interaction.reply({
+                content: 'Server not configurated',
+                ephemeral: true
+            });
+            return;
+        }
+        
+        const generalChat = client.guilds.cache.get(guild.id)
+                .channels.cache.get(guild.verification.channels.welcomeChannel);
 
-        const generalChat = client.guilds.cache.get("917714328327692338")
-                .channels.cache.get(loggingServer.channelGeneral);
+        const server = client.guilds.cache.get(guild.id);
+        const members = server.members;
 
         if (data.type === "USER_ACTION") {
-            let member = client.guilds.cache.get("917714328327692338").members;
-
             switch (data.buttonType) {
                 case "acceptVerify": {
-                    let memberU = client.guilds.cache.get("917714328327692338").members.cache.get(data.userId);
+                    const memberU = members.cache.get(data.userId);
 
-                    let role = client.guilds.cache.get("917714328327692338").roles.cache.get("934501016991305798");
-                    let Rrole = client.guilds.cache.get("917714328327692338").roles.cache.get("934501017800806510");
+                    const role = server.roles.cache.get(guild.config.autorole.verified);
+                    const Rrole = server.roles.cache.get(guild.config.autorole.unverified);
 
                     await memberU.roles.add(role); // VERIFIED ROLES
                     await memberU.roles.remove(Rrole); // REMOVE UNVERIFIED ACCESS
 
                     const embedWelcome = new MessageEmbed()
-                        .setTitle(`SKF Industries - Welcome`)
-                        .setDescription(`Welcome to SKF Industries <@${data.userId}> please don't forget to get your roles in <#970425930948444240>\n Have fun on SKF Industries! :3 *Yap yap yap*`)
+                        .setTitle(`GHIDORAH - Welcome`)
                         .setColor("ORANGE");
-                    
+                    if (guild.config.selfroles.enabled)
+                        embedWelcome.setDescription(`Welcome to ${server.name} <@${data.userId}> please don't forget to get your roles in <#${guild.config.selfroles.channelId}>\n Have fun on ${server.name}! :3 *Yap yap yap*`);
+                    else
+                        embedWelcome.setDescription(`Welcome to ${server.name} <@${data.userId}> \n Have fun on ${server.name}! :3 *Yap yap yap*`);
+
                     interaction.update({
                         components: [
                             {
@@ -46,14 +47,14 @@ module.exports = {
                                     {
                                         "style": 3,
                                         "label": `Accept`,
-                                        "custom_id": `row_id_userAction_${data.userId}_acceptVerify`,
+                                        "custom_id": `row_id_userAction_${data.userId}_${guild.id}_acceptVerify`,
                                         "disabled": true,
                                         "type": 2
                                     },
                                     {
                                         "style": 4,
                                         "label": `Deny`,
-                                        "custom_id": `row_id_userAction_${data.userId}_denyVerify`,
+                                        "custom_id": `row_id_userAction_${data.userId}_${guild.id}_denyVerify`,
                                         "disabled": true,
                                         "type": 2
                                     }
@@ -68,20 +69,34 @@ module.exports = {
                 }
                 break;
                 case "denyVerify": {
-                    await member.kick(data.userId); // VERIFIED ROLES
-                    const embed = new MessageEmbed()
-                        .setColor("ORANGE")
-                        .setTitle("SKF Industries - Verification denied.")
-                        .setDescription(`${data.userId} has been denied.`);
-                    interaction.reply({
-                        embeds: [embed],
-                        ephemeral: true
+                    interaction.update({
+                        components: [
+                            {
+                                type: 1,
+                                components: [
+                                    {
+                                        "style": 4,
+                                        "label": `Accept`,
+                                        "custom_id": `row_id_userAction_${data.userId}_${guild.id}_acceptVerify`,
+                                        "disabled": true,
+                                        "type": 2
+                                    },
+                                    {
+                                        "style": 4,
+                                        "label": `Cancelled.`,
+                                        "custom_id": `row_id_userAction_${data.userId}_${guild.id}_denyVerify`,
+                                        "disabled": true,
+                                        "type": 2
+                                    }
+                                ]
+                            }
+                        ]
                     });
                 }
                 break;
             }
         } else if (data.type === "channelAction") {
-            let channel = client.guilds.cache.get("917714328327692338").channels.cache.get(data.channelId);
+            let channel = client.guilds.cache.get(guild.id).channels.cache.get(data.channelId);
             switch (data.buttonType) {}
         } else if (data.type === "VERIFY_ACTION") {
             switch (data.buttonType) {
@@ -89,11 +104,11 @@ module.exports = {
                     switch (data.stepId) {
                         case "1": {
                             const modal = new Modal()
-                                .setCustomId(`row_modal_id_userVerify_${interaction.user.id}_verify`)
-                                .setTitle("Verification for SKF Industries")
+                                .setCustomId(`row_modal_id_userVerify_${interaction.user.id}_${guild.id}_verify`)
+                                .setTitle(`Verification for ${server.name}`)
                                 .addComponents(
                                     new TextInputComponent()
-                                        .setCustomId(`row_id_userVerify_${interaction.user.id}_textActionData_1`)
+                                        .setCustomId(`row_id_userVerify_${interaction.user.id}_${guild.id}_textActionData_1`)
                                         .setStyle("LONG")
                                         .setLabel("HOW DID YOU FIND US?")
                                         .setMinLength(0)
@@ -101,7 +116,7 @@ module.exports = {
                                         .setPlaceholder("Please be specific, answers like 'google' or 'website' will be declined")
                                         .setRequired(true),
                                     new TextInputComponent()
-                                        .setCustomId(`row_id_userVerify_${interaction.user.id}_textActionData_2`)
+                                        .setCustomId(`row_id_userVerify_${interaction.user.id}_${guild.id}_textActionData_2`)
                                         .setStyle("LONG")
                                         .setLabel("HOW OLD ARE YOU")
                                         .setMinLength(0)
@@ -109,7 +124,7 @@ module.exports = {
                                         .setPlaceholder("Do not round up, and do not give us your \"sona's\" age.")
                                         .setRequired(true),
                                     new TextInputComponent()
-                                        .setCustomId(`row_id_userVerify_${interaction.user.id}_textActionData_3`)
+                                        .setCustomId(`row_id_userVerify_${interaction.user.id}_${guild.id}_textActionData_3`)
                                         .setStyle("LONG")
                                         .setLabel("WHAT IS A FURRY FOR YOU?")
                                         .setMinLength(0)
@@ -117,7 +132,7 @@ module.exports = {
                                         .setPlaceholder("In your own words, please.")
                                         .setRequired(true),
                                     new TextInputComponent()
-                                        .setCustomId(`row_id_userVerify_${interaction.user.id}_textActionData_4`)
+                                        .setCustomId(`row_id_userVerify_${interaction.user.id}_${guild.id}_textActionData_4`)
                                         .setStyle("LONG")
                                         .setLabel("DO YOU HAVE A FURSONA?")
                                         .setMinLength(0)
@@ -125,7 +140,7 @@ module.exports = {
                                         .setPlaceholder("If so, could you describe them?")
                                         .setRequired(true),
                                     new TextInputComponent()
-                                        .setCustomId(`row_id_userVerify_${interaction.user.id}_textActionData_5`)
+                                        .setCustomId(`row_id_userVerify_${interaction.user.id}_${guild.id}_textActionData_5`)
                                         .setStyle("LONG")
                                         .setLabel("HAVE YOU READ THE RULES?")
                                         .setMinLength(0)
@@ -137,8 +152,6 @@ module.exports = {
                                     client: client,
                                     interaction: interaction
                                 });
-
-                                
                         }
                         break;
                     }
@@ -146,8 +159,7 @@ module.exports = {
                 break;
             }
         } else if (data.type === "MODERATION") {
-            let member = client.guilds.cache.get("917714328327692338").members;
-            let target = member.cache.get(data.target);
+            let target = members.cache.get(data.target);
 
             if (target === undefined) {
                 interaction.reply({
@@ -157,7 +169,7 @@ module.exports = {
                 return;
             }
             
-            let datay = `row_id_moderationAction_${data.types}_${data.target}_${data.reason}`;
+            let datay = `row_id_moderationAction_${data.types}_${data.target}_${data.reason}_${guild.id}`;
 
             switch (data.actionId) {
                 case "confirm": {
@@ -201,8 +213,7 @@ module.exports = {
                                 active: true
                             }, async (fdata) => {
                                 if (fdata.status) {
-                                    let R = fdata.data.reason;
-                                    await member.kick(data.target, { R });
+                                    await target.kick(fdata.data.reason);
                                 }
                             }, interaction);
                         }
@@ -216,7 +227,7 @@ module.exports = {
                             }, async (fdata) => {
                                 if (fdata.status) {
                                     let R = fdata.data.reason;
-                                    await member.ban(data.target, { R });
+                                    await members.ban(data.target, { R });
                                 }
                             }, interaction);
                         }
@@ -229,19 +240,18 @@ module.exports = {
                                 active: true
                             }, async (fdata) => {
                                 if (fdata.status) {
-                                    target.send(`You got warned on SKF Industries for ${fdata.data.reason}.`);
+                                    target.send(`You got warned on ${server.name} for ${fdata.data.reason}.`);
                                 }
                             }, interaction);
                         }
                         break;
                         case "BLACKLIST": {
                             client.Modlog.addBlacklist(client, data.userId, {
+                                guildId: guild.id,
                                 authorId: interaction.user.id,
                                 reason: data.reason,
-                                action: 'kick'
-                            }, data => {
-
-                            })
+                                action: 'none'
+                            }, data => {});
                         }
                         break;
                     }

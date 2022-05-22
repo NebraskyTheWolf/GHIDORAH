@@ -1,18 +1,13 @@
 const { MessageEmbed, Message } = require("discord.js")
 
-const channelVerification = {
-    guildId: "917714328327692338",
-    channelId: "934501150126903376"
-}
-
 module.exports = {
     data: {
         name: "id_modal"
     },
-    async execute(interaction, interactionUser, data) {
+    async execute(interaction, interactionUser, guild,  data) {
 
-        const logChannel = client.guilds.cache.get(channelVerification.guildId)
-            .channels.cache.get(channelVerification.channelId);
+        const logChannel = client.guilds.cache.get(guild.id)
+            .channels.cache.get(guild.verification.channels.logChannel);
 
         if (data.type === "USER_ACTION") {
             switch (data.modalType) {
@@ -25,7 +20,7 @@ module.exports = {
 
                     const embed = new MessageEmbed()
                         .setColor("ORANGE")
-                        .setTitle("SKF Industries - Verification request.")
+                        .setTitle("GHIDORAH - Verification request.")
                         .setDescription(`How did you find us?: \`\`\`${firstResponse}\`\`\` How old are you?: \`\`\`${secondResponse}\`\`\` What is a furry?: \`\`\`${thirdResponse}\`\`\` Do you have a fursona?: \`\`\`${lastResponse}\`\`\` Have you read the rules?: \`\`\`${rulesResponse}\`\`\``)
                         .addField("Username", `${interaction.user.username}`, true)
                         .addField("Descriminator", `${interaction.user.discriminator}`, true)
@@ -41,14 +36,14 @@ module.exports = {
                                     {
                                         "style": 3,
                                         "label": `Accept`,
-                                        "custom_id": `row_id_userAction_${interaction.user.id}_acceptVerify`,
+                                        "custom_id": `row_id_userAction_${interaction.user.id}_${guild.id}_acceptVerify`,
                                         "disabled": false,
                                         "type": 2
                                     },
                                     {
                                         "style": 4,
                                         "label": `Deny`,
-                                        "custom_id": `row_id_userAction_${interaction.user.id}_denyVerify`,
+                                        "custom_id": `row_id_userAction_${interaction.user.id}_${guild.id}_denyVerify`,
                                         "disabled": false,
                                         "type": 2
                                     }
@@ -65,7 +60,7 @@ module.exports = {
                                     {
                                         "style": 4,
                                         "label": `Next`,
-                                        "custom_id": `row_id_userVerify_${interactionUser.id}_next_1`,
+                                        "custom_id": `row_id_userVerify_${interactionUser.user.id}_${guild.id}_next_1`,
                                         "disabled": true,
                                         "type": 2
                                     }

@@ -20,6 +20,30 @@ module.exports = mongoose.model("Guild", new mongoose.Schema({
             logChannelId: "",
             backup: false,
             readOnFile: false
+        },
+        logging: {
+            moderation: null,
+            alert: null,
+            blacklist: null,
+            loggingEnabled: false
+        },
+        autorole: {
+            unverified: null,
+            verified: null,
+            rules: null,
+        },
+        interaction: {
+            prefix: null,
+            allowed: [],
+            enabled: true
+        },
+        options: {
+            coreGuild: false
+        },
+        selfroles: {
+            channelId: null,
+            data: [],
+            enabled: false
         }
     }},
 
@@ -30,6 +54,29 @@ module.exports = mongoose.model("Guild", new mongoose.Schema({
             ownerId: "",
             authenticateMode: "OAUTH"
         }
+    }},
+
+    verification: { type: Object, default: {
+        channels: {
+            channelId: null,
+            logChannel: null,
+            welcomeMessage: null,
+            welcomeChannel: null,
+        },
+        online: {
+            enabled: false
+        },
+        requirementtext: null,
+        disabled: false
+    }},
+
+    xpSystem: { type: Object, default: {
+        config: {
+            alertChannel: null,
+            xpBoost: 0,
+            rankImage: false,
+        },
+        active: false
     }}
 
 }));
