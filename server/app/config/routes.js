@@ -2,6 +2,7 @@ module.exports = {
     'get /user/:id': {'function': 'UserController.getUserById', protected: false},
     'get /user/by-name/:username': {'function': 'UserController.getUserByName', protected: false},
     'get /role/:id/:guild': {'function': 'UserController.getRoleById', protected: false},
+
     'get /user/activate/:id': {'function': 'UserController.activateUser', protected: false},
     'get /user/by-token/:token': {'function': 'UserController.getUserByToken', protected: false},
     'get /users/online': {'function': 'UserController.getOnlineUsers', protected: false},
@@ -23,6 +24,16 @@ module.exports = {
 
     'post /notification/hook': {'function': 'WebhookController.initNotification', protected: false},
     'post /notification/verify': {'function': 'WebhookController.verifyNotification', protected: false},
+    'post /notification/register': {'function': 'FurconController.registerEvent', protected: false},
+
+    // FURCON BACKEND SIDE FOR ENTRY CHECK ONLY
+    // SECURITY ENFORCED.
+    
+    // manifest of the current planned event.
+    'post /events/:eventId/manifest' : {'function': 'FurconController.getManifest', protected: false},
+    'post /events/:eventId/border-check/:uuid' : {'function': 'FurconController.checkEntry', protected: false},
+    'post /events/:eventId/border-check/:uuid/manifest' : {'function': 'FurconController.checkEntryManifest', protected: false},
+
 
     'post /user/verify/:id/:guild/create': {'function': 'VerifyController.create', protected: false},
     'get /user/verify/:id/:guild/fetch': {'function': 'VerifyController.fetch', protected: false},

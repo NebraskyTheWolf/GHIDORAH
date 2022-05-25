@@ -17,7 +17,7 @@ module.exports = {
                                 {
                                   "style": 5,
                                   "label": `Stats`,
-                                  "url": `https://ghidorah.net/stats/${user.id}`,
+                                  "url": `${process.env.DEFAULT_DOMAIN}/stats/${user.id}`,
                                   "disabled": false,
                                   "type": 2
                                 }

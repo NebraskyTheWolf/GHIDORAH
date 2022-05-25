@@ -49,10 +49,10 @@ module.exports = client => {
 		// respond with json
 		res.json({status: false, error: 'Method not found.'})
 	});
-	  
+	
 	server.use(function (err, req, res, next) {
 		console.error(err)
 		res.status(500).json({status: false, error: 'An error has occured.'})
 	});
-	server.listen(2598, () => client.logger.log('INFO', "Server is Ready!"));
+	server.listen(process.env.DEFAULT_PORT, () => client.logger.log('INFO', "Server is Ready!"));
 };

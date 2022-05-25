@@ -1,15 +1,35 @@
 const Discord = require('discord.js');
-const userSchema = require("./Models/User");
-const guildSchema = require("./Models/Guild");
-const memberSchema = require("./Models/Member");
-const oauthSchema = require("./Models/Oauth");
-const sanctionSchema = require("./Models/Sanctions");
-const factionSchema = require("./Models/Faction");
-const blacklistSchema = require("./Models/Blacklist");
-const verificationSchema = require("./Models/Verification");
-const modulesSchema = require('./Models/Modules');
-const messagesSchema = require('./Models/Messages');
-const giveawaysSchema = require('./Models/Giveaways');
+
+// GUILDS
+const messagesSchema = require('./Models/Guild/Messages');
+const memberSchema = require("./Models/Guild/Member");
+const guildSchema = require("./Models/Guild/Guild");
+const userSchema = require("./Models/Guild/User");
+
+// COMMONS
+const giveawaysSchema = require('./Models/Guild/Common/Giveaways');
+const factionSchema = require("./Models/Guild/Common/Faction");
+const modulesSchema = require('./Models/Guild/Common/Modules');
+const oauthSchema = require("./Models/Guild/Common/Oauth");
+
+//MODERATION
+const verificationSchema = require("./Models/Guild/Moderation/Verification");
+const blacklistSchema = require("./Models/Guild/Moderation/Blacklist");
+const sanctionSchema = require("./Models/Guild/Moderation/Sanctions");
+const usermailSchema = require('./Models/Guild/Moderation/Usermail');
+const modmailSchema = require('./Models/Guild/Moderation/Modmail');
+
+// EVENTS
+const usereventSchema = require('./Models/Events/Userevent');
+const eventsSchema = require('./Models/Events/Events');
+
+// BANK 
+const transactionSchema = require('./Models/Bank/server/Transactions');
+const manifestsSchema = require('./Models/Bank/server/Manifests');
+const nodesSchema = require('./Models/Bank/server/Nodes');
+
+const accountsSchema = require('./Models/Bank/client/Account');
+const cardsSchema = require('./Models/Bank/client/Card');
 
 const { v4 } = require('uuid');
 
@@ -329,22 +349,16 @@ module.exports.fetchModule = async function(moduleId) {
 // MESSAGES
 
 module.exports.createMessage = async function (data) {
-    let message = await messagesSchema.findOne({ id: data.userId, guild: data.guildId });
+    let message = messagesSchema({
+        id: data.userId,
+        guild: data.guildId,
+        registeredAt: Date.now(),
 
-    if (message) {
-        return message;
-    } else {
-        message = messagesSchema({
-            id: data.userId,
-            guild: data.guildId,
-            registeredAt: Date.now(),
-
-            messageId: data.messageId,
-            messageContent: data.content
-        });
-        await message.save().catch((err) => client.logger.log('ERROR', `Error occcurred: ${err}`));
-        return message;
-    }
+        messageId: data.messageId,
+        messageContent: data.content
+    });
+    await message.save().catch((err) => client.logger.log('ERROR', `Error occcurred: ${err}`));
+    return message;
 }
 
 module.exports.countMessages = async function () {
@@ -371,4 +385,159 @@ module.exports.removeEXP = async function (id, amounts = 0) {
 
 module.exports.updateLevel = async function(id, level) {
     await memberSchema.updateOne({ id: id }, { level: level }, {});
+}
+
+// MOD MAIL
+
+module.exports.createModmail = async function (guildid, data, callback) {
+    const modmail = await modmailSchema.findOne({ guildId: guildid, data: { mainChannel: data.channelId } });
+
+    if (modmail)
+        callback({status: true, data: modmail});
+    else {
+        modmail = modmailSchema({
+            id: v4(),
+            guildId: guildid,
+            registeredAt: Date.now(),
+
+            data: {
+                mainChannel: data.channelId,
+                moderatorRole: data.moderatorRole,
+                enabled: true
+            }
+        });
+        await modmail.save().catch(err => client.logger.log('ERROR', `Error occurred ${err}`));
+        callback({status: true, data: modmail});
+    }
+}
+
+module.exports.fetchModmail = async function (guildid, channelid) {
+    return await modmailSchema.findOne({ guildId: guildid, data: { mainChannel: channelid } });
+}
+
+module.exports.changeModmailState = async function (guildid, channelid, enabled) {
+    return await modmailSchema.updateOne({ guildId: guildid, data: { mainChannel: channelid } }, { $set: { data: { enabled: enabled } } }, { upsert: true });
+}
+
+module.exports.deleteModmail = async function (guildid, channelid) {
+    return await modmailSchema.deleteOne({ guildId: guildid, data: { mainChannel: channelid } });
+}
+
+// USER MAIL
+
+module.exports.createMail = async function (guildid, datad) {
+    let modmail = await usermailSchema.findOne({ guildId: guildid, data: { code: datad.code } });
+
+    if (modmail)
+        return modmail;
+    else {
+        modmail = usermailSchema({
+            id: datad.userId,
+            guildId: guildid,
+            registeredAt: Date.now(),
+
+            data: {
+                code: datad.code,
+                channelId: datad.channelId, 
+                enabled: true
+            }
+        });
+        await modmail.save().catch(err => client.logger.log('ERROR', `Error occurred ${err}`));
+        return modmail;
+    }
+}
+
+module.exports.fetchUsermail = async function (code) {
+    return await usermailSchema.findOne({ data: { code: code }});
+}
+
+module.exports.changeUsermailState = async function (userId, code, enabled) {
+    return await usermailSchema.updateOne({ id: userId, data: { code: code } }, { $set: { data: { enabled: enabled } } }, { upsert: true });
+}
+
+module.exports.deleteUsermail = async function (userId, code) {
+    return await usermailSchema.deleteOne({ id: userId, data: { code: code } });
+}
+
+module.exports.createEvent = async function (manifest = {}, callback) {
+    const event = eventsSchema({
+        eventId: v4(),
+        registeredAt: Date.now(),
+
+        manifesy: manifest
+    });
+    await event.save().catch(err => client.logger.log('ERROR', `Error occurred : ${err}`));
+    return event;
+}
+
+module.exports.fetchEvent = async function (eventId) {
+    return await eventsSchema.findOne({ eventId: eventId });
+}
+
+module.exports.deleteEvent = async function (eventId) {
+    return await eventsSchema.deleteOne({ eventId: eventId });
+}
+
+// TRANSACTIONS
+
+module.exports.createTransaction = async function (data = {}, callback) {
+    const transaction = transactionSchema(data);
+    await transaction.save();
+    await callback({status: true, data: transaction});
+}
+
+module.exports.fetchTransactionsByAccount = async function (accountId, callback) {
+    const transaction = await transactionSchema.find({accountId: accountId});
+    if (transaction)
+        callback({status: true, data: transaction});
+    else
+        callback({status: false, data: {}});
+}
+
+module.exports.fetchTransactionsByBank = async function (bankId, callback) {
+    const transaction = await transactionSchema.find({bankId: bankId});
+    if (transaction)
+        callback({status: true, data: transaction});
+    else
+        callback({status: false, data: {}});
+}
+
+module.exports.fetchTransactionsByUser = async function (userId, callback) {
+    const transaction = await transactionSchema.find({userId: userId});
+    if (transaction)
+        callback({status: true, data: transaction});
+    else
+        callback({status: false, data: {}});
+}
+
+// MANIFESTS
+
+module.exports.createBank = async function (data = {}, callback) {
+    const bank = manifestsSchema(data);
+    await bank.save();
+    await callback({status: true, data: bank});
+}
+
+module.exports.fetchBankByID = async function (bankId, callback) {
+    const bank = await manifestsSchema.find({bankId: bankId});
+    if (bank)
+        await callback({status: true, data: bank});
+    else
+        await callback({status: false, data: {}});
+}
+
+module.exports.fetchBankByIdentifier = async function (identifier, callback) {
+    const bank = await manifestsSchema.find({identifier: identifier});
+    if (bank)
+        await callback({status: true, data: bank});
+    else
+        await callback({status: false, data: {}});
+}
+
+// NODES
+
+module.exports.createNode = async function(data = {}, callback) {
+    const node = await nodesSchema(data);
+    await node.save();
+    await callback({status: true, data: node});
 }

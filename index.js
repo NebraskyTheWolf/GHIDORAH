@@ -23,6 +23,9 @@ const ROOMManager = require('./utils/MovieRoom');
 
 const func = require('./utils/function');
 
+const IsLoaded = false;
+const IsDebug = process.env.DEBUG;
+
 const client = new Client({
 	partials: ["MESSAGE", "USER", "REACTION"],
 	disableMentions: "everyone",
@@ -102,6 +105,12 @@ client.mainGuild = client.guilds.cache.get('917714328327692338');
 
 client.func = func;
 
+client.IsLoaded = IsLoaded;
+client.IsDebug = IsDebug;
+
+client.errorLists = new Collection();
+client.dailyMessages = new Collection();
+
 function createOrSet(array, key, value) {
     if (array[key] !== undefined)
         array[key].push(value);
@@ -111,8 +120,9 @@ function createOrSet(array, key, value) {
 
 client.createOrSet = createOrSet;
 
-["command", "event", "music", "anticrash"].forEach(x => require(`./handlers/${x}.js`)(client));
+["command", "event", "anticrash"].forEach(x => require(`./handlers/${x}.js`)(client));
 ["alwaysOn", "http"].forEach(x => require(`./server/${x}.js`)(client));
+
 
 mongoose.connect(config.MongoDBInfo.host, config.MongoDBInfo.options).then(() => {
     client.logger.log('INFO', 'Connected to MongoDB');
@@ -155,6 +165,18 @@ client.status = queue => `Volume: \`${queue.volume}%\` | Filter: \`${
 
 client.ws.on("INTERACTION_CREATE", async interaction => {
     if (!client.commands.has(interaction.data.name)) return;
+    if (!client.IsLoaded) {
+        client.api.interactions(interaction.id, interaction.token).callback.post({
+            data: {
+                type: 4,
+                data: {
+                    content: "Sorry but my code is not loaded. Please wait a few seconds.",
+                    flags: 64
+                },
+            },
+        });
+        return;
+    }
 
     try {
         await client.commands.get(interaction.data.name).execute(interaction);

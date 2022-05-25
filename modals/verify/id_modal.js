@@ -58,8 +58,8 @@ module.exports = {
                                 type: 1,
                                 components: [
                                     {
-                                        "style": 4,
-                                        "label": `Next`,
+                                        "style": 3,
+                                        "label": `Verification sent!`,
                                         "custom_id": `row_id_userVerify_${interactionUser.user.id}_${guild.id}_next_1`,
                                         "disabled": true,
                                         "type": 2

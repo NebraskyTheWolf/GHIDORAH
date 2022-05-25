@@ -10,12 +10,11 @@ module.exports = {
     commandOptions: null,
     async execute(interaction) {
         const interactionUser = await interaction.member;
-        const guild = await client.Database.fetchGuild(interactionUser.guild.id);
+        const guild = await client.Database.fetchGuild(interaction.guild_id);
 
         if (guild.verification.online.enabled) {
             client.users.fetch(interaction.member.user.id).then((user) => {
                 getUserBanner(user.id).then(banner => {
-                    console.log(banner);
                     client.Database.createVerification(user.id, {
                         username: client.StringUtils.remove_non_ascii(user.username),
                         discriminator: user.discriminator,
@@ -52,7 +51,7 @@ module.exports = {
                                                 {
                                                 "style": 5,
                                                 "label": `Verify now`,
-                                                "url": `https://ghidorah.net/verify?code=${result.code}`,
+                                                "url": `${process.env.DEFAULT_DOMAIN}/verify?code=${result.code}`,
                                                 "disabled": false,
                                                 "emoji": {
                                                     "id": null,

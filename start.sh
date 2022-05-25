@@ -18,4 +18,18 @@ export DEFAULT_GUILD="917714328327692338"
 export UNVERIFIED_ROLE="934501017800806510"
 export DISCORD_INVITES="https://discord.gg/cnBerxRBEG"
 
+export REDIS_HOST="127.0.0.1"
+export REDIS_PORT=6379
+export NODE_ENV="public"
+
+export SESSION_COOKIE_NAME="GHIDORAH-COOKIE"
+
+export HTTP_HOST="10.0.0.57"
+export PORT="3000"
+
+export DEFAULT_DOMAIN="https://ghidorah.net"
+export DEFAULT_PORT=2598
+
+export DEBUG=false
+
 node index.js

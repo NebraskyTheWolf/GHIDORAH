@@ -79,14 +79,14 @@ module.exports = {
                                {
                                    "style": 3,
                                    "label": `Accept`,
-                                   "custom_id": `row_id_userAction_${member.user.id}_acceptVerify`,
+                                   "custom_id": `row_id_userAction_${member.user.id}_${guild.id}_acceptVerify`,
                                    "disabled": false,
                                    "type": 2
                                },
                                {
                                    "style": 4,
                                    "label": `Deny`,
-                                   "custom_id": `row_id_userAction_${member.user.id}_denyVerify`,
+                                   "custom_id": `row_id_userAction_${member.user.id}_${guild.id}_denyVerify`,
                                    "disabled": false,
                                    "type": 2
                                }
@@ -94,6 +94,10 @@ module.exports = {
                      }
                ]
            });
+           res.status(200).json({
+            status: true,
+            done: 'VERIFICATION_SENT'
+          }).end();
       } else {
         res.status(403).json({
           status: false,

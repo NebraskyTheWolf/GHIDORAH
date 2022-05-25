@@ -10,7 +10,7 @@ module.exports = {
     commandOptions: null,
     async execute(interaction) {
         const interactionUser = await interaction.member;
-        const guild = await client.Database.fetchGuild(interactionUser.guild.id);
+        const guild = await client.Database.fetchGuild(interaction.guild_id);
 
         if (!guild.config.options.coreGuild) {
             client.api.interactions(interaction.id, interaction.token).callback.post({
@@ -57,7 +57,7 @@ module.exports = {
                                                 {
                                                 "style": 5,
                                                 "label": `Login`,
-                                                "url": `https://ghidorah.net/login`,
+                                                "url": `${process.env.DEFAULT_DOMAIN}/login`,
                                                 "disabled": false,
                                                 "emoji": {
                                                     "id": null,
@@ -93,7 +93,7 @@ module.exports = {
                                                 {
                                                 "style": 5,
                                                 "label": `Register now`,
-                                                "url": `https://ghidorah.net/register?code=${result.key}`,
+                                                "url": `${process.env.DEFAULT_DOMAIN}/register/${result.key}`,
                                                 "disabled": false,
                                                 "emoji": {
                                                     "id": null,

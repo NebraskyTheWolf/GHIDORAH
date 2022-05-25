@@ -2,3 +2,8 @@
 /old
 /json.sqlite
 /package-lock.json
+/.vcode
+/blacklist.json
+/diff.patch
+/test.patch
+/data

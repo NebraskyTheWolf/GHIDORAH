@@ -105,12 +105,12 @@ module.exports = async client => {
 		client.invites.set(guild.id, new Discord.Collection(firstInvites.map((invite) => [invite.code, invite.uses])));
 	});
 
-	client.redis.subscribe('room@ghidorah.net');
-	client.redis.subscribe('room@ghidorah.net/data');
-	client.redis.subscribe('room@ghidorah.net/payload');
-	client.redis.subscribe('room@ghidorah.net/manifest');
-	client.redis.subscribe('room@ghidorah.net/callback');
-	client.redis.subscribe('room@ghidorah.net/network');
+	client.redis.subscribe(`room@${process.env.DEFAULT_DOMAIN}`);
+	client.redis.subscribe(`room@${process.env.DEFAULT_DOMAIN}/data`);
+	client.redis.subscribe(`room@${process.env.DEFAULT_DOMAIN}/payload`);
+	client.redis.subscribe(`room@${process.env.DEFAULT_DOMAIN}/manifest`);
+	client.redis.subscribe(`room@${process.env.DEFAULT_DOMAIN}/callback`);
+	client.redis.subscribe(`room@${process.env.DEFAULT_DOMAIN}/network`);
 
 	client.user.setStatus('online');
 
@@ -123,5 +123,7 @@ module.exports = async client => {
 			),
 		15000
 	);
+	
+	client.IsLoaded = true;
 	client.logger.log('INFO', 'Initialization phase finished.');
 };

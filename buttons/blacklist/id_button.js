@@ -46,7 +46,7 @@ module.exports = {
                                 components: [
                                     {
                                         "style": 3,
-                                        "label": `Accept`,
+                                        "label": `Accepted.`,
                                         "custom_id": `row_id_userAction_${data.userId}_${guild.id}_acceptVerify`,
                                         "disabled": true,
                                         "type": 2
@@ -82,7 +82,7 @@ module.exports = {
                                         "type": 2
                                     },
                                     {
-                                        "style": 4,
+                                        "style": 3,
                                         "label": `Cancelled.`,
                                         "custom_id": `row_id_userAction_${data.userId}_${guild.id}_denyVerify`,
                                         "disabled": true,
@@ -95,9 +95,6 @@ module.exports = {
                 }
                 break;
             }
-        } else if (data.type === "channelAction") {
-            let channel = client.guilds.cache.get(guild.id).channels.cache.get(data.channelId);
-            switch (data.buttonType) {}
         } else if (data.type === "VERIFY_ACTION") {
             switch (data.buttonType) {
                 case "next": {
@@ -155,111 +152,6 @@ module.exports = {
                         }
                         break;
                     }
-                }
-                break;
-            }
-        } else if (data.type === "MODERATION") {
-            let target = members.cache.get(data.target);
-
-            if (target === undefined) {
-                interaction.reply({
-                    content: 'Invalid user',
-                    ephemeral: true
-                });
-                return;
-            }
-            
-            let datay = `row_id_moderationAction_${data.types}_${data.target}_${data.reason}_${guild.id}`;
-
-            switch (data.actionId) {
-                case "confirm": {
-                    interaction.update({
-                        components: [
-                            {
-                                type: 1,
-                                components: [
-                                    {
-                                        style: 3,
-                                        label: "Confirm",
-                                        custom_id: `${datay}_confirm`,
-                                        disabled: true,
-                                        type: 2
-                                    },
-                                    {
-                                        style: 4,
-                                        label: "Cancel",
-                                        custom_id: `${datay}_cancel`,
-                                        disabled: true,
-                                        type: 2
-                                    },
-                                    {
-                                        style: 4,
-                                        label: "Delete",
-                                        custom_id: `${datay}_remove`,
-                                        disabled: false,
-                                        type: 2
-                                    }
-                                ]
-                            }
-                        ]
-                    });
-
-                    switch(data.types) {
-                        case "KICK": {
-                            client.Modlog.addLog(client, target, {
-                                reason: data.reason,
-                                expiration: -1,
-                                type: data.types,
-                                active: true
-                            }, async (fdata) => {
-                                if (fdata.status) {
-                                    await target.kick(fdata.data.reason);
-                                }
-                            }, interaction);
-                        }
-                        break;
-                        case "BAN": {
-                            client.Modlog.addLog(client, target, {
-                                reason: data.reason,
-                                expiration: -1,
-                                type: data.types,
-                                active: true
-                            }, async (fdata) => {
-                                if (fdata.status) {
-                                    let R = fdata.data.reason;
-                                    await members.ban(data.target, { R });
-                                }
-                            }, interaction);
-                        }
-                        break;
-                        case "WARN": {
-                            client.Modlog.addLog(client, target, {
-                                reason: data.reason,
-                                expiration: -1,
-                                type: data.types,
-                                active: true
-                            }, async (fdata) => {
-                                if (fdata.status) {
-                                    target.send(`You got warned on ${server.name} for ${fdata.data.reason}.`);
-                                }
-                            }, interaction);
-                        }
-                        break;
-                        case "BLACKLIST": {
-                            client.Modlog.addBlacklist(client, data.userId, {
-                                guildId: guild.id,
-                                authorId: interaction.user.id,
-                                reason: data.reason,
-                                action: 'none'
-                            }, data => {});
-                        }
-                        break;
-                    }
-                }
-                break;
-                case "remove":
-                case "cancel": {
-                    await interaction.message.delete();
                 }
                 break;
             }
