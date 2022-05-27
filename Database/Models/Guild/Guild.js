@@ -77,6 +77,13 @@ module.exports = mongoose.model("Guild", new mongoose.Schema({
             rankImage: false,
         },
         active: false
-    }}
+    }},
 
+    selfroles: { type: Object, default: {
+        config: {
+            categories: [],
+            roles: [],
+        },
+        active: false
+    }}
 }));

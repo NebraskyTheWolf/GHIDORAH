@@ -25,6 +25,19 @@ module.exports = async function (client, event) {
                     });
                 }
                 break;
+                case "staffApply": {
+                    let userId = type.split('_')[1];
+                    let serverId = type.split('_')[2];
+                    let modalType = type.split('_')[3];
+    
+                    modal.execute(event, interactionUser, guild, {
+                        type: "STAFF_APPLY",
+                        userId: userId,
+                        guildId: serverId,
+                        modalType: modalType
+                    });
+                }
+                break;
                 default:
                     console.log(`Unresolved action ID: ${type} for interaction ID: ${event.customId} executed by ${event.user.id}`)
                 break;

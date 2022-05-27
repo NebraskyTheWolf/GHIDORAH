@@ -68,6 +68,53 @@ module.exports = {
                     });
                 }
                 break;
+                case "acceptStaff": {
+                    const memberU = members.cache.get(data.userId);
+
+                    const role = server.roles.cache.get('919693089612894229');
+
+                    await memberU.roles.add(role); // VERIFIED ROLES
+
+                    memberU.send({
+                        "embeds": [
+                            {
+                              "type": "rich",
+                              "title": `SKF Studio - Staff application accepted`,
+                              "description": `Congrats your application has been accepted on SKF Studio.`,
+                              "color": 0xd9bb12
+                            }
+                        ]
+                    });
+
+                    interaction.update({
+                        components: [
+                            {
+                                type: 1,
+                                components: [
+                                    {
+                                        "style": 3,
+                                        "label": `Accepted.`,
+                                        "custom_id": `row_id_userAction_${data.userId}_${guild.id}_acceptStaff`,
+                                        "disabled": true,
+                                        "type": 2
+                                    },
+                                    {
+                                        "style": 4,
+                                        "label": `Deny`,
+                                        "custom_id": `row_id_userAction_${data.userId}_${guild.id}_denyStaff`,
+                                        "disabled": true,
+                                        "type": 2
+                                    }
+                                ]
+                            }
+                        ]
+                    });
+
+                    generalChat.send({
+                        embeds: [embedWelcome]
+                    });
+                }
+                break;
                 case "denyVerify": {
                     interaction.update({
                         components: [
@@ -85,6 +132,45 @@ module.exports = {
                                         "style": 3,
                                         "label": `Cancelled.`,
                                         "custom_id": `row_id_userAction_${data.userId}_${guild.id}_denyVerify`,
+                                        "disabled": true,
+                                        "type": 2
+                                    }
+                                ]
+                            }
+                        ]
+                    });
+                }
+                break;
+                case "denyStaff": {
+                    const memberU = members.cache.get(data.userId);
+
+                    memberU.send({
+                        "embeds": [
+                            {
+                              "type": "rich",
+                              "title": `SKF Studio - Staff application denied`,
+                              "description": `We're sorry to say but we denied your staff application.`,
+                              "color": 0xd91212
+                            }
+                        ]
+                    });
+
+                    interaction.update({
+                        components: [
+                            {
+                                type: 1,
+                                components: [
+                                    {
+                                        "style": 4,
+                                        "label": `Accept`,
+                                        "custom_id": `row_id_userAction_${data.userId}_${guild.id}_acceptStaff`,
+                                        "disabled": true,
+                                        "type": 2
+                                    },
+                                    {
+                                        "style": 3,
+                                        "label": `Cancelled.`,
+                                        "custom_id": `row_id_userAction_${data.userId}_${guild.id}_denyStaff`,
                                         "disabled": true,
                                         "type": 2
                                     }

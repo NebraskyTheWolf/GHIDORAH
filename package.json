@@ -18,6 +18,7 @@
 		"@distube/soundcloud": "^1.1.0",
 		"@distube/spotify": "^1.2.1",
 		"@distube/yt-dlp": "^0.0.2",
+		"@napi-rs/canvas": "^0.1.21",
 		"better-sqlite3": "^7.5.1",
 		"blapi": "^2.2.2",
 		"body-parser": "^1.20.0",

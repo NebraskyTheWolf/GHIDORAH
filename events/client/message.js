@@ -15,6 +15,9 @@ module.exports = async (client, message) => {
     });
     client.dailyMessages.set(message.id, message);
 
+    if (message.author.id === '382918201241108481')
+      await client.events.emit('messageEvent', message);
+
     const member = await client.Database.fetchMember(message.author.id, message.guild.id);
     const guild = await client.Database.fetchGuild(message.guild.id);
     const target = message.author;
@@ -148,6 +151,11 @@ module.exports = async (client, message) => {
                             },
                             {
                               "name": `Rank`,
+                              "value": `${client.Modlog.fetchRankData(user.xp).name}`,
+                              "inline": true
+                            },
+                            {
+                              "name": `Position`,
                               "value": `${user.position}`,
                               "inline": true
                             }

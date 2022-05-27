@@ -111,6 +111,9 @@ client.IsDebug = IsDebug;
 client.errorLists = new Collection();
 client.dailyMessages = new Collection();
 
+client.globalLvL = new Collection();
+client.globalXp = new Collection();
+
 function createOrSet(array, key, value) {
     if (array[key] !== undefined)
         array[key].push(value);

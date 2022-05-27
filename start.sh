@@ -32,4 +32,6 @@ export DEFAULT_PORT=2598
 
 export DEBUG=false
 
+export RANK_MULTIPLIER=4
+
 node index.js

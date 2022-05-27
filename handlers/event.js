@@ -8,6 +8,8 @@ module.exports = client => {
 			client.logger.log('INFO', ` > Loaded Event: ${file}`);
 			const eventName = file.split(".")[0];
 			client.on(eventName, event.bind(null, client));
+			
+			client.events.on(eventName, event.bind(null, client));
 		});
 	});
 };

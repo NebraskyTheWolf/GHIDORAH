@@ -13,7 +13,7 @@ module.exports = {
         client.events.emit('githubPush', {status: true, data: data});
 
         const logChannel = client.guilds.cache.get('917714328327692338')
-            .channels.cache.get('970398815490293860');
+            .channels.cache.get('979776687619338290');
 
         logChannel.send({
             "embeds": [

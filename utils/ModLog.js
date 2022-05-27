@@ -159,3 +159,37 @@ module.exports.sendMessage = function(content = "", embeds = [], components = []
         }
     });
 }
+
+module.exports.fetchRankData = function (amounts = 0) {
+    const multiplier = process.env.RANK_MULTIPLIER;
+
+    if (amounts > 0 && amounts < 1100 * multiplier) {
+        return { name: 'Rookie', iconPath: `${process.env.ASSETS_FOLDER}/rank/rookie.png`};
+    } else if (amounts > (1100 * multiplier) && amounts < (2400 * multiplier)) {
+        return { name: 'Bronze', iconPath: `${process.env.ASSETS_FOLDER}/rank/bronze.png`};
+    } else if (amounts > (2400 * multiplier) && amounts < (3800 * multiplier)) {
+        return { name: 'Silver', iconPath: `${process.env.ASSETS_FOLDER}/rank/silver.png`};
+    } else if (amounts > (3800 * multiplier) && amounts < (4900 * multiplier)) {
+        return { name: 'Gold', iconPath: `${process.env.ASSETS_FOLDER}/rank/gold.png`};
+    } else if (amounts > (4900 * multiplier) && amounts < (8400 * multiplier)) {
+        return { name: 'Platinium', iconPath: `${process.env.ASSETS_FOLDER}/rank/platinium.png`};
+    } else if (amounts > (8400 * multiplier) && amounts < (11300 * multiplier)) {
+        return { name: 'Diamond', iconPath: `${process.env.ASSETS_FOLDER}/rank/diamond.png`};
+    } else if (amounts > (11300 * multiplier) && amounts < (15400 * multiplier)) {
+        return { name: 'Emerald', iconPath: `${process.env.ASSETS_FOLDER}/rank/emerald.png`};
+    } else if (amounts > (15400 * multiplier) && amounts < (18400 * multiplier)) {
+        return { name: 'Master', iconPath: `${process.env.ASSETS_FOLDER}/rank/master.png`};
+    } else if (amounts > (18400 * multiplier) && amounts < (20400 * multiplier)) {
+        return { name: 'Master III', iconPath: `${process.env.ASSETS_FOLDER}/rank/masterIII.png`};
+    } else if (amounts > (20400 * multiplier) && amounts < (24400 * multiplier)) {
+        return { name: 'Master II', iconPath: `${process.env.ASSETS_FOLDER}/rank/masterII.png`};
+    } else if (amounts > (24400 * multiplier) && amounts < (28400 * multiplier)) {
+        return { name: 'Master I', iconPath: `${process.env.ASSETS_FOLDER}/rank/masterI.png`};
+    } else if (amounts > (35400 * multiplier)) {
+        return { name: 'Predator', iconPath: `${process.env.ASSETS_FOLDER}/rank/predator.png`};
+    }
+}
+
+module.exports.profileCanvas = async function (data = {}) {
+  
+}
