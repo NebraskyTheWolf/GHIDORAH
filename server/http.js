@@ -1,6 +1,18 @@
 const express = require("express");
 const server = express();
-const bodyParser = require("body-parser")
+const bodyParser = require("body-parser");
+
+const fs = require("fs");
+
+const http = require('http');
+const https = require('https');
+
+var privateKey  = fs.readFileSync('sslcert/server.key', 'utf8');
+var certificate = fs.readFileSync('sslcert/server.crt', 'utf8');
+var credentials = {key: privateKey, cert: certificate};
+
+var httpServer = http.createServer(server);
+var httpsServer = https.createServer(credentials, server);
 
 module.exports = client => {
 	server.use(express.static('public'))
@@ -54,5 +66,7 @@ module.exports = client => {
 		console.error(err)
 		res.status(500).json({status: false, error: 'An error has occured.'})
 	});
-	server.listen(process.env.DEFAULT_PORT, () => client.logger.log('INFO', "Server is Ready!"));
+
+	httpServer.listen(3000);
+	httpsServer.listen(8443);
 };

@@ -16,6 +16,7 @@ module.exports = {
             client.users.fetch(interaction.member.user.id).then((user) => {
                 getUserBanner(user.id).then(banner => {
                     client.Database.createVerification(user.id, {
+                        guildId: interaction.guild_id,
                         username: client.StringUtils.remove_non_ascii(user.username),
                         discriminator: user.discriminator,
                         system: user.system,
@@ -35,7 +36,7 @@ module.exports = {
                                             }
                                         ],
                                         "ephemeral": "true",
-                                        "flags": 64
+                                        "flags": 64 // 1 << 8
                                     }
                                 }
                             });

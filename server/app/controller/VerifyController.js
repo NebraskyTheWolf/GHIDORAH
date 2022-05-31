@@ -22,7 +22,7 @@ module.exports = {
     fetchByCode: function (req, res) {
         if (req.params.code === undefined)
             return res.status(400).json({status: false, error: 'Missing user code.'});
-        client.Database.getVerifyByCode(req.params.code, req.params.guild).then((user) => {
+        client.Database.getVerifyByCode(req.params.code).then((user) => {
             res.status(200).json({status: true, data: user});
         }).catch(() => {
             res.status(404).json({status: false, error: 'User not found.'});
@@ -31,7 +31,7 @@ module.exports = {
     update: function (req, res) {
         if (req.params.id === undefined)
             return res.status(400).json({status: false, error: 'Missing user id or data object.'});
-        let result = client.Database.updateVerify(req.params.id, req.params.guild);
+        let result = client.Database.updateVerify(req.params.id);
         res.status(200).json({status: true, data: result});
     },
     updateData: function (req, res) {

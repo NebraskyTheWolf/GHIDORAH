@@ -87,7 +87,7 @@ module.exports = {
     isBlacklisted: function (req, res) {
         if (req.params.id === undefined)
             return res.status(400).json({status: false, error: 'Missing user id.'});
-        let data = client.Modlog.isBlacklisted(client, req.params.id, req.params.guild);
+        let data = client.Modlog.isBlacklisted(client, req.params.id);
         return res.status(200).json({status: true, data: data});
     },
     getUserLevel: function (req, res) {
@@ -97,8 +97,19 @@ module.exports = {
     getUserPresence: function (req, res) {
         if (req.params.id === undefined)
             return res.status(400).json({status: false, error: 'Missing user id.'});
-        
-        
     },
+    getTotalMessages: function (req, res) {
+        client.Database.countMessages().then(data => {
+             return res.status(200).json({
+                 status: true,
+                 data: data
+             });
+        }).catch(err => {
+            return res.status(404).json({
+                status: false,
+                error: 'No messages found.'
+            });
+        })
+    }
 }
 

@@ -2,7 +2,7 @@ const fetch = require("node-fetch");
 
 function alwaysOn() {
 	setInterval(async () => {
-		await fetch("http://localhost:2598");
+		await fetch("https://api.skf-studios.com:8443");
 	}, 240000);
 }
 

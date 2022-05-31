@@ -52,13 +52,14 @@ module.exports = {
 
       if (guild.verification.online) {
         let userId = req.body.userId;
+
         let question1 = req.body.answers.findus;
         let question2 = req.body.answers.age;
         let question3 = req.body.answers.furry;
         let question4 = req.body.answers.fursona;
         let question5 = req.body.answers.rules;
- 
-        const logChannel = client.guilds.cache.get(guild.id).channels.cache.get(guild.verification.logChannel);
+
+        const logChannel = client.guilds.cache.get(guild.id).channels.cache.get(guild.verification.channels.logChannel);
         const member = client.guilds.cache.get(guild.id).members.cache.get(userId);
  
         const embed = new MessageEmbed()

@@ -103,8 +103,8 @@ module.exports.addBlacklist = async function (client, userId, data, callback) {
     
 }
 
-module.exports.isBlacklisted = async function (client, userId, guildId) {
-    return await client.Database.isBlacklisted(userId, guildId);
+module.exports.isBlacklisted = async function (client, userId) {
+    return await client.Database.isBlacklisted(userId);
 }
 
 module.exports.generateCode = function () {
@@ -190,6 +190,6 @@ module.exports.fetchRankData = function (amounts = 0) {
     }
 }
 
-module.exports.profileCanvas = async function (data = {}) {
-  
+module.exports.getMember = async function (guildId, userId) {
+    return await client.guilds.cache.get(guildId).members.cache.get(userId);
 }

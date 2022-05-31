@@ -94,14 +94,34 @@ module.exports.fetchMember = async function(userID, guildID) {
     if (member) {
         return member;
     } else {
-        member = new memberSchema({
+        client.users.fetch(userID).then(async (user) => {
+            member = new memberSchema({
+                id: userID,
+                guildID: guildID,
+                registeredAt: Date.now(),
+                iconURL: user.avatarURL(),
+                username: user.username
+            });
+            await member.save().catch(err => console.error(err));
+            return member;
+        });
+    }
+}
+
+module.exports.updateMember = async function(userID, guildID) {
+    client.users.fetch(userID).then(async (user) => {
+        return await memberSchema.updateOne({ guildID: guildID, id: userID }, {
             id: userID,
             guildID: guildID,
-            registeredAt: Date.now()
-        });
-        await member.save().catch(err => console.error(err));
-        return member;
-    }
+            registeredAt: Date.now(),
+            iconURL: user.avatarURL(),
+            username: user.username
+        }, { upsert: true});
+    });
+}
+
+module.exports.fetchAllMember = async function(guildID) {
+    return await memberSchema.find({ guildID: guildID});
 }
 
 module.exports.createOauth = async function(userID, data) {
@@ -235,8 +255,8 @@ module.exports.createFaction = async function(data) {
 
 // BLACKLIST 
 
-module.exports.isBlacklisted = async function(userID, guildId) {
-    return await blacklistSchema.findOne({ id: userID, guildId: guildId });
+module.exports.isBlacklisted = async function(userID) {
+    return await blacklistSchema.findOne({ id: userID });
 }
 
 module.exports.disableBlacklist = async function(userID) {
@@ -298,16 +318,16 @@ module.exports.fetchVerifyByName = async function(username, guildId) {
     return await verificationSchema.findOne({ guildId: guildId, user: { username: username } });
 }
 
-module.exports.getVerifyByCode = async function(token, guildId) {
-    return await verificationSchema.findOne({ code: token, guildId: guildId, verified: false });
+module.exports.getVerifyByCode = async function(token) {
+    return await verificationSchema.findOne({ code: token, verified: false });
 }
 
 module.exports.getVerifyById = async function(verifiedId, guildId) {
     return await verificationSchema.findOne({ verifiedId: verifiedId, guildId: guildId, verified: true });
 }
 
-module.exports.updateVerify = async function(userID, guildId) {
-    return await verificationSchema.updateOne({ id: userID, guildId: guildId, verified: false }, { verified: true }, {});
+module.exports.updateVerify = async function(userID) {
+    return await verificationSchema.updateOne({ id: userID, verified: false }, { verified: true }, {});
 }
 
 module.exports.updateVerifyData = async function(userID, guildId, data) {
@@ -361,8 +381,11 @@ module.exports.createMessage = async function (data) {
     return message;
 }
 
-module.exports.countMessages = async function () {
-    return await messagesSchema.find().toArray().length();
+module.exports.countMessages = async function (options = {}) {
+    if (options.server_id)
+        return await messagesSchema.find({  guild: options.server_id  });
+    else
+        return await messagesSchema.find({    });
 }
 
 module.exports.fetchMessage = async function (messageId) {
