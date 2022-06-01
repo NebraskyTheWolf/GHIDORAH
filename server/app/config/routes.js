@@ -14,7 +14,7 @@ module.exports = {
     'post /users/:id/:guild/add': {'function': 'UserController.addSanction', protected: false},
     'get /users/sanction/:id/:guild': {'function': 'UserController.getSanctionById', protected: false},
 
-    'get /users/isBlacklisted/:id/': {'function': 'UserController.isBlacklisted', protected: false},
+    'get /users/isBlacklisted/:id': {'function': 'UserController.isBlacklisted', protected: false},
 
     'get /user/:id/stats/:guild': {'function': 'UserController.fetchUser', protected: false},
     'get /users/staff': {'function': 'UserController.fetchStaff', protected: false},
@@ -50,7 +50,9 @@ module.exports = {
     'get /servers/by-id/:guildId/members': {'function': 'ServerController.getServerMembers', protected: false},
     'get /servers/by-id/:guildId/config': {'function': 'ServerController.getServerConfig', protected: false},
     'get /servers/by-id/:guildId/leaderboard': {'function': 'ServerController.fetchLeaderboard', protected: false},
+    'get /servers/by-id/:guildId/rules': {'function': 'ServerController.fetchRules', protected: false},
 
     'get /user/by-id/:userid/:guildId': {'function': 'ServerController.getUsernameByID', protected: false},
+    'get /user/by-id/:userid/:guildId/level': {'function': 'ServerController.fetchLevel', protected: false},
 
 }

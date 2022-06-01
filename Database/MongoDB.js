@@ -5,6 +5,7 @@ const messagesSchema = require('./Models/Guild/Messages');
 const memberSchema = require("./Models/Guild/Member");
 const guildSchema = require("./Models/Guild/Guild");
 const userSchema = require("./Models/Guild/User");
+const rulesSchema = require("./Models/Guild/Rules");
 
 // COMMONS
 const giveawaysSchema = require('./Models/Guild/Common/Giveaways');
@@ -563,4 +564,8 @@ module.exports.createNode = async function(data = {}, callback) {
     const node = await nodesSchema(data);
     await node.save();
     await callback({status: true, data: node});
+}
+
+module.exports.fetchRules = async function (guildId) {
+    return await rulesSchema.findOne({ guildId: guildId });
 }
