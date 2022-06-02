@@ -20,14 +20,13 @@ module.exports = {
                 case "verify": {
                     const firstResponse = interaction.fields[0].value;
                     const secondResponse = interaction.fields[1].value;
-                    const thirdResponse = interaction.fields[2].value;
-                    const lastResponse = interaction.fields[3].value;
-                    const rulesResponse = interaction.fields[4].value;
+                    const lastResponse = interaction.fields[2].value;
+                    const rulesResponse = interaction.fields[3].value;
 
                     const embed = new MessageEmbed()
                         .setColor("ORANGE")
                         .setTitle("GHIDORAH - Verification request.")
-                        .setDescription(`How did you find us?: \`\`\`${firstResponse}\`\`\` How old are you?: \`\`\`${secondResponse}\`\`\` What is a furry?: \`\`\`${thirdResponse}\`\`\` Do you have a fursona?: \`\`\`${lastResponse}\`\`\` Have you read the rules?: \`\`\`${rulesResponse}\`\`\``)
+                        .setDescription(`How did you find us?: \`\`\`${firstResponse}\`\`\` How old are you?: \`\`\`${secondResponse}\`\`\` Why you want to join our server?: \`\`\`${lastResponse}\`\`\` Have you read the rules?: \`\`\`${rulesResponse}\`\`\``)
                         .addField("Username", `${interaction.user.username}`, true)
                         .addField("Descriminator", `${interaction.user.discriminator}`, true)
                         .addField("ID", `${interaction.user.id}`, true)
