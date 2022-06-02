@@ -5,7 +5,13 @@ module.exports = {
         name: "id_modal"
     },
     async execute(interaction, interactionUser, guild,  data) {
-
+        if (guild.blacklisted) {
+            await interaction.reply({
+                content: 'Server blacklisted',
+                ephemeral: true
+            });
+            return;
+        }
         const logChannel = client.guilds.cache.get(guild.id)
             .channels.cache.get(guild.verification.channels.logChannel);
 

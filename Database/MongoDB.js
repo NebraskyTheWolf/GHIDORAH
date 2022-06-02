@@ -125,6 +125,11 @@ module.exports.fetchAllMember = async function(guildID) {
     return await memberSchema.find({ guildID: guildID});
 }
 
+module.exports.deleteMember = async function(guildID, userid) {
+    return await memberSchema.deleteOne({ guildID: guildID, id: userid});
+}
+
+
 module.exports.createOauth = async function(userID, data) {
     let oauth = await oauthSchema.findOne({ id: userID });
 
@@ -329,6 +334,10 @@ module.exports.getVerifyById = async function(verifiedId, guildId) {
 
 module.exports.updateVerify = async function(userID) {
     return await verificationSchema.updateOne({ id: userID, verified: false }, { verified: true }, {});
+}
+
+module.exports.updateVerifyByID = async function(userID, guildID, id) {
+    return await verificationSchema.updateOne({ id: userID, guildId: guildID }, { verifiedId: id }, {});
 }
 
 module.exports.updateVerifyData = async function(userID, guildId, data) {

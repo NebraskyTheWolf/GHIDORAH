@@ -1,3 +1,5 @@
 module.exports = async (client, guild) => {
-	return await client.Database.deleteGuild(guild.id);
+	let guilds = await client.Database.fetchGuild(guild.id);
+	if (!guilds.blacklisted)
+		return await client.Database.deleteGuild(guild.id);
 };

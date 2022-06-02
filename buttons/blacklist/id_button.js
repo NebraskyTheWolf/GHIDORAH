@@ -6,6 +6,13 @@ module.exports = {
         name: "id_button"
     },
     async execute(interaction, interactionUser, guild, data) {
+        if (guild.blacklisted) {
+            await interaction.reply({
+                content: 'Server blacklisted',
+                ephemeral: true
+            });
+            return;
+        }
         if (!guild.config.logging.loggingEnabled) {
             await interaction.reply({
                 content: 'Server not configurated',
@@ -61,6 +68,56 @@ module.exports = {
                                 ]
                             }
                         ]
+                    });
+
+                    generalChat.send({
+                        embeds: [embedWelcome]
+                    });
+                }
+                break;
+                case "acceptVerifyOnline": {
+                    const memberU = members.cache.get(data.userId);
+
+                    const role = server.roles.cache.get(guild.config.autorole.verified);
+                    const Rrole = server.roles.cache.get(guild.config.autorole.unverified);
+
+                    await memberU.roles.add(role); // VERIFIED ROLES
+                    await memberU.roles.remove(Rrole); // REMOVE UNVERIFIED ACCESS
+
+                    const embedWelcome = new MessageEmbed()
+                        .setTitle(`GHIDORAH - Welcome`)
+                        .setColor("ORANGE");
+                    if (guild.config.selfroles.enabled)
+                        embedWelcome.setDescription(`Welcome to ${server.name} <@${data.userId}> please don't forget to get your roles in <#${guild.config.selfroles.channelId}>\n Have fun on ${server.name}! :3 *Yap yap yap*`);
+                    else
+                        embedWelcome.setDescription(`Welcome to ${server.name} <@${data.userId}> \n Have fun on ${server.name}! :3 *Yap yap yap*`);
+
+                    interaction.update({
+                        components: [
+                            {
+                                type: 1,
+                                components: [
+                                    {
+                                        "style": 3,
+                                        "label": `Accepted.`,
+                                        "custom_id": `row_id_userAction_${data.userId}_${guild.id}_acceptVerifyOnline`,
+                                        "disabled": true,
+                                        "type": 2
+                                    },
+                                    {
+                                        "style": 4,
+                                        "label": `Deny`,
+                                        "custom_id": `row_id_userAction_${data.userId}_${guild.id}_denyVerifyOnline`,
+                                        "disabled": true,
+                                        "type": 2
+                                    }
+                                ]
+                            }
+                        ]
+                    });
+
+                    await client.Database.updateVerifyByID(data.userId, guild.id, 'verified').then((result) => {
+                        console.log(result);
                     });
 
                     generalChat.send({
@@ -138,6 +195,36 @@ module.exports = {
                                 ]
                             }
                         ]
+                    });
+                }
+                break;
+                case "denyVerifyOnline": {
+                    interaction.update({
+                        components: [
+                            {
+                                type: 1,
+                                components: [
+                                    {
+                                        "style": 4,
+                                        "label": `Accept`,
+                                        "custom_id": `row_id_userAction_${data.userId}_${guild.id}_acceptVerify`,
+                                        "disabled": true,
+                                        "type": 2
+                                    },
+                                    {
+                                        "style": 3,
+                                        "label": `Cancelled.`,
+                                        "custom_id": `row_id_userAction_${data.userId}_${guild.id}_denyVerify`,
+                                        "disabled": true,
+                                        "type": 2
+                                    }
+                                ]
+                            }
+                        ]
+                    });
+
+                    await client.Database.updateVerifyByID(data.userId, guild.id, 'denied').then((result) => {
+                        console.log(result);
                     });
                 }
                 break;

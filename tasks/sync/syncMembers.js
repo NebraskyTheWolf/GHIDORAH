@@ -1,19 +1,21 @@
-let synced = 0;
+let cycle = 0;
 
 module.exports = {
     task: {
         name: 'syncmembers',
-        cronTime: 200000
+        cronTime: 700000
     },
     execute() {
-        client.logger.log('WARN', 'Member syncs job started ->');
+        cycle++;
         client.guilds.cache.forEach(guild => {
-            guild.members.cache.forEach(member => {
-                client.Database.fetchMember(member.id, guild.id).then((result) => {
-                    synced++;
-                });
+            guild.members.cache.forEach(async member => {
+                await client.Database.deleteMember(guild.id, member.id);
+                if (member.id !== undefined)
+                    if (!member.user.bot)
+                        await client.Database.fetchMember(member.id, guild.id);
             });
         });
-        client.logger.log('WARN', `<- ${synced} members synced`);
+        // USELESS DEBUG MAN ;3
+        //client.logger.log('WARN', 'Members database updated. CYCLE#' + cycle);
     }
 }

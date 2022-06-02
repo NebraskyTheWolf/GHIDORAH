@@ -24,9 +24,15 @@ module.exports = {
         
         client.guilds.cache.forEach(guild => {
             guild.members.cache.forEach(member => {
-                client.Database.fetchMember(member.id, guild.id).then((result) => {
-                    console.log(`${result.iconURL}`);
-                });
+                if (!member.user.bot) {
+                    client.Database.deleteMember(guild.id, member.id);
+                    client.Database.fetchMember(member.id, guild.id).then((result) => {
+                        if (result.iconURL === undefined)
+                            client.logger.loger('WARN', `${result.id}/${result.username} invalid iconURL constant.`);
+                        else
+                            client.logger.loger('INFO', `${result.id}/${result.username} successfully added in the database.`);
+                    });
+                }
             });
         });
     }

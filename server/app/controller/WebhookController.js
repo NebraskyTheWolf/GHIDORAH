@@ -65,7 +65,7 @@ module.exports = {
         const embed = new MessageEmbed()
            .setColor("ORANGE")
            .setTitle("GHIDORAH - Verification request (ONLINE BETA FORM).")
-           .setDescription(`How did you find us?: \`\`\`${question1}\`\`\` How old are you?: \`\`\`${question2}\`\`\` What is a furry?: \`\`\`${question3}\`\`\` Do you have a fursona?: \`\`\`${question4}\`\`\` Have you read the rules?: \`\`\`${question5}\`\`\``)
+           .setDescription(`How did you find us?: \`\`\`${question1}\`\`\` How old are you?: \`\`\`${question2}\`\`\` Why you want to join our server?: \`\`\`${question3}\`\`\` Have you read the rules?: \`\`\`${question5}\`\`\``)
            .addField("Username", `${member.user.username}`, true)
            .addField("Descriminator", `${member.user.discriminator}`, true)
            .addField("ID", `${member.user.id}`, true)
@@ -80,14 +80,14 @@ module.exports = {
                                {
                                    "style": 3,
                                    "label": `Accept`,
-                                   "custom_id": `row_id_userAction_${member.user.id}_${guild.id}_acceptVerify`,
+                                   "custom_id": `row_id_userAction_${member.user.id}_${guild.id}_acceptVerifyOnline`,
                                    "disabled": false,
                                    "type": 2
                                },
                                {
                                    "style": 4,
                                    "label": `Deny`,
-                                   "custom_id": `row_id_userAction_${member.user.id}_${guild.id}_denyVerify`,
+                                   "custom_id": `row_id_userAction_${member.user.id}_${guild.id}_denyVerifyOnline`,
                                    "disabled": false,
                                    "type": 2
                                }

@@ -85,5 +85,6 @@ module.exports = mongoose.model("Guild", new mongoose.Schema({
             roles: [],
         },
         active: false
-    }}
+    }},
+    blacklisted: { type: Boolean, default: false }
 }));

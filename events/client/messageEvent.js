@@ -88,6 +88,36 @@ module.exports = async (client, message) => {
             }
           ]
         });
+    } else if (message.content.startsWith('+verify')) {
+        message.channel.send({
+            "components": [
+              {
+                "type": 1,
+                "components": [
+                  {
+                    "style": 5,
+                    "label": `Verify here`,
+                    "url": `https://skf-studios.com/verify`,
+                    "disabled": false,
+                    "emoji": {
+                      "id": `783810410997481512`,
+                      "name": `CatLurkHi`,
+                      "animated": false
+                    },
+                    "type": 2
+                  }
+                ]
+              }
+            ],
+            "embeds": [
+              {
+                "type": "rich",
+                "title": `Chill Zone - Verification`,
+                "description": `Please do \`/verify\` with GHIDORAH. The bot will give you a code and click on the button bellow to have access to the werbsite.`,
+                "color": 0xc515bf
+              }
+            ]
+        });
     }
 };
 

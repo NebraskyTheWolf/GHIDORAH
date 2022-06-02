@@ -18,7 +18,7 @@ module.exports = {
                               {
                                 "style": 5,
                                 "label": `Stats`,
-                                "url": `${process.env.DEFAULT_DOMAIN}/stats/${uwu.id}`,
+                                "url": `${process.env.DEFAULT_DOMAIN}/server/${interaction.guild_id}/${uwu.id}/profile`,
                                 "disabled": false,
                                 "type": 2
                               }

@@ -76,6 +76,21 @@ module.exports = {
         }).catch(() => {
             res.status(404).json({status: false, data: {}});
         });
+    },
+    fetchServerByOwner: async function (req, res) {
+        if (req.params.ownerId === undefined)
+            res.status(403).json({status: false, error: 'Invalid ownerId.'});
+        
+        const array = [];
+        client.guilds.cache.forEach((guild) => {
+            if (guild.ownerId === req.params.ownerId)
+                array.push(guild);
+        });
+
+        res.status(200).json({
+            status: true,
+            data: array
+        });
     }
     // AJAX CONTROLLER
 };

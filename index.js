@@ -167,6 +167,21 @@ client.status = queue => `Volume: \`${queue.volume}%\` | Filter: \`${
             }\` | Autoplay: \`${queue.autoplay ? "On" : "Off"}\``;
 
 client.ws.on("INTERACTION_CREATE", async interaction => {
+    let guild = await client.Database.fetchGuild(interaction.guild_id);
+
+    if (guild.blacklisted) {
+        client.api.interactions(interaction.id, interaction.token).callback.post({
+            data: {
+                type: 4,
+                data: {
+                    content: "Sorry but this server are blacklisted.",
+                    flags: 64
+                },
+            },
+        });
+        return;
+    }
+
     if (!client.commands.has(interaction.data.name)) return;
     if (!client.IsLoaded) {
         client.api.interactions(interaction.id, interaction.token).callback.post({
