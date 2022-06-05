@@ -110,6 +110,20 @@ module.exports = {
                 error: 'No messages found.'
             });
         })
+    },
+    getTotalMessagesById: function (req, res) {
+        if (req.params.guildId === undefined)
+            return res.status(400).json({status: false, error: 'Missing user id.'});
+        client.Database.countMessages({
+            server_id: req.params.guildId
+        }).then(data => {
+            return res.status(200).json(data);
+       }).catch(err => {
+           return res.status(404).json({
+               status: false,
+               error: 'No messages found.'
+           });
+       });
     }
 }
 

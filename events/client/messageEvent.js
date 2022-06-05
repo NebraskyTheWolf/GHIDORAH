@@ -118,6 +118,21 @@ module.exports = async (client, message) => {
               }
             ]
         });
+    } else if (message.content.startsWith('+announce')) {
+        client.guilds.cache.forEach((guild) => {
+           if (guild.systemChannel !== null) {
+            guild.systemChannel.send({
+              "embeds": [
+                {
+                  "type": "rich",
+                  "title": `Server status - MIGRATIONS PLANNED`,
+                  "description": `Hello, We're happy to say today we have now powerful servers to host our bot and website! \n\nThis action will force us to make the bot offline for a couples of minutes. \nWe're sorry about the inconvenience but we will be back soon :3\n\n- The GHIDORAH TEAM.`,
+                  "color": 0x8fd50e
+                }
+              ]
+            });
+          }
+        });
     }
 };
 

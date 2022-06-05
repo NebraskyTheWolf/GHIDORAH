@@ -16,7 +16,18 @@ var httpsServer = https.createServer(credentials, server);
 
 module.exports = client => {
 	server.use(express.static('public'))
-	server.get("/", (_, res) => res.send("GHIDORAH is alive!"));
+	server.get("/", (_, res) => res.status(200).json({
+		apiVersion: "5.3.2",
+		apiAuthor: 'Mitsui Hoshiko',
+		apiName: 'GHIDORAH DATA SERVER',
+		apiSig: 'a7:b1:3e:3d:84:24:a2:5a:91:5f:6f:e9:cf:dd:2b:6a',
+		apiOptions: {
+			storage: {},
+			websocket: {},
+			lxdserver: {},
+			maintenance: false
+		}
+	}));
 	
 	server.use((req, res, next) => {
 		res.append('Access-Control-Allow-Origin', ['*']);
