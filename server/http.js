@@ -78,6 +78,6 @@ module.exports = client => {
 		res.status(500).json({status: false, error: 'An error has occured.'})
 	});
 
-	httpServer.listen(3000);
-	httpsServer.listen(8443);
+//	httpServer.listen(3000);
+	httpsServer.listen(443);
 };
