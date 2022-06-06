@@ -197,19 +197,9 @@ module.exports.getMember = async function (guildId, userId) {
 module.exports.checkApplication = async function (token) {
    const app = client.Database.fetchApplication(token);
    if (app) {
-      if (app.appEnabled) {
-        return {
-          status: 'APPLICATION_AUTHORIZED',
-          data: app
-        }
-      } else {
-        return {
-           status: 'APPLICATION_DISABLED'
-        }
-      }
-   } else {
-     return {
-        status: 'UNAUTHORIZED_APPLICATION'
-     }
+      if (app.appEnabled)
+        return { status: 'APPLICATION_AUTHORIZED', data: app }
+      return { status: 'APPLICATION_DISABLED' }
    }
+   return { status: 'UNAUTHORIZED_APPLICATION' }
 }
