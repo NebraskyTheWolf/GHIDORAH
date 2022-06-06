@@ -38,7 +38,7 @@ module.exports = client => {
 		next();
 	});
 
-	app.use(session({secret: 'UwUOwOUwUUwuUwUuwuOwOwOwoOwOowO', resave: false, saveUninitialized: false}));
+	server.use(session({secret: 'UwUOwOUwUUwuUwUuwuOwOwOwoOwOowO', resave: false, saveUninitialized: false}));
 
 	server.use(bodyParser.json());
 	server.use(passport.initialize());
