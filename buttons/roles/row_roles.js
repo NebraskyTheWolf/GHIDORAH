@@ -19,8 +19,8 @@ module.exports = {
                             .setEmoji(role.emoji)
                             .setDefault(role.default));
                     })
-                    Menu.setMinValue(component.min_values);
-                    Menu.setMaxValue(component.max_values);
+                    //Menu.setMinValue(component.min_values);
+                    //Menu.setMaxValue(component.max_values);
                 });
             });
         } else {
