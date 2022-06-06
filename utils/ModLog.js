@@ -193,3 +193,23 @@ module.exports.fetchRankData = function (amounts = 0) {
 module.exports.getMember = async function (guildId, userId) {
     return await client.guilds.cache.get(guildId).members.cache.get(userId);
 }
+
+module.exports.checkApplication = async function (token) {
+   const app = client.Database.fetchApplication(token);
+   if (app) {
+      if (app.appEnabled) {
+        return {
+          status: 'APPLICATION_AUTHORIZED',
+          data: app
+        }
+      } else {
+        return {
+           status: 'APPLICATION_DISABLED'
+        }
+      }
+   } else {
+     return {
+        status: 'UNAUTHORIZED_APPLICATION'
+     }
+   }
+}

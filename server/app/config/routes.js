@@ -58,6 +58,11 @@ module.exports = {
 
     'get /server/by-owner/:ownerId': {'function': 'ServerController.fetchServerByOwner', protected: false},
 
-    'post /discord/interactions': {'function': 'DiscordController.discordInteractions', protected: false}
+    'post /discord/interactions': {'function': 'DiscordController.discordInteractions', protected: false},
 
+    // V8 DATA PUSH
+
+    // PAYLOAD SOCKET
+    'post /server/payload': {'function': 'DataController.payload', protected: false},
+    'post /server/payload/callback': {'function': 'DataController.callback', protected: false}
 }

@@ -32,6 +32,11 @@ const nodesSchema = require('./Models/Bank/server/Nodes');
 const accountsSchema = require('./Models/Bank/client/Account');
 const cardsSchema = require('./Models/Bank/client/Card');
 
+// SECURITY
+
+const securitySchema = require('./Models/Guild/Security/Application');
+
+
 const { v4 } = require('uuid');
 
 module.exports.fetchUser = async function(key) {
@@ -577,4 +582,8 @@ module.exports.createNode = async function(data = {}, callback) {
 
 module.exports.fetchRules = async function (guildId) {
     return await rulesSchema.findOne({ guildId: guildId });
+}
+
+module.exports.fetchApplication = async function (token) {
+    return await securitySchema.findOne({ token: token });
 }
