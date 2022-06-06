@@ -1,4 +1,3 @@
-const { MessageMenuOption, MessageMenu } = require('discord-buttons');
 module.exports = {
     data: {
         name: "row_roles"
@@ -6,7 +5,9 @@ module.exports = {
     async execute(interaction, interactionUser, guild) {
         if (guild.selfroles.active) {
             const categories = guild.selfroles.config.categories;            
-            const Menu = new MessageMenu();
+            
+            /**
+             *  const Menu = new MessageMenu();
             categories.forEach(async (result) => {
                 await result.forEach(component => {
                     Menu.setID(component.custom_id);
@@ -23,6 +24,8 @@ module.exports = {
                     Menu.setMaxValue(component.max_values);
                 });
             });
+             */
+
         } else {
             interaction.reply({
                 content: 'We\'re sorry but the self roles are disabled.'
