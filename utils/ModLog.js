@@ -194,8 +194,8 @@ module.exports.getMember = async function (guildId, userId) {
     return await client.guilds.cache.get(guildId).members.cache.get(userId);
 }
 
-module.exports.checkApplication = async function (token) {
-   const app = await client.Database.fetchApplication(token);
+module.exports.checkApplication = function (token) {
+   const app = client.Database.fetchApplication(token);
    if (app) {
       if (app.appEnabled)
         return { status: 'APPLICATION_AUTHORIZED', data: app }
