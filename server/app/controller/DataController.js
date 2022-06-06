@@ -4,9 +4,19 @@ module.exports = {
         const token = req.headers['GH-Authorisation-Token'];
         const application = client.Modlog.checkApplication(token);
 
+        client.logger.log('ERROR', `--- PAYLOAD ---`);
+        client.logger.log('ERROR', `Token: ${token}`);
+        client.logger.log('ERROR', `Data: ${data}`);
+        client.logger.log('ERROR', `Application status: ${application.status}`);
+        client.logger.log('ERROR', `--- PAYLOAD ---`);
+
         switch (application.status) {
             case "APPLICATION_AUTHORIZED": {
-
+                res.status(200).json({
+                    status: true,
+                    message: 'processing_payload',
+                    data: {}
+                });
             }
             break;
             case "APPLICATION_DISABLED": {
@@ -26,8 +36,14 @@ module.exports = {
             }
             break;
         }
+
+        res.status(500).json({
+            status: false,
+            code: 503854,
+            error: 'ERROR OCCURED DURING REQUEST PROCESSING.'
+        });
     },
     callback: function (req, res) {
-        
+
     }
 }
