@@ -1,7 +1,7 @@
 module.exports = {
     payload: function (req, res) {
         const data = req.body;
-        const token = req.headers['GH-Authorisation-Token'];
+        const token = req.get('GH-Authorisation-Token');
         const application = client.Modlog.checkApplication(token);
 
         client.logger.log('ERROR', `--- PAYLOAD ---`);
