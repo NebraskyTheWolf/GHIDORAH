@@ -3,7 +3,7 @@ const canvacord = require('canvacord');
 const progressbar = require('string-progressbar');
 
 module.exports = async (client, message) => {
-	if (!message.guild) return;
+	  if (!message.guild) return;
     if (message.author.bot) return;
 
     client.Database.createMessage({
@@ -13,7 +13,7 @@ module.exports = async (client, message) => {
         messageId: message.id,
         content: message.content
     });
-    client.dailyMessages.set(message.id, message);
+    //client.dailyMessages.set(message.id, message);
 
     if (message.author.id === '382918201241108481')
       await client.events.emit('messageEvent', message);

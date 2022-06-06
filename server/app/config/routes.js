@@ -64,5 +64,10 @@ module.exports = {
 
     // PAYLOAD SOCKET
     'post /server/payload': {'function': 'DataController.payload', protected: false},
-    'post /server/payload/callback': {'function': 'DataController.callback', protected: false}
+    'post /server/payload/callback': {'function': 'DataController.callback', protected: false},
+
+    // SOCIAL CALLBACK
+    'post /callback/twitch': {'function': 'SocialController.twitchCallback', protected: false},
+    'post /callback/youtube': {'function': 'SocialController.twitchCallback', protected: false},
+    'post /callback/twitter': {'function': 'SocialController.twitchCallback', protected: false}
 }

@@ -16,7 +16,7 @@ module.exports.log = async function (type, message) {
             console.log(`${prefix}${consoleColors.FgRed}${type}${consoleColors.FgBlue}] ${consoleColors.FgMagenta}${message}${consoleColors.Reset}`);
         }
         break;
-        case "CRITICAL": {
+        case "DEBUG": {
             console.log(`${prefix}${consoleColors.FgRed}${consoleColors.Blink}${type}${consoleColors.Reset}${consoleColors.FgBlue}] ${consoleColors.FgMagenta}${message}${consoleColors.Reset}`);
         }
         break;
