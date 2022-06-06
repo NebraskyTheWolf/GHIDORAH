@@ -139,33 +139,6 @@ redisClient.connect().then(() => {
     client.logger.log('WARN', 'Unable to connect to Redis server.')
 });
 
-// Distube
-const Distube = require("distube")
-const { SoundCloudPlugin } = require("@distube/soundcloud")
-const { SpotifyPlugin } = require("@distube/spotify")
-const { YouTubeDLPlugin } = require("@distube/yt-dlp")
-/* eslint new-cap: ["error", { "properties": false }] */
-client.distube = new Distube.default(client, {
-    youtubeDL: false,
-    leaveOnEmpty: true,
-    emptyCooldown: 30,
-    leaveOnFinish: false,
-    emitNewSongOnly: true,
-    updateYouTubeDL: true,
-    nsfw: true,
-    plugins: [new SoundCloudPlugin(), new SpotifyPlugin(), new YouTubeDLPlugin()]
-});
-
-client.status = queue => `Volume: \`${queue.volume}%\` | Filter: \`${
-                queue.filter || "Off"
-            }\`${
-                queue.repeatMode
-                    ? queue.repeatMode == 2
-                        ? "All Queue"
-                        : "This Song"
-                    : "Off"
-            }\` | Autoplay: \`${queue.autoplay ? "On" : "Off"}\``;
-
 client.ws.on("INTERACTION_CREATE", async interaction => {
     let guild = await client.Database.fetchGuild(interaction.guild_id);
 
