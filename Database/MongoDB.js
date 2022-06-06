@@ -12,6 +12,8 @@ const giveawaysSchema = require('./Models/Guild/Common/Giveaways');
 const factionSchema = require("./Models/Guild/Common/Faction");
 const modulesSchema = require('./Models/Guild/Common/Modules');
 const oauthSchema = require("./Models/Guild/Common/Oauth");
+const socialSchema = require("./Models/Guild/Common/Social");
+
 
 //MODERATION
 const verificationSchema = require("./Models/Guild/Moderation/Verification");
@@ -586,4 +588,34 @@ module.exports.fetchRules = async function (guildId) {
 
 module.exports.fetchApplication = async function (token) {
     return await securitySchema.findOne({ token: token });
+}
+
+// SOCIAL
+
+module.exports.createSocial = async function (id, data = {}, callback = {}) {
+    const social = await socialSchema.findOne({id: id, platform: data.platform});
+
+    if (!social) {
+        social = socialSchema({
+            id: id,
+            registeredAt: Date.now(),
+
+            platform: data.platform,
+            linked: true,
+
+            refreshToken: data.refreshToken,
+            accessToken: data.accessToken
+        });
+        await social.save().catch(err => client.logger.log('ERROR', 'Error occurred in `createSocial(a, b, v)` line #609'));
+        return social;
+    } else {
+        callback({
+            status: false,
+            error: 'Account already registered.'
+        });
+    }
+} 
+
+module.exports.getSocialById = async function (userId, platform = 'twitch') {
+    return await socialSchema.findOne({id: userId, platform: platform});
 }

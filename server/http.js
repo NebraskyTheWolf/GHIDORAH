@@ -1,6 +1,7 @@
 const express = require("express");
 const server = express();
 const bodyParser = require("body-parser");
+const passport = require('passport');
 
 const fs = require("fs");
 
@@ -37,6 +38,8 @@ module.exports = client => {
 	});
 
 	server.use(bodyParser.json());
+	server.use(passport.initialize());
+	server.use(passport.session());
 
 	// configured
 	var routes = require('./app/config/routes')

@@ -69,5 +69,8 @@ module.exports = {
     // SOCIAL CALLBACK
     'post /callback/twitch': {'function': 'SocialController.twitchCallback', protected: false},
     'post /callback/youtube': {'function': 'SocialController.twitchCallback', protected: false},
-    'post /callback/twitter': {'function': 'SocialController.twitchCallback', protected: false}
+    'post /callback/twitter': {'function': 'SocialController.twitchCallback', protected: false},
+
+    // SOCIAL CALL
+    'get /auth/twitch/:userId': {'function': 'TwitchController.login', protected: false},
 }
