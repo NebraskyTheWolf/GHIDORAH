@@ -1,6 +1,5 @@
-const channel = client.guilds.cache.get('917714328327692338').channels.cache.get('984100098487230504');
-
 module.exports = (client) => {
+    const channel = client.guilds.cache.get('917714328327692338').channels.cache.get('984100098487230504');
     let errorId = 0;
     process.on("unhandledRejection", async (reason, p) => {
         errorId++;
