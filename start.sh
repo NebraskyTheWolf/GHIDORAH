@@ -37,6 +37,8 @@ export TWITCH_SECRET="5x7ut5vl43l9wryc3161yiqtwn0l92"
 
 export RANK_MULTIPLIER=4
 
+export XP_BOOST=5
+
 echo "Pulling changes..."
 echo "/!\\ Manual password entry needed. >>"
 

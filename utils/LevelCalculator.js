@@ -1,5 +1,5 @@
 module.exports.calculate = async function (data = {}, value = 0, result = {}) {
-    let booster = proccess.env.XP_BOOST;
+    let booster = process.env.XP_BOOST;
 
     const userProfile = client.Database.fetchUser(data.userId);
     let messagesCount = client.Database.countMessages(
