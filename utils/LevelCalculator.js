@@ -6,9 +6,9 @@ module.exports.calculate = async function (data = {}, value = 0, result = {}) {
         data.server_id,
         data.userId,
     );
-    let moneyCount = userProfile.stats.money;
-    let claimsCount = userProfile.stats.kills;
-    let eventsCount = userProfile.stats.wins;
+    let moneyCount = 0;
+    let claimsCount = 0;
+    let eventsCount = 0;
 
     if (messagesCount < 250)
         value += 0.5;
