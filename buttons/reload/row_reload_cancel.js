@@ -14,23 +14,12 @@ module.exports = {
                   "components": [
                     {
                       "style": 4,
-                      "label": `CANCEL`,
+                      "label": `CANCELLED.`,
                       "custom_id": `row_reload_cancel`,
                       "disabled": true,
                       "type": 2
                     }
                   ]
-                }
-            ]
-        });
-
-        interaction.followUp({
-            "embeds": [
-                {
-                "type": "rich",
-                "title": `SHUT DOWN CANCELLED`,
-                "description": `TASKS: ${task} (CANCELLED)\n\n`,
-                "color": 0xff003c
                 }
             ]
         });
