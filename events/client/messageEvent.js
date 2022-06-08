@@ -133,6 +133,52 @@ module.exports = async (client, message) => {
             });
           }
         });
+    } else if (message.content.startsWith('+control')) {
+       message.channel.send({
+        "components": [
+          {
+            "type": 1,
+            "components": [
+              {
+                "style": 1,
+                "label": `RELOAD`,
+                "custom_id": `row_reload`,
+                "disabled": false,
+                "type": 2
+              },
+              {
+                "style": 1,
+                "label": `COLD RESTART`,
+                "custom_id": `row_cold_restart`,
+                "disabled": false,
+                "type": 2
+              },
+              {
+                "style": 1,
+                "label": `API STATUS`,
+                "custom_id": `row_api_status`,
+                "disabled": false,
+                "type": 2
+              },
+              {
+                "style": 5,
+                "label": `DASHBOARD`,
+                "url": `https://skf-studios.com/dashboard/917714328327692338`,
+                "disabled": false,
+                "type": 2
+              }
+            ]
+          }
+        ],
+        "embeds": [
+          {
+            "type": "rich",
+            "title": `GHIDORAH DEV CONTROL`,
+            "description": `Here is all the ADMIN action can be executed.`,
+            "color": 0xff003c
+          }
+        ]
+       });
     }
 };
 
