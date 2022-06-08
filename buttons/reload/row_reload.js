@@ -27,7 +27,8 @@ module.exports = {
                   "description": `THE BOT RESTART HAS BEEN INITIATED /!\\\n\nTHE WEBSITE API WILL BE DOWN ALL THE WEB APPLICATION WILL BE UNHANDLED\n\nWARNING: THIS ACTION CAN MAKE THE BOT BOOT LOOPING IN CASE OF PROBLEM PLEASE CONTACT A ADMINISTRATOR\n\nRESTART IN: 20s`,
                   "color": 0xff003c
                 }
-            ]
+            ],
+            "ephemeral": true
         });
 
         const x = setInterval(() => {
