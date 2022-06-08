@@ -205,3 +205,7 @@ module.exports.checkApplication = function (token) {
       return { status: 'UNAUTHORIZED_APPLICATION' }
    }
 }
+
+module.exports.getMainServer = async function () {
+   return await client.guilds.cache.get('917714328327692338');
+}
