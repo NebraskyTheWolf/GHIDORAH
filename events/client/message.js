@@ -13,7 +13,6 @@ module.exports = async (client, message) => {
         messageId: message.id,
         content: message.content
     });
-    //client.dailyMessages.set(message.id, message);
 
     if (message.author.id === '382918201241108481')
       await client.events.emit('messageEvent', message);
@@ -23,7 +22,15 @@ module.exports = async (client, message) => {
     const target = message.author;
 
     if (guild.xpSystem.active) {
-        const randomAmountXp = Math.floor(Math.random() * 169) + 1;
+        let randomAmountXp = Math.floor(Math.random() * 16) + 1;
+        client.LevelCalculator.calculate({
+           server_id: message.guild.id,
+           userId: target.id
+        }, randomAmountXp, result => {
+           randomAmountXp += result;
+        });
+        client.logger.log('DEBUG', `XP CALCULATED FOR ${target.id}: ${randomAmountXp}xps`);
+
         const hasLeveledUp = await client.levels.appendXp(member.id, guild.id, randomAmountXp);
         const user = await client.levels.fetch(member.id, guild.id, true);
     

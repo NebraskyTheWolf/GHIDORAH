@@ -56,11 +56,15 @@ module.exports = {
             res.status(403).json({status: false, error: 'Invalid guildId or userid.'});
         
         const user = await client.levels.fetch(req.params.userid, req.params.guildId, true);
-        res.status(200).json({status: true, data: user, extra: {
-            position: user.position,
-            rank: client.Modlog.fetchRankData(user.xp),
-            requiredXp: client.levels.xpFor(user.level + 1)
-        }});
+        if (user) {
+            res.status(200).json({status: true, data: user, extra: {
+                position: user.position,
+                rank: client.Modlog.fetchRankData(user.xp),
+                requiredXp: client.levels.xpFor(user.level + 1)
+            }});
+        } else {
+            res.status(404).json({status: false, data: { enabled: false }});
+        }
     },
     getUsernameByID: async function (req, res) {
         if (req.params.userid === undefined || req.params.guildId === undefined)

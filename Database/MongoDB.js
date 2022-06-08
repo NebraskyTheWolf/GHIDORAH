@@ -401,8 +401,10 @@ module.exports.createMessage = async function (data) {
 module.exports.countMessages = async function (options = {}) {
     if (options.server_id)
         return await messagesSchema.find({  guild: options.server_id  });
-    else
-        return await messagesSchema.find({    });
+    else if (options.server_id && options.userId)
+        return await messagesSchema.find({  guild: options.server_id, id: options.userId }).count();
+    else 
+        return await messagesSchema.find({  });
 }
 
 module.exports.fetchMessage = async function (messageId) {

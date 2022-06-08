@@ -23,6 +23,8 @@ const ROOMManager = require('./utils/MovieRoom');
 
 const func = require('./utils/function');
 
+const LevelCalculator = require('./utils/LevelCalculator');
+
 const IsLoaded = false;
 const IsDebug = process.env.DEBUG;
 
@@ -115,6 +117,8 @@ client.globalLvL = new Collection();
 client.globalXp = new Collection();
 
 client.cancellableTasks = new Collection();
+
+client.LevelCalculator = LevelCalculator;
 
 function createOrSet(array, key, value) {
     if (array[key] !== undefined)
