@@ -114,6 +114,8 @@ client.dailyMessages = new Collection();
 client.globalLvL = new Collection();
 client.globalXp = new Collection();
 
+client.cancellableTasks = new Collection();
+
 function createOrSet(array, key, value) {
     if (array[key] !== undefined)
         array[key].push(value);
