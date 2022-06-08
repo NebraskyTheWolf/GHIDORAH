@@ -19,6 +19,7 @@
 		"body-parser": "^1.20.0",
 		"canvacord": "^5.2.3",
 		"canvas": "^2.9.1",
+		"console-ui": "^3.1.2",
 		"cryptr": "^6.0.2",
 		"discord-banner": "^1.6.7",
 		"discord-bitfield-calculator": "^1.0.0",

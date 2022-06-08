@@ -353,7 +353,6 @@ module.exports.remotes = async function (callback) {
         .catch(error => callback({status: false, data: error}));
 }
 
-
 module.exports.local = async function (callback) {
     await lxc.local('lxc list')
         .then(response => callback({status: true, data: response}))

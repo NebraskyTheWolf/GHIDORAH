@@ -617,5 +617,13 @@ module.exports.createSocial = async function (id, data = {}, callback = {}) {
 } 
 
 module.exports.getSocialById = async function (userId, platform = 'twitch') {
-    return await socialSchema.findOne({id: userId, platform: platform});
+    return await socialSchema.findOne({ id: userId, platform: platform, linked: true });
+}
+
+module.exports.updateSocial = async function (userId, platform = 'twitch', data = {}) {
+    return await socialSchema.updateOne({ id: userId, platform: platform, linked: false }, { 
+        linked: data.linked,
+        refreshToken: data.refreshToken,
+        accessToken: data.accessToken
+    }, { upsert: false });
 }
