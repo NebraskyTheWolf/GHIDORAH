@@ -59,11 +59,18 @@ module.exports = {
         if (user) {
             res.status(200).json({status: true, data: user, extra: {
                 position: user.position,
-                rank: client.Modlog.fetchRankData(user.xp),
+                rank: (client.Modlog.fetchRankData(user.xp) === null ? 'Error' : client.Modlog.fetchRankData(user.xp)),
                 requiredXp: client.levels.xpFor(user.level + 1)
             }});
         } else {
-            res.status(404).json({status: false, data: { enabled: false }});
+            res.status(200).json({status: true, data: {
+                xp: 0,
+                level: 0,
+            }, extra: {
+                position: 0,
+                rank: 'unranked',
+                requiredXp: 400
+            }});
         }
     },
     getUsernameByID: async function (req, res) {
