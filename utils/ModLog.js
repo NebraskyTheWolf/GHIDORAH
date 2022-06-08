@@ -206,6 +206,6 @@ module.exports.checkApplication = function (token) {
    }
 }
 
-module.exports.getMainServer = async function () {
-   return await client.guilds.cache.get('917714328327692338');
+module.exports.getMainServer = function () {
+   return client.guilds.cache.get('917714328327692338');
 }

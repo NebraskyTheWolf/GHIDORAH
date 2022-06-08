@@ -1,5 +1,4 @@
-const channel = client.Modlog.getMainServer()
-      .channels.cache.get('984100098487230504');
+const channel = client.guilds.cache.get('917714328327692338').channels.cache.get('984100098487230504');
 
 module.exports = (client) => {
     let errorId = 0;
