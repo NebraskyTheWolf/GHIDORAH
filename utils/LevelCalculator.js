@@ -35,6 +35,8 @@ module.exports.calculate = async function (data = {}, value = 0, result = {}) {
 
     if (eventsCount >= 1)
         value += eventsCount * 350;
+
+    let finalXp = value %= booster * 0.002;
     
-    result(value %= booster * 0.002);
+    result({ finalXp: finalXp });
 }
