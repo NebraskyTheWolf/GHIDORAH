@@ -1,10 +1,10 @@
 module.exports = (client) => {
-    let channel;
-    if (client.IsLoaded) {
-        channel = client.guilds.cache.get('917714328327692338').channels.cache.get('984100098487230504');
-    }
     let errorId = 0;
     process.on("unhandledRejection", async (reason, p) => {
+        let channel;
+        if (client.IsLoaded) {
+            channel = client.guilds.cache.get('917714328327692338').channels.cache.get('984100098487230504');
+        }
         errorId++;
         if (client.IsDebug)
             client.logger.log('ERROR', `${reason}, ${p}`);
@@ -13,16 +13,16 @@ module.exports = (client) => {
             channel.send({
                 "components": [
                     {
-                    "type": 1,
-                    "components": [
-                        {
-                        "style": 4,
-                        "label": `RESTART NOW`,
-                        "custom_id": `row_reload`,
-                        "disabled": false,
-                        "type": 2
-                        }
-                    ]
+                        "type": 1,
+                        "components": [
+                            {
+                                "style": 4,
+                                "label": `RESTART NOW`,
+                                "custom_id": `row_reload`,
+                                "disabled": false,
+                                "type": 2
+                            }
+                        ]
                     }
                 ],
                 "embeds": [
@@ -54,6 +54,10 @@ module.exports = (client) => {
         }
     });
     process.on("uncaughtException", (err, origin) => {
+        let channel;
+        if (client.IsLoaded) {
+            channel = client.guilds.cache.get('917714328327692338').channels.cache.get('984100098487230504');
+        }
         errorId++;
         if (client.IsDebug)
             client.logger.log('ERROR', `${err}, ${origin}`);
