@@ -23,7 +23,7 @@ module.exports = async (client, message) => {
 
     if (guild.xpSystem.active) {
         let randomAmountXp = Math.floor(Math.random() * 16) + 1;
-        client.LevelCalculator.calculate({
+        client.LevelCalculator.calculate(client, {
            server_id: message.guild.id,
            userId: target.id
         }, randomAmountXp, result => randomAmountXp += result.finalXp);

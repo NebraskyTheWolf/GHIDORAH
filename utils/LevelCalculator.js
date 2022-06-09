@@ -1,6 +1,4 @@
-const { client } = require("tmi.js");
-
-module.exports.calculate = async function (data = {}, value = 0, result = {}) {
+module.exports.calculate = async function (client, data = {}, value = 0, result = {}) {
     let booster = process.env.XP_BOOST;
 
     const userProfile = client.Database.fetchUser(data.userId);
