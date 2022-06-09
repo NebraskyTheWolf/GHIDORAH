@@ -163,7 +163,9 @@ module.exports.sendMessage = function(content = "", embeds = [], components = []
 module.exports.fetchRankData = function (amounts = 0) {
     const multiplier = process.env.RANK_MULTIPLIER;
 
-    if (amounts > 0 && amounts < 1100 * multiplier) {
+    if (amounts < 0) {
+        return { name: 'Unranked', iconPath: `${process.env.ASSETS_FOLDER}/rank/unranked.png`};
+    } else if (amounts > 0 && amounts < 1100 * multiplier) {
         return { name: 'Rookie', iconPath: `${process.env.ASSETS_FOLDER}/rank/rookie.png`};
     } else if (amounts >= (1100 * multiplier) && amounts <= (2400 * multiplier)) {
         return { name: 'Bronze', iconPath: `${process.env.ASSETS_FOLDER}/rank/bronze.png`};
