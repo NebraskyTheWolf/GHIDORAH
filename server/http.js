@@ -27,7 +27,7 @@ module.exports = client => {
 			storage: {},
 			websocket: {},
 			lxdserver: {},
-			maintenance: false
+			maintenance: true
 		}
 	}));
 	
