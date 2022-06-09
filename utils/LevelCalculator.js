@@ -36,8 +36,6 @@ module.exports.calculate = async function (client, data = {}, value) {
         value += eventsCount * 350;
 
     let finalXp = value *= booster;
-
-    client.logger.log('WARN', `DEBUG XP ${data.userId}: ${finalXp}`)
-    
+        
     return finalXp;
 }

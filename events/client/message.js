@@ -22,12 +22,11 @@ module.exports = async (client, message) => {
     const target = message.author;
 
     if (guild.xpSystem.active) {
-        let randomAmountXp = 10;
+        let randomAmountXp = Math.floor(Math.random() * 10) + 1;
         randomAmountXp += client.LevelCalculator.calculate(client, {
            server_id: message.guild.id,
            userId: target.id
         }, randomAmountXp);
-        client.logger.log('INFO', `XP CALCULATED FOR ${target.id}: ${randomAmountXp}xps`);
 
         const hasLeveledUp = await client.levels.appendXp(member.id, guild.id, randomAmountXp);
         const user = await client.levels.fetch(member.id, guild.id, true);
