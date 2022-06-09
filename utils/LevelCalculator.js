@@ -1,3 +1,5 @@
+const { client } = require("tmi.js");
+
 module.exports.calculate = async function (data = {}, value = 0, result = {}) {
     let booster = process.env.XP_BOOST;
 
@@ -37,6 +39,8 @@ module.exports.calculate = async function (data = {}, value = 0, result = {}) {
         value += eventsCount * 350;
 
     let finalXp = value *= booster;
+
+    client.logger.log('WARN', `DEBUG XP ${data.userId}: ${finalXp}`)
     
     result({ finalXp: finalXp });
 }
