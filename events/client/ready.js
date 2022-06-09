@@ -123,6 +123,8 @@ module.exports = async client => {
 			),
 		15000
 	);
+
+	require('../../twitch/twitch')(client);
 	
 	client.IsLoaded = true;
 	client.logger.log('INFO', 'Initialization phase finished.');

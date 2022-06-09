@@ -9,9 +9,8 @@ const ui = new UI({
 });
 ui.writeLevelVisible('DEBUG' || 'INFO' || 'WARNING' || 'ERROR');
 
-const prefix = `${consoleColors.FgBlue}[${consoleColors.FgCyan}GHIDORAH - ${consoleColors.Reset}`
-
-module.exports.log = async function (type, message) {
+const prefix = `${consoleColors.FgBlue}[${consoleColors.FgCyan}GHIDORAH - ${consoleColors.Reset}`;
+module.exports.log = async function (type = 'INFO', message = '') {
     switch (type) {
         case "startProgress": {
             ui.startProgress(message);

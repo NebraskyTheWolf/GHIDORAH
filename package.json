@@ -14,6 +14,7 @@
 	"license": "MIT",
 	"dependencies": {
 		"@napi-rs/canvas": "^0.1.21",
+		"ascii-table": "^0.0.9",
 		"better-sqlite3": "^7.5.1",
 		"blapi": "^2.2.2",
 		"body-parser": "^1.20.0",
@@ -52,6 +53,7 @@
 		"request": "^2.88.2",
 		"string-progressbar": "^1.0.4",
 		"superagent": "^7.1.1",
+		"tmi.js": "^1.8.5",
 		"topgg-autoposter": "^2.0.1",
 		"twemoji-parser": "^14.0.0",
 		"urban": "^0.3.4",

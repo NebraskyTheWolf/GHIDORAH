@@ -69,6 +69,9 @@ client.logger = Logger;
 
 client.commands = new Collection();
 client.slcommands = new Collection();
+
+client.twitchCommands = new Collection();
+
 client.aliases = new Collection();
 client.emotes = emojis;
 client.colors = client.config.colors;
