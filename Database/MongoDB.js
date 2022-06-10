@@ -107,7 +107,7 @@ module.exports.fetchMember = async function(userID, guildID) {
                 id: userID,
                 guildID: guildID,
                 registeredAt: Date.now(),
-                iconURL: user.avatarURL(),
+                iconURL: (user.avatarURL() === null ? 'https://cdn.discordapp.com/attachments/973889644401930240/982491991260680292/blank-profile-picture-973460__340.webp' : user.avatarURL()),
                 username: user.username
             });
             await member.save().catch(err => console.error(err));
@@ -122,7 +122,7 @@ module.exports.updateMember = async function(userID, guildID) {
             id: userID,
             guildID: guildID,
             registeredAt: Date.now(),
-            iconURL: user.avatarURL(),
+            iconURL: (user.avatarURL() === null ? 'https://cdn.discordapp.com/attachments/973889644401930240/982491991260680292/blank-profile-picture-973460__340.webp' : user.avatarURL()),
             username: user.username
         }, { upsert: true});
     });

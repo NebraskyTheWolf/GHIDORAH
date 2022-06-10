@@ -4,17 +4,17 @@ module.exports = {
         const token = req.get('GH-Authorisation-Token');
         const application = client.Database.fetchApplication(token);
 
-        client.logger.log('ERROR', `--- PAYLOAD ---`);
+        client.logger.log('DEBUG', `--- PAYLOAD ---`);
         if (token)
-             client.logger.log('ERROR', `[+] Token: ${token}`);
-        else client.logger.log('ERROR', `[-] Token not set.`);
-        if (data) 
-             client.logger.log('ERROR', `[+] Data key: ${data.key}`);
-        else client.logger.log('ERROR', `[-] Data not set.`);
+             client.logger.log('DEBUG', `[+] Token: ${token}`);
+        else client.logger.log('DEBUG', `[-] Token not set.`);
+        if (data.key) 
+             client.logger.log('DEBUG', `[+] Data key: ${data.key}`);
+        else client.logger.log('DEBUG', `[-] Data not set.`);
         if (application)
-             client.logger.log('ERROR', `[+] Application name: ${application.appName}`);
-        else client.logger.log('ERROR', `[-] Invalid token.`);
-        client.logger.log('ERROR', `--- PAYLOAD ---`);
+             client.logger.log('DEBUG', `[+] Application name: ${application.appName}`);
+        else client.logger.log('DEBUG', `[-] Invalid token.`);
+        client.logger.log('DEBUG', `--- PAYLOAD ---`);
 
         if (application) {
             if (application.appEnabled) {

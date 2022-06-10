@@ -11,7 +11,7 @@ module.exports = {
         client.Database.fetchGuild(req.params.guildId).then((guild) => {
             res.status(200).json({status: true, data: guild});
         }).catch((err) => {
-            res.status(404).json({status: false, error: 'Server not found.'});
+            res.status(404).json({status: false, data: {}});
         });
     },
     getServerMembers: function (req, res) {
@@ -20,14 +20,18 @@ module.exports = {
 
         client.Database.fetchAllMember(req.params.guildId).then(members => {
             res.status(200).json({status: true, data: members});
-        });
+        }).catch(() => {
+            res.status(404).json({status: false, data: {}});
+        })
     },
     getServerConfig: function (req, res) {
         if (req.params.guildId === undefined)
             res.status(403).json({status: false, error: 'Invalid guildId or undefined.'});
         const guild = client.guilds.cache.get(req.params.guildId);
-
-        res.status(200).json({status: true, data: guild});
+        if (guild)
+            res.status(200).json({status: true, data: guild});
+        else
+            res.status(404).json({status: false, data: {}});
     },
     fetchServers: function (req, res) {
         const array = [];
@@ -35,10 +39,16 @@ module.exports = {
             array.push(guild);
         });
 
-        res.status(200).json({
-            status: true,
-            data: array
-        });
+        if (array)
+            res.status(200).json({
+                status: true,
+                data: array
+            });
+        else
+            res.status(404).json({
+                status: false,
+                data: []
+            });
     },
     fetchLeaderboard: function (req, res) {
         if (req.params.guildId === undefined)
@@ -77,7 +87,10 @@ module.exports = {
         if (req.params.userid === undefined || req.params.guildId === undefined)
             res.status(403).json({status: false, error: 'Invalid userid or undefined.'});
         const uwu = await client.Database.fetchMember(req.params.userid, req.params.guildId);
-        res.status(200).json({status: true, username: uwu.username, iconURL: uwu.iconURL});
+        if (uwu)
+            res.status(200).json({status: true, username: uwu.username, iconURL: uwu.iconURL});
+        else
+            res.status(404).json({status: false, data: {}});
     },
     fetchRules: async function (req, res) {
         if (req.params.guildId === undefined)
@@ -98,10 +111,16 @@ module.exports = {
                 array.push(guild);
         });
 
-        res.status(200).json({
-            status: true,
-            data: array
-        });
+        if (array)
+            res.status(200).json({
+                status: true,
+                data: array
+            });
+        else
+            res.status(404).json({
+                status: true,
+                data: []
+            });
     }
     // AJAX CONTROLLER
 };

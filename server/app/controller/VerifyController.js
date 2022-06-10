@@ -32,13 +32,19 @@ module.exports = {
         if (req.params.id === undefined)
             return res.status(400).json({status: false, error: 'Missing user id or data object.'});
         let result = client.Database.updateVerify(req.params.id);
-        res.status(200).json({status: true, data: result});
+        if (result)
+            res.status(200).json({status: true, data: result});
+        else
+            res.status(404).json({status: false, data: {}});
     },
     updateData: function (req, res) {
         if (req.params.id === undefined)
             return res.status(400).json({status: false, error: 'Missing user id or data object.'});
         
         let result = client.Database.updateVerifyData(req.body.id, req.params.guild, req.body.data);
-        res.status(200).json({status: true, data: result});
+        if (result)
+            res.status(200).json({status: true, data: result});
+        else
+            res.status(404).json({status: false, data: {}});
     },
 }
