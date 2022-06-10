@@ -16,25 +16,33 @@ module.exports = {
         else client.logger.log('DEBUG', `[-] Invalid token.`);
         client.logger.log('DEBUG', `--- PAYLOAD ---`);
 
-        if (application) {
-            if (application.appEnabled) {
-                res.status(200).json({
-                    status: true,
-                    message: 'processing_payload',
-                    data: {}
-                });
+        if (token) {
+            if (application) {
+                if (application.appEnabled) {
+                    res.status(200).json({
+                        status: true,
+                        message: 'processing_payload',
+                        data: {}
+                    });
+                } else {
+                    res.status(401).json({
+                        status: false,
+                        code: 421035,
+                        error: 'APPLICATION_DISABLED'
+                    });
+                }
             } else {
-                res.status(401).json({
+                res.status(403).json({
                     status: false,
-                    code: 421035,
-                    error: 'APPLICATION DISABLED'
+                    code: 403254,
+                    error: 'INVALID_PROVIDED_TOKEN'
                 });
             }
         } else {
             res.status(403).json({
                 status: false,
                 code: 403254,
-                error: 'INVALID PROVIDED TOKEN'
+                error: 'UNAUTHORISED_TOKEN'
             });
         }
     },
