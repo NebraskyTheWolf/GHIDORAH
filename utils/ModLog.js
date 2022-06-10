@@ -220,9 +220,9 @@ module.exports.generateApplication = function () {
         issuer: 'Mitsui Hoshiko'
     }, result => {
         if (result.status) {
-            client.logger.log('DEBUG', `${result.data.appName} | LOGIN INFORMATIONS { accessToken: ${result.data.auth.accessToken}, refreshToken: ${result.data.auth.refreshToken}, token: ${result.data.token}}`)
+            client.logger.log('WARN', `${result.data.appName} | LOGIN INFORMATIONS { accessToken: ${result.data.auth.accessToken}, refreshToken: ${result.data.auth.refreshToken}, token: ${result.data.token}}`)
         } else {
-            client.logger.log('DEBUG', `${result.data.appName} already registered.`)
+            client.logger.log('WARN', `${result.data.appName} already registered.`)
         }
     });
 
@@ -233,9 +233,9 @@ module.exports.generateApplication = function () {
         issuer: 'Mitsui Hoshiko'
     }, result => {
         if (result.status) {
-            client.logger.log('DEBUG', `${result.data.appName} | LOGIN INFORMATIONS { accessToken: ${result.data.auth.accessToken}, refreshToken: ${result.data.auth.refreshToken}, token: ${result.data.token}}`)
+            client.logger.log('WARN', `${result.data.appName} | LOGIN INFORMATIONS { accessToken: ${result.data.auth.accessToken}, refreshToken: ${result.data.auth.refreshToken}, token: ${result.data.token}}`)
         } else {
-            client.logger.log('DEBUG', `${result.data.appName} already registered.`)
+            client.logger.log('WARN', `${result.data.appName} already registered.`)
         }
     });
 
@@ -246,9 +246,9 @@ module.exports.generateApplication = function () {
         issuer: 'Mitsui Hoshiko'
     }, result => {
         if (result.status) {
-            client.logger.log('DEBUG', `${result.data.appName} | LOGIN INFORMATIONS { accessToken: ${result.data.auth.accessToken}, refreshToken: ${result.data.auth.refreshToken}, token: ${result.data.token}}`)
+            client.logger.log('WARN', `${result.data.appName} | LOGIN INFORMATIONS { accessToken: ${result.data.auth.accessToken}, refreshToken: ${result.data.auth.refreshToken}, token: ${result.data.token}}`)
         } else {
-            client.logger.log('DEBUG', `${result.data.appName} already registered.`)
+            client.logger.log('WARN', `${result.data.appName} already registered.`)
         }
     });
 }
