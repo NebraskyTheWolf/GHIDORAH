@@ -25,11 +25,14 @@ module.exports = async (client, message) => {
     if (guild.xpSystem.active) {
         const value = client.LevelCalculator.calculate(client, {
           server_id: message.guild.id,
-          userId: target.id
+          userId: member.id
         }, 100);
-        let randomAmountXp = Math.floor(Math.random() * 100) + 1;
-        const hasLeveledUp = await client.levels.appendXp(member.id, guild.id, randomAmountXp + value);
+        const randomAmountXp = Math.floor(Math.random() * 100) + 1 + value;
+        const hasLeveledUp = await client.levels.appendXp(member.id, guild.id, randomAmountXp);
         const user = await client.levels.fetch(member.id, guild.id, true);
+
+        const debug = `DEBUG: ${guild.id}: ${member.id} | XP: ${randomAmountXp} | LEVEL: ${user.level} | XPALT: ${guild.xpSystem.config.alertChannel}`;
+        client.logger.log('WARN', debug);
     
         if (hasLeveledUp) {
             const channel = client.guilds.cache.get(guild.id).channels.cache.get(guild.xpSystem.config.alertChannel);
