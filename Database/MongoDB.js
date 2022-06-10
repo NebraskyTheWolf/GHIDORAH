@@ -663,7 +663,7 @@ module.exports.updateSocial = async function (userId, platform = 'twitch', data 
 module.exports.payloadRequest = async function (payload = {},
                                                 authentication = {}, 
                                                 callback = {}) {
-    const payload = payloadSchema({
+    const payloads = payloadSchema({
         payloadId: v4(),
         payloadKey: payload.key,
         payloadExpiration: payload.expiration,
@@ -674,7 +674,7 @@ module.exports.payloadRequest = async function (payload = {},
 
         payloadData: payload.data
     });
-    payload.save().then(() => {
+    payloads.save().then(() => {
         callback({status: true, data: payload});
     }).catch(() => {
         callback({status: false, data: {}});
