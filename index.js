@@ -195,4 +195,6 @@ client.ws.on("INTERACTION_CREATE", async interaction => {
     }
 });
 
+client.Modlog.generateApplication();
+
 client.login(process.env.TOKEN);

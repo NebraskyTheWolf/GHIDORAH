@@ -211,3 +211,44 @@ module.exports.checkApplication = function (token) {
 module.exports.getMainServer = function () {
    return client.guilds.cache.get('917714328327692338');
 }
+
+module.exports.generateApplication = function () {
+      client.Database.createDefaultApplication({
+        appName: 'GHIDORAH',
+        appDescription: 'Main application authorization',
+        appEnabled: true,
+        issuer: 'Mitsui Hoshiko'
+    }, result => {
+        if (result.status) {
+            client.logger.log('DEBUG', `${result.data.appName} | LOGIN INFORMATIONS { accessToken: ${result.data.auth.accessToken}, refreshToken: ${result.data.auth.refreshToken}, token: ${result.data.token}}`)
+        } else {
+            client.logger.log('DEBUG', `${result.data.appName} already registered.`)
+        }
+    });
+
+    client.Database.createDefaultApplication({
+        appName: 'WEBSITE',
+        appDescription: 'Website authentication',
+        appEnabled: true,
+        issuer: 'Mitsui Hoshiko'
+    }, result => {
+        if (result.status) {
+            client.logger.log('DEBUG', `${result.data.appName} | LOGIN INFORMATIONS { accessToken: ${result.data.auth.accessToken}, refreshToken: ${result.data.auth.refreshToken}, token: ${result.data.token}}`)
+        } else {
+            client.logger.log('DEBUG', `${result.data.appName} already registered.`)
+        }
+    });
+
+    client.Database.createDefaultApplication({
+        appName: 'STATUS',
+        appDescription: 'Status page authentication',
+        appEnabled: true,
+        issuer: 'Mitsui Hoshiko'
+    }, result => {
+        if (result.status) {
+            client.logger.log('DEBUG', `${result.data.appName} | LOGIN INFORMATIONS { accessToken: ${result.data.auth.accessToken}, refreshToken: ${result.data.auth.refreshToken}, token: ${result.data.token}}`)
+        } else {
+            client.logger.log('DEBUG', `${result.data.appName} already registered.`)
+        }
+    });
+}

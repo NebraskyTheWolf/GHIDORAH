@@ -37,9 +37,11 @@ const cardsSchema = require('./Models/Bank/client/Card');
 // SECURITY
 
 const securitySchema = require('./Models/Guild/Security/Application');
+const payloadSchema = require('./Models/Guild/Security/Payload/Payload');
 
 
 const { v4 } = require('uuid');
+const { client } = require('tmi.js');
 
 module.exports.fetchUser = async function(key) {
     let userDB = await userSchema.findOne({ id: key });
@@ -592,6 +594,34 @@ module.exports.fetchApplication = async function (token) {
     return await securitySchema.findOne({ token: token });
 }
 
+module.exports.createDefaultApplication = async function (data = {}, callback = {}) {
+    let application = await securitySchema.findOne({ appName: data.appName });
+
+    if (application) {
+        return application;
+    } else {
+        application = securitySchema({
+            appName: data.appName,
+            appDescription: data.appDescription, 
+            appEnabled: data.appEnabled,
+            token: v4(),
+
+            auth: {
+                accessToken: v4(),
+                refreshToken: v4(),
+                issuer: data.issuer
+            },
+
+            registeredAt: Date.now()
+        });
+        application.save().then(() => {
+            callback({status: true, data: application})
+        }).catch(() => {
+            callback({status: false, data: {}})
+        });
+    }
+}
+
 // SOCIAL
 
 module.exports.createSocial = async function (id, data = {}, callback = {}) {
@@ -629,3 +659,25 @@ module.exports.updateSocial = async function (userId, platform = 'twitch', data 
         accessToken: data.accessToken
     }, { upsert: false });
 }
+
+module.exports.payloadRequest = async function (payload = {},
+                                                authentication = {}, 
+                                                callback = {}) {
+    const payload = payloadSchema({
+        payloadId: v4(),
+        payloadKey: payload.key,
+        payloadExpiration: payload.expiration,
+
+        accessToken: authentication.accessToken,
+        refreshToken: authentication.refreshToken,
+        registeredAt: Date.now(),
+
+        payloadData: payload.data
+    });
+    payload.save().then(() => {
+        callback({status: true, data: payload});
+    }).catch(() => {
+        callback({status: false, data: {}});
+    });
+}
+
