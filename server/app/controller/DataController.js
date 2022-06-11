@@ -26,6 +26,7 @@ module.exports = {
                     });
                 }
             }).catch(err => {
+                console.log(err)
                 res.status(403).json({
                     status: false,
                     code: 403254,
@@ -41,7 +42,5 @@ module.exports = {
             });
         }
     },
-    callback: function (req, res) {
-
-    }
+    callback: function (req, res) {  }
 }
