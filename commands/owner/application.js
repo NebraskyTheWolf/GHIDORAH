@@ -2,17 +2,17 @@ const Discord = require("discord.js");
 const { v4 } = require('uuid');
 
 module.exports = {
-    name: "applications",
+    name: "createapp",
     description: "Manage application auth",
     commandOptions: [
         {
             "type": 3,
-            "name": "appName",
+            "name": "appname",
             "required": true
         },
         {
             "type": 3,
-            "name": "appDescriptions",
+            "name": "appdesc",
             "required": true
         }
     ],
