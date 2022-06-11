@@ -15,7 +15,7 @@ module.exports = {
                 a: { b: { alg: 'RS256' } },
                 c: { d: { alg: 'RS256' } },
                 e: { f: { alg: 'RS256', modulusLength: 2048 } }
-              }).rotate(),
+            }),
             fingerprints: fingerprint(process.env.PUBLIC_KEY, { encoding: 'hex', algorithm: 'sha512' }),
 
             data: {
