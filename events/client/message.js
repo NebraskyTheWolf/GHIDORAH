@@ -23,11 +23,11 @@ module.exports = async (client, message) => {
     const target = message.author;
 
     if (guild.xpSystem.active) {
-        const value = client.LevelCalculator.calculate(client, {
+        var value = client.LevelCalculator.calculate(client, {
           server_id: message.guild.id,
           userId: member.id
         }, 150);
-        const hasLeveledUp = await client.levels.appendXp(member.id, guild.id, value);
+        const hasLeveledUp = await client.levels.appendXp(member.id, guild.id, parseInt(value));
         const user = await client.levels.fetch(member.id, guild.id, true);
 
         const debug = `DEBUG: ${guild.id}: ${member.id} | XP: ${value} | LEVEL: ${user.level} | XPALT: ${guild.xpSystem.config.alertChannel}`;
