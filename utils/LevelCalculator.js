@@ -34,5 +34,5 @@ module.exports.calculate = async function (client, data = {}, value) {
     if (eventsCount >= 1)
         value + eventsCount * 350;
         
-    return parseInt(Math.floor(value));
+    return parseInt(value);
 }

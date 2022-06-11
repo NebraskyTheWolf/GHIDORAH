@@ -410,7 +410,10 @@ module.exports.countMessages = async function (options = {}) {
 }
 
 module.exports.countMessagesInt = async function (options = {}) {
-    return parseInt(await messagesSchema.find({ guild: options.server_id, id: options.userId }).count());
+    await messagesSchema.find({ guild: options.server_id, id: options.userId }).count({}, (error, result) => {
+        if (error) return 0;
+        return parseInt(result);
+    });
 }
 
 
