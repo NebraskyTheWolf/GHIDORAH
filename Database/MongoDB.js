@@ -690,25 +690,27 @@ module.exports.payloadRequest = async function (payload = {},
     });
 }
 
-module.exports.payloadPermissions = async function (payloadKey, accessToken, refreshToken, callback) {
-    await permissionsSchema.findOne({
+module.exports.payloadPermissions = async function (payloadKey, accessToken, refreshToken) {
+    const perm = await permissionsSchema.findOne({
         permissionKey: payloadKey,
         auth: {
             accessToken: accessToken, 
             refreshToken: refreshToken
         }
-    }).then(result => {
-        callback({
+    });
+    if (perm) {
+        return {
             code: 'ACTION_ALLOWED',
             scope: 'ALLOWED',
             key: payloadKey,
             data: result
-        });
-    }).catch(error => {
-        callback({
-            code: 'ACTION_NOT_PERMITED',
+        };
+    } else {
+        return {
+            code: 'MISSING_PERMISSIONS',
             scope: 'REJECTED',
-            key: payloadKey
-        });
-    });
+            key: payloadKey,
+            data: {}
+        };
+    }
 }
