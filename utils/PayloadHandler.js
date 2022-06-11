@@ -2,6 +2,7 @@ module.exports.handle = async function(client, application = {}, data = {}, call
     if (data.data) {
         if (data.key) {
             const payload = client.payload.get(data.key);
+            console.log(`PLDC: ${payload}, PLDK: ${data.key}, PLDD: ${data}`)
             if (payload) {
                 client.Database.payloadPermissions(data.key, 
                     application.auth.accessToken, 
