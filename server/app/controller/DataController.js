@@ -2,11 +2,12 @@ module.exports = {
     payload: function (req, res) {
         const data = req.body;
         const token = req.get('GH-Authorisation-Token');
-        
+
         if (token) {
             client.Database.fetchApplication(token).then(result => {
                 if (result.appEnabled) {
                     client.PayloadHandler.handle(result, data, callback => {
+                        console.log(callback)
                         res.status(200).json({
                             status: true,
                             message: 'VALIDATED_AUTHENTICATION',
@@ -39,6 +40,7 @@ module.exports = {
                     });
                 }
             }).catch(err => {
+                console.log(err)
                 res.status(403).json({
                     status: false,
                     code: 403254,
