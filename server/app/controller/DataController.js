@@ -21,7 +21,8 @@ module.exports = {
                 res.status(403).json({
                     status: false,
                     code: 403254,
-                    error: 'INVALID_PROVIDED_TOKEN'
+                    error: 'INVALID_PROVIDED_TOKEN',
+                    message: err
                 });
             });
         } else {
