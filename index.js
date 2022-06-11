@@ -135,7 +135,6 @@ function createOrSet(array, key, value) {
 }
 
 client.createOrSet = createOrSet;
-
 [
     "command",
     "event",

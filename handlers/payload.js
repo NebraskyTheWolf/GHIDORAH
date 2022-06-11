@@ -5,8 +5,8 @@ module.exports = client => {
 		if (err) console.log(err);
 		files.forEach(file => {
 			const payload = require(`../payloads/client/${file}`);
-			client.logger.log('INFO', ` > Loaded Payloads: ${file}: ${payload.key}`);
-			client.payloads.set(payload.key, payload);
+			client.logger.log('INFO', ` > Loaded Payloads: ${file}: ${payload.payload.key}@${payload.payload.side}`);
+			client.payload.set(payload.key, payload);
 		});
 	});
 };
