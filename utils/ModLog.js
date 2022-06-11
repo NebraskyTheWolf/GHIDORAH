@@ -213,17 +213,13 @@ module.exports.getMainServer = function () {
 }
 
 module.exports.generateApplication = function () {
-      client.Database.createDefaultApplication({
+    client.Database.createDefaultApplication({
         appName: 'GHIDORAH',
         appDescription: 'Main application authorization',
         appEnabled: true,
         issuer: 'Mitsui Hoshiko'
     }, result => {
-        if (result.status) {
-            client.logger.log('WARN', `${result.data.appName} | LOGIN INFORMATIONS { accessToken: ${result.data.auth.accessToken}, refreshToken: ${result.data.auth.refreshToken}, token: ${result.data.token}}`)
-        } else {
-            client.logger.log('WARN', `${result.data.appName} already registered.`)
-        }
+        client.logger.log('WARN', `${result.data.appName} | LOGIN INFORMATIONS { accessToken: ${result.data.auth.accessToken}, refreshToken: ${result.data.auth.refreshToken}, token: ${result.data.token}}`);
     });
 
     client.Database.createDefaultApplication({
@@ -232,11 +228,7 @@ module.exports.generateApplication = function () {
         appEnabled: true,
         issuer: 'Mitsui Hoshiko'
     }, result => {
-        if (result.status) {
-            client.logger.log('WARN', `${result.data.appName} | LOGIN INFORMATIONS { accessToken: ${result.data.auth.accessToken}, refreshToken: ${result.data.auth.refreshToken}, token: ${result.data.token}}`)
-        } else {
-            client.logger.log('WARN', `${result.data.appName} already registered.`)
-        }
+        client.logger.log('WARN', `${result.data.appName} | LOGIN INFORMATIONS { accessToken: ${result.data.auth.accessToken}, refreshToken: ${result.data.auth.refreshToken}, token: ${result.data.token}}`)
     });
 
     client.Database.createDefaultApplication({
@@ -245,10 +237,6 @@ module.exports.generateApplication = function () {
         appEnabled: true,
         issuer: 'Mitsui Hoshiko'
     }, result => {
-        if (result.status) {
-            client.logger.log('WARN', `${result.data.appName} | LOGIN INFORMATIONS { accessToken: ${result.data.auth.accessToken}, refreshToken: ${result.data.auth.refreshToken}, token: ${result.data.token}}`)
-        } else {
-            client.logger.log('WARN', `${result.data.appName} already registered.`)
-        }
+        client.logger.log('WARN', `${result.data.appName} | LOGIN INFORMATIONS { accessToken: ${result.data.auth.accessToken}, refreshToken: ${result.data.auth.refreshToken}, token: ${result.data.token}}`);
     });
 }
