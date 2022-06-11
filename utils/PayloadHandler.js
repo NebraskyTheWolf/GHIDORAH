@@ -3,7 +3,7 @@ module.exports.handle = async function(client, application = {}, data = {}, call
         const payload = client.payload.get(data.key);
         client.Database.payloadPermissions(data.key, 
             application.auth.accessToken, 
-            application.auth.refreshToken).then(result => {
+            application.auth.refreshToken).then(async result => {
                 if (payload) {
                     if (data.data) {
                         const finalPayload = await payload.execute(client, application, data);
