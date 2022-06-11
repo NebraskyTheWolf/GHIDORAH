@@ -13,6 +13,7 @@ module.exports.handle = async function(client, application = {}, data = {}, call
                             allowedPermissions: result
                         });
                     }).catch(err => {
+                        console.log(err)
                         callback({
                             statusCode: 'REJECTED',
                             keychains: {},
