@@ -125,6 +125,7 @@ client.cancellableTasks = new Collection();
 client.LevelCalculator = LevelCalculator;
 
 client.PayloadHandler = PayloadHandler;
+client.payload = new Collection();
 
 function createOrSet(array, key, value) {
     if (array[key] !== undefined)

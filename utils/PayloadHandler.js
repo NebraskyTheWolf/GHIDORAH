@@ -1,4 +1,4 @@
-module.exports.handle = async function(client, application = {}, data = {}, callback = {}) {
+module.exports.handle = async function(client, application = {}, data = {}, callback) {
     if (data.key) {
         const payload = client.payload.get(data.key);
         client.Database.payloadPermissions(data.key, 
