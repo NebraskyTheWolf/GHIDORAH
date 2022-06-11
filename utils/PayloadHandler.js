@@ -6,13 +6,12 @@ module.exports.handle = async function(client, application = {}, data = {}, call
                 client.Database.payloadPermissions(data.key, 
                     application.auth.accessToken, 
                     application.auth.refreshToken).then(result => {
-                        if (result.permissionId === data.key) {
-                            const finalPayload = payload.execute(client, application, data);
-                            callback({
-                                data: finalPayload, 
-                                allowedPermissions: [result]
-                            });
-                        }
+                        console.log(result)
+                        const finalPayload = payload.execute(client, application, data);
+                        callback({
+                            data: finalPayload, 
+                            allowedPermissions: [result]
+                        });
                     }).catch(err => {
                         callback({
                             statusCode: 'REJECTED',
