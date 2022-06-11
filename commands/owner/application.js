@@ -8,11 +8,13 @@ module.exports = {
         {
             "type": 3,
             "name": "appname",
+            "description": "app name",
             "required": true
         },
         {
             "type": 3,
             "name": "appdesc",
+            "description": "app desc",
             "required": true
         }
     ],
