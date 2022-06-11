@@ -54,56 +54,8 @@ module.exports = (client) => {
         }
     });
     process.on("uncaughtException", (err, origin) => {
-        let channel;
-        if (client.IsLoaded) {
-            channel = client.guilds.cache.get('917714328327692338').channels.cache.get('984100098487230504');
-        }
         errorId++;
         if (client.IsDebug)
             client.logger.log('ERROR', `${err}, ${origin}`);
-        
-        if (client.IsLoaded) {
-            channel.send({
-                "components": [
-                    {
-                    "type": 1,
-                    "components": [
-                        {
-                        "style": 4,
-                        "label": `RESTART NOW`,
-                        "custom_id": `row_reload`,
-                        "disabled": false,
-                        "type": 2
-                        }
-                    ]
-                    }
-                ],
-                "embeds": [
-                    {
-                    "type": "rich",
-                    "title": `unhandledRejection #${errorId}`,
-                    "description": `ERROR: \n\n \`\`\` ${err} \`\`\` \n\nORIGIN:\n\n \`\`\` ${origin} \`\`\` \n\nSERVICE:\n\n \`\`\` GHIDORAH \`\`\``,
-                    "color": 0xff003c,
-                    "fields": [
-                        {
-                        "name": `VERSION`,
-                        "value": `5.2.3`,
-                        "inline": true
-                        },
-                        {
-                        "name": `NODEJS`,
-                        "value": `v${process.version}`,
-                        "inline": true
-                        },
-                        {
-                        "name": `API STATE`,
-                        "value": `ALIVE_ACK`,
-                        "inline": true
-                        }
-                    ]
-                    }
-                ]
-            });
-        }
     });
 }
