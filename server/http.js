@@ -1,5 +1,4 @@
 const express = require("express");
-const session = require("express-session");
 const server = express();
 const bodyParser = require("body-parser");
 const passport = require('passport');
@@ -37,8 +36,6 @@ module.exports = client => {
 		res.append('Access-Control-Allow-Headers', 'Content-Type');
 		next();
 	});
-
-	server.use(session({secret: 'UwUOwOUwUUwuUwUuwuOwOwOwoOwOowO', resave: false, saveUninitialized: false}));
 
 	server.use(bodyParser.json());
 	server.use(passport.initialize());
