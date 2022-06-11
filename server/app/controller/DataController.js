@@ -2,13 +2,21 @@ module.exports = {
     payload: function (req, res) {
         const data = req.body;
         const token = req.get('GH-Authorisation-Token');
+
+        console.log(token)
+
         if (token) {
             client.Database.fetchApplication(token).then(result => {
                 if (application.appEnabled) {
                     res.status(200).json({
                         status: true,
-                        message: 'processing_payload',
-                        data: {}
+                        message: 'VALIDATED_AUTHENTICATION',
+                        data: {
+                            auth: {
+                                accessToken: result.auth.accessToken,
+                                refreshToken: result.auth.refreshToken
+                            }
+                        }
                     });
                 } else {
                     res.status(401).json({
