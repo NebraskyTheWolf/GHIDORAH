@@ -4,7 +4,7 @@ module.exports.handle = async function(client, application = {}, data = {}, call
         client.Database.payloadPermissions(data.key, 
             application.auth.accessToken, 
             application.auth.refreshToken, 
-            result => {
+            async result => {
 
             if (result.scope === 'ALLOWED') {
                 if (payload) {
