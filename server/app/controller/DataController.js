@@ -8,15 +8,28 @@ module.exports = {
         if (token) {
             client.Database.fetchApplication(token).then(result => {
                 if (result.appEnabled) {
-                    res.status(200).json({
-                        status: true,
-                        message: 'VALIDATED_AUTHENTICATION',
-                        data: {
-                            auth: {
-                                accessToken: result.auth.accessToken,
-                                refreshToken: result.auth.refreshToken
+                    client.PayloadHandler.handle(result, data, callback => {
+                        res.status(200).json({
+                            status: true,
+                            payloadStatus: {
+                                message: 'VALIDATED_AUTHENTICATION',
+                                code: callback.statusCode,
+                                keychain: callback.keychains,
+                                fingerprints: callback.fingerprints
+                            },
+                            data: {
+                                informations: {
+                                    appName: result.appName,
+                                    appDescriptions: result.appDescriptions
+                                },
+                                auth: {
+                                    accessToken: result.auth.accessToken,
+                                    refreshToken: result.auth.refreshToken,
+                                    authenticated: true
+                                },
+                                callback: callback
                             }
-                        }
+                        });
                     });
                 } else {
                     res.status(401).json({
@@ -26,12 +39,11 @@ module.exports = {
                     });
                 }
             }).catch(err => {
-                console.log(err)
                 res.status(403).json({
                     status: false,
                     code: 403254,
                     error: 'INVALID_PROVIDED_TOKEN',
-                    message: err
+                    message: 'Invalid token provided.'
                 });
             });
         } else {
