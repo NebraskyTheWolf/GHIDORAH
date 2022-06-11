@@ -11,12 +11,8 @@ module.exports = {
                     client.PayloadHandler.handle(result, data, callback => {
                         res.status(200).json({
                             status: true,
-                            payloadStatus: {
-                                message: 'VALIDATED_AUTHENTICATION',
-                                code: callback.statusCode,
-                                keychain: callback.keychains,
-                                fingerprints: callback.fingerprints
-                            },
+                            message: 'VALIDATED_AUTHENTICATION',
+                            
                             data: {
                                 informations: {
                                     appName: result.appName,
