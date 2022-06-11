@@ -38,6 +38,7 @@ const cardsSchema = require('./Models/Bank/client/Card');
 
 const securitySchema = require('./Models/Guild/Security/Application');
 const payloadSchema = require('./Models/Guild/Security/Payload/Payload');
+const permissionsSchema = require('./Models/Guild/Security/Permissions/Permissions');
 
 
 const { v4 } = require('uuid');
@@ -689,3 +690,25 @@ module.exports.payloadRequest = async function (payload = {},
     });
 }
 
+module.exports.payloadPermissions = async function (payloadKey, accessToken, refreshToken, callback = {}) {
+    await permissionsSchema.findOne({
+        permissionKey: payloadKey,
+        auth: {
+            accessToken: accessToken, 
+            refreshToken: refreshToken
+        }
+    }).then(result => {
+        callback({
+            code: 'ACTION_ALLOWED',
+            scope: 'ALLOWED',
+            key: payloadKey,
+            data: result
+        });
+    }).catch(error => {
+        callback({
+            code: 'ACTION_NOT_PERMITED',
+            scope: 'REJECTED',
+            key: payloadKey
+        });
+    });
+}

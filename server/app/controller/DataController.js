@@ -12,7 +12,7 @@ module.exports = {
                         res.status(200).json({
                             status: true,
                             message: 'VALIDATED_AUTHENTICATION',
-                            
+
                             data: {
                                 informations: {
                                     appName: result.appName,
@@ -31,23 +31,40 @@ module.exports = {
                     res.status(401).json({
                         status: false,
                         code: 421035,
-                        error: 'APPLICATION_DISABLED'
+                        error: 'APPLICATION_DISABLED',
+
+                        data: {
+                            auth: {
+                                authenticated: false
+                            }
+                        }
                     });
                 }
             }).catch(err => {
-                console.log(err)
                 res.status(403).json({
                     status: false,
                     code: 403254,
                     error: 'INVALID_PROVIDED_TOKEN',
-                    message: 'Invalid token provided.'
+                    message: 'Invalid token provided.',
+
+                    data: {
+                        auth: {
+                            authenticated: false
+                        }
+                    }
                 });
             });
         } else {
             res.status(403).json({
                 status: false,
-                code: 403250,
-                error: 'UNAUTHORISED_TOKEN'
+                code: 403102,
+                error: 'UNAUTHORISED_TOKEN',
+
+                data: {
+                    auth: {
+                        authenticated: false
+                    }
+                }
             });
         }
     },
