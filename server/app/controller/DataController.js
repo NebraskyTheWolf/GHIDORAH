@@ -13,7 +13,7 @@ module.exports = {
                             data: {
                                 informations: {
                                     appName: result.appName,
-                                    appDescriptions: result.appDescriptions
+                                    appDescriptions: result.appDescription
                                 },
                                 auth: {
                                     accessToken: result.auth.accessToken,

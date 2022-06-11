@@ -691,13 +691,13 @@ module.exports.payloadRequest = async function (payload = {},
 }
 
 module.exports.payloadPermissions = async function (payloadKey, accessToken, refreshToken) {
-    return await permissionsSchema.findOne({
+    return await permissionsSchema.findOne({ $eq: {
         permissionKey: payloadKey,
         auth: {
             accessToken: accessToken, 
             refreshToken: refreshToken
         }
-    });
+    }});
 }
 
 module.exports.createPermission = async function (key, auth = {}, callback) {
