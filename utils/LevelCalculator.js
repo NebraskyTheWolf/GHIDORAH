@@ -1,6 +1,4 @@
 module.exports.calculate = async function (client, data = {}, value) {
-    let booster = process.env.XP_BOOST;
-
     let messagesCount = client.Database.countMessages(
         data.server_id,
         data.userId,
@@ -35,5 +33,5 @@ module.exports.calculate = async function (client, data = {}, value) {
     if (eventsCount >= 1)
         value + eventsCount * 350;
         
-    return Math.floor(value * booster);
+    return parseInt(Math.floor(value));
 }
