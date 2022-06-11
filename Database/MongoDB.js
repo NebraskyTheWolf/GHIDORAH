@@ -409,6 +409,11 @@ module.exports.countMessages = async function (options = {}) {
         return await messagesSchema.find({  });
 }
 
+module.exports.countMessagesInt = async function (options = {}) {
+    return parseInt(await messagesSchema.find({ guild: options.server_id, id: options.userId }).count());
+}
+
+
 module.exports.fetchMessage = async function (messageId) {
     return await messagesSchema.findOne({ messageId: messageId });
 }
