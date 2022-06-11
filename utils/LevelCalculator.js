@@ -1,5 +1,5 @@
 module.exports.calculate = async function (client, data = {}, value) {
-    let messagesCount = client.Database.countMessages(
+    let messagesCount = await client.Database.countMessages(
         data.server_id,
         data.userId,
     );
