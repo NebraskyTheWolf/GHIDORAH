@@ -136,7 +136,12 @@ function createOrSet(array, key, value) {
 
 client.createOrSet = createOrSet;
 
-["command", "event", "anticrash", "payloads"].forEach(x => require(`./handlers/${x}.js`)(client));
+[
+    "command",
+    "event",
+    "anticrash",
+    "payload"
+].forEach(x => require(`./handlers/${x}.js`)(client));
 ["alwaysOn", "http"].forEach(x => require(`./server/${x}.js`)(client));
 
 
