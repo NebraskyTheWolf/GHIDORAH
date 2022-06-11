@@ -699,3 +699,30 @@ module.exports.payloadPermissions = async function (payloadKey, accessToken, ref
         }
     });
 }
+
+module.exports.createPermission = async function (key, auth = {}, callback) {
+    const permission = permissionsSchema({
+        permissionId: v4(), 
+        permissionKey: key, 
+        bypass: false,
+    
+        auth: { type: Object, default: {
+            accessToken: auth.accessToken,
+            refreshToken: auth.refreshToken,
+            issuer: 'GHIDORAH',
+            expiration: -1
+        }},
+        registeredAt: Date.now()
+    });
+    permission.save().then(() => {
+        callback({
+            permissionKey: key,
+            status: 'CREATED'
+        });
+    }).catch(err => {
+        callback({
+            permissionKey: key,
+            status: 'REJECTED'
+        });
+    });
+}
