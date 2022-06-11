@@ -17,7 +17,7 @@ module.exports = {
         client.logger.log('DEBUG', `--- PAYLOAD ---`);
 
         if (token) {
-            if (application) {
+            if (application !== null && application.token === token) {
                 if (application.appEnabled) {
                     res.status(200).json({
                         status: true,
