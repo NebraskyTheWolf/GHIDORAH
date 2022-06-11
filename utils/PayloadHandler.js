@@ -3,14 +3,14 @@ module.exports.handle = async function(client, application = {}, data = {}, call
         const payload = client.payload.get(data.key);
         client.Database.payloadPermissions(data.key, 
             application.auth.accessToken, 
-            application.auth.refreshToken, 
-            async result => {
-
-            if (result.scope === 'ALLOWED') {
+            application.auth.refreshToken).then(result => {
                 if (payload) {
                     if (data.data) {
                         const finalPayload = await payload.execute(client, application, data);
-                        callback(finalPayload);
+                        callback({
+                            data: finalPayload, 
+                            allowedPermissions: result
+                        });
                     } else {
                         callback({
                             statusCode: 'REJECTED',
@@ -33,7 +33,7 @@ module.exports.handle = async function(client, application = {}, data = {}, call
                         }
                     });
                 }
-            } else {
+            }).catch(err => {
                 callback({
                     statusCode: 'REJECTED',
                     keychains: {},
@@ -43,8 +43,7 @@ module.exports.handle = async function(client, application = {}, data = {}, call
                         message: 'Missing permissions.'
                     }
                 });
-            }
-        });
+            });
     } else {
         callback({
             statusCode: 'REJECTED',

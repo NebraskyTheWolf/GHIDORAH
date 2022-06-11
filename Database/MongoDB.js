@@ -690,25 +690,12 @@ module.exports.payloadRequest = async function (payload = {},
     });
 }
 
-module.exports.payloadPermissions = async function (payloadKey, accessToken, refreshToken, callback = {}) {
-    await permissionsSchema.findOne({
+module.exports.payloadPermissions = async function (payloadKey, accessToken, refreshToken) {
+    return await permissionsSchema.findOne({
         permissionKey: payloadKey,
         auth: {
             accessToken: accessToken, 
             refreshToken: refreshToken
         }
-    }).then(result => {
-        callback({
-            code: 'ACTION_ALLOWED',
-            scope: 'ALLOWED',
-            key: payloadKey,
-            data: result
-        });
-    }).catch(error => {
-        callback({
-            code: 'ACTION_NOT_PERMITED',
-            scope: 'REJECTED',
-            key: payloadKey
-        });
     });
 }
