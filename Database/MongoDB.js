@@ -690,7 +690,7 @@ module.exports.payloadRequest = async function (payload = {},
     });
 }
 
-module.exports.payloadPermissions = async function (payloadKey, accessToken, refreshToken, callback = {}) {
+module.exports.payloadPermissions = async function (payloadKey, accessToken, refreshToken, callback) {
     await permissionsSchema.findOne({
         permissionKey: payloadKey,
         auth: {
