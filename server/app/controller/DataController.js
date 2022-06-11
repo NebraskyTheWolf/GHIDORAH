@@ -7,7 +7,7 @@ module.exports = {
 
         if (token) {
             client.Database.fetchApplication(token).then(result => {
-                if (application.appEnabled) {
+                if (result.appEnabled) {
                     res.status(200).json({
                         status: true,
                         message: 'VALIDATED_AUTHENTICATION',
