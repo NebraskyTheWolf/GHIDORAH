@@ -26,7 +26,7 @@ module.exports = async (client, message) => {
         const hasLeveledUp = await client.levels.appendXp(member.id, guild.id, randomAmountXp);
         const user = await client.levels.fetch(member.id, guild.id, true);
     
-        console.log(uwu)
+        console.log(randomAmountXp)
 
         if (hasLeveledUp) {
             const channel = client.guilds.cache.get(guild.id).channels.cache.get(guild.xpSystem.config.alertChannel);
