@@ -3,6 +3,7 @@ module.exports.calculate = async function (client, data = {}, value) {
         data.server_id,
         data.userId,
     );
+    console.log(messagesCount)
     let moneyCount = 0;
     let claimsCount = 0;
     let eventsCount = 0;
