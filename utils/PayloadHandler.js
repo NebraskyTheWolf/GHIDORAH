@@ -1,66 +1,58 @@
 module.exports.handle = async function(client, application = {}, data = {}, callback) {
-    if (data.key) {
-        const payload = client.payload.get(data.key);
-        client.Database.payloadPermissions(data.key, 
-            application.auth.accessToken, 
-            application.auth.refreshToken).then(async result => {
-                if (payload) {
-                    if (data.data) {
+    if (data.data) {
+        if (data.key) {
+            const payload = client.payload.get(data.key);
+            if (payload) {
+                client.Database.payloadPermissions(data.key, 
+                    application.auth.accessToken, 
+                    application.auth.refreshToken).then(async result => {
                         const finalPayload = await payload.execute(client, application, data);
                         callback({
                             data: finalPayload, 
                             allowedPermissions: result
                         });
-                    } else {
+                    }).catch(err => {
                         callback({
                             statusCode: 'REJECTED',
                             keychains: {},
                             fingerprints: {},
-                        
+                    
                             data: {
-                                message: 'Payload "data" json segment missing.'
+                                message: 'Missing permissions.'
                             }
                         });
-                    }
-                } else {
-                    callback({
-                        statusCode: 'REJECTED',
-                        keychains: {},
-                        fingerprints: {},
-                    
-                        data: {
-                            message: 'Payload key invalid.'
-                        }
                     });
-                }
-            }).catch(err => {
+            } else {
                 callback({
                     statusCode: 'REJECTED',
                     keychains: {},
                     fingerprints: {},
-            
+                
                     data: {
-                        message: 'Missing permissions.'
+                        message: 'Invalid payload'
                     }
                 });
+            }
+        } else {
+            callback({
+                statusCode: 'REJECTED',
+                keychains: {},
+                fingerprints: {},
+        
+                data: {
+                    message: 'Payload "key" json segment missing.'
+                }
             });
+        }
     } else {
         callback({
             statusCode: 'REJECTED',
             keychains: {},
             fingerprints: {},
-    
+        
             data: {
-                message: 'Payload "key" json segment missing.'
+                message: 'Payload "data" json segment missing.'
             }
         });
     }
-
-    callback({
-        statusCode: 'REJECTED',
-        keychains: {},
-        fingerprints: {},
-
-        data: {}
-    });
 }
