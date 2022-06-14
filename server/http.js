@@ -59,6 +59,20 @@ module.exports = client => {
 	server.use(passport.initialize());
 	server.use(passport.session());
 
+	server.use((req, res, next) => {
+		rateLimiter.consume(req.connection.remoteAddress, 2)
+		.then(result => {
+			next();
+		})
+		.catch((rlRes) => {
+			res.status(429).end({
+				status: false,
+				code: 455320,
+				message: 'Too Many Requests.'
+			});
+		})
+	});
+
 	// configured
 	var routes = require('./app/config/routes')
 	for (var route in routes) {
