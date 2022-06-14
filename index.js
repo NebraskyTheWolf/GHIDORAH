@@ -158,7 +158,10 @@ client.createOrSet = createOrSet;
     "anticrash",
     "payload"
 ].forEach(x => require(`./handlers/${x}.js`)(client));
-["alwaysOn", "http"].forEach(x => require(`./server/${x}.js`)(client));
+[
+    "alwaysOn",
+     "http"
+].forEach(x => require(`./server/${x}.js`)(client));
 
 client.ws.on("INTERACTION_CREATE", async interaction => {
     let guild = await client.Database.fetchGuild(interaction.guild_id);
