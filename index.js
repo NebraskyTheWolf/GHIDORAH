@@ -139,16 +139,6 @@ function createOrSet(array, key, value) {
         array[key] = [value];
 }
 
-client.createOrSet = createOrSet;
-[
-    "command",
-    "event",
-    "anticrash",
-    "payload"
-].forEach(x => require(`./handlers/${x}.js`)(client));
-["alwaysOn", "http"].forEach(x => require(`./server/${x}.js`)(client));
-
-
 mongoose.connect(config.MongoDBInfo.host, config.MongoDBInfo.options).then(() => {
     client.logger.log('INFO', 'Connected to MongoDB');
 }).catch((err) => {
@@ -160,6 +150,15 @@ redisClient.connect().then(() => {
 }).catch((err) => {
     client.logger.log('WARN', 'Unable to connect to Redis server.')
 });
+
+client.createOrSet = createOrSet;
+[
+    "command",
+    "event",
+    "anticrash",
+    "payload"
+].forEach(x => require(`./handlers/${x}.js`)(client));
+["alwaysOn", "http"].forEach(x => require(`./server/${x}.js`)(client));
 
 client.ws.on("INTERACTION_CREATE", async interaction => {
     let guild = await client.Database.fetchGuild(interaction.guild_id);
