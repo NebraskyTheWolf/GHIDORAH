@@ -1,6 +1,4 @@
-const { fingerprint } = require('key-fingerprint');
 module.exports.handle = async function(client, application, data, callback) {
-    const prints = fingerprint(process.env.PUBLIC_KEY, { encoding: 'hex', algorithm: 'sha512' });
     if (data.data) {
         if (data.key) {
             const payload = client.payload.get(data.key);
@@ -14,7 +12,7 @@ module.exports.handle = async function(client, application, data, callback) {
                             callback({
                                 integrity: {
                                     keychains: {},
-                                    fingerprints: prints,
+                                    fingerprints: client.fingerprint,
                                  },
                                 data: finalPayload, 
                             });

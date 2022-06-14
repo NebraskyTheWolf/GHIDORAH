@@ -29,6 +29,9 @@ const PayloadHandler = require('./utils/PayloadHandler');
 const IsLoaded = false;
 const IsDebug = process.env.DEBUG;
 
+const { fingerprint } = require('key-fingerprint');
+const prints = fingerprint(process.env.PUBLIC_KEY, { encoding: 'hex', algorithm: 'sha512' });
+
 const client = new Client({
 	partials: ["MESSAGE", "USER", "REACTION"],
 	disableMentions: "everyone",
@@ -126,6 +129,8 @@ client.LevelCalculator = LevelCalculator;
 
 client.PayloadHandler = PayloadHandler;
 client.payload = new Collection();
+
+client.fingerprint = prints;
 
 function createOrSet(array, key, value) {
     if (array[key] !== undefined)
