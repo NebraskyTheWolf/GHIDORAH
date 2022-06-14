@@ -41,8 +41,7 @@ module.exports = client => {
 				res.append('Access-Control-Allow-Origin', ['https://skf-studios.com', 'skf-studios.com', 'dashboard.skf-studios.com']);
 				res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
 				res.append('Access-Control-Allow-Headers', 'Content-Type');
-				res.append('x-powered-by', 'Fox Server UwU');
-				res.append('Server', 'nuzzles your bulgy wulgy UwU');
+				res.append('Furry', 'nuzzles your bulgy wulgy UwU');
 				next();
 			})
 			.catch((rateLimiterRes) => {
