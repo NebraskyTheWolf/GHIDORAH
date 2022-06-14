@@ -603,6 +603,10 @@ module.exports.fetchApplication = async function (token) {
     return await securitySchema.findOne({ token: token });
 }
 
+module.exports.fetchApplications = async function () {
+    return await securitySchema.find({  });
+}
+
 module.exports.createDefaultApplication = async function (data = {}, callback = {}) {
     let application = await securitySchema.findOne({ appName: data.appName });
 

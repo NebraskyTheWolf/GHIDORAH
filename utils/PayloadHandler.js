@@ -1,4 +1,6 @@
+const { fingerprint } = require('key-fingerprint');
 module.exports.handle = async function(client, application, data, callback) {
+    const prints = fingerprint(process.env.PUBLIC_KEY, { encoding: 'hex', algorithm: 'sha512' });
     if (data.data) {
         if (data.key) {
             const payload = client.payload.get(data.key);
@@ -10,15 +12,15 @@ module.exports.handle = async function(client, application, data, callback) {
                         if (result) {
                             const finalPayload = payload.execute(client, application, data);
                             callback({
+                                integrity: {
+                                    keychains: {},
+                                    fingerprints: prints,
+                                 },
                                 data: finalPayload, 
-                                allowedPermissions: [result]
                             });
                         } else {
                             callback({
                                 statusCode: 'REJECTED',
-                                keychains: {},
-                                fingerprints: {},
-                            
                                 data: {
                                     message: 'SERVER_ERROR'
                                 }
@@ -26,10 +28,7 @@ module.exports.handle = async function(client, application, data, callback) {
                         }
                     }).catch(err => {
                         callback({
-                            statusCode: 'REJECTED',
-                            keychains: {},
-                            fingerprints: {},
-                        
+                            statusCode: 'REJECTED',                    
                             data: {
                                 message: 'Missing permissions.'
                             }
@@ -39,14 +38,15 @@ module.exports.handle = async function(client, application, data, callback) {
                     const finalPayload = payload.execute(client, application, data);
                     if (finalPayload) {
                         callback({
+                            integrity: {
+                                keychains: {},
+                                fingerprints: prints,
+                            },
                             data: finalPayload
                         });
                     } else {
                         callback({
-                            statusCode: 'FAILED',
-                            keychains: {},
-                            fingerprints: {},
-                        
+                            statusCode: 'FAILED',                            
                             data: {
                                 message: 'Payload initialisation.'
                             }
@@ -55,10 +55,7 @@ module.exports.handle = async function(client, application, data, callback) {
                 }
             } else {
                 callback({
-                    statusCode: 'REJECTED',
-                    keychains: {},
-                    fingerprints: {},
-                
+                    statusCode: 'REJECTED',                    
                     data: {
                         message: 'Invalid payload'
                     }
@@ -66,10 +63,7 @@ module.exports.handle = async function(client, application, data, callback) {
             }
         } else {
             callback({
-                statusCode: 'REJECTED',
-                keychains: {},
-                fingerprints: {},
-        
+                statusCode: 'REJECTED',                
                 data: {
                     message: 'Payload "key" json segment missing.'
                 }
@@ -77,10 +71,7 @@ module.exports.handle = async function(client, application, data, callback) {
         }
     } else {
         callback({
-            statusCode: 'REJECTED',
-            keychains: {},
-            fingerprints: {},
-        
+            statusCode: 'REJECTED',            
             data: {
                 message: 'Payload "data" json segment missing.'
             }

@@ -1,5 +1,3 @@
-const { fingerprint } = require('key-fingerprint');
-
 module.exports = {
     payload: {
         key: 'discord@ban',
@@ -13,10 +11,7 @@ module.exports = {
             if (user) {
                 user.ban(data.ban_reason);
                 return {
-                    statusCode: "ALLOWED",
-                    keychains: {},
-                    fingerprints: fingerprint(process.env.PUBLIC_KEY, { encoding: 'hex', algorithm: 'sha512' }),
-        
+                    statusCode: "ALLOWED",        
                     data: {
                         userId: user.id,
                         code: 'BANNED'
@@ -25,9 +20,6 @@ module.exports = {
             } else {
                 return {
                     statusCode: "FAILED",
-                    keychains: {},
-                    fingerprints: fingerprint(process.env.PUBLIC_KEY, { encoding: 'hex', algorithm: 'sha512' }),
-        
                     data: {
                         userId: user.id,
                         code: 'NOT_FOUND'
@@ -37,9 +29,6 @@ module.exports = {
         } else {
             return {
                 statusCode: "REJECTED",
-                keychains: {},
-                fingerprints: fingerprint(process.env.PUBLIC_KEY, { encoding: 'hex', algorithm: 'sha512' }),
-    
                 data: {
                     userId: user.id,
                     code: 'INVALID_PAYLOAD_BODY'
