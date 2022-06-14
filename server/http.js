@@ -60,6 +60,7 @@ module.exports = client => {
 	server.use(passport.session());
 
 	server.use((req, res, next) => {
+		console.log(req)
 		rateLimiter.consume(req.connection.remoteAddress, 2)
 		.then(result => {
 			next();
