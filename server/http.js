@@ -35,26 +35,14 @@ module.exports = client => {
 			maintenance: true
 		}
 	}));
+
 	server.use((req, res, next) => {
-		rateLimiter.consume(req.connection.remoteAddress, 2) // consume 2 points
-			.then((rateLimiterRes) => {
-				res.append('Access-Control-Allow-Origin', ['https://skf-studios.com', 'skf-studios.com', 'dashboard.skf-studios.com']);
-				res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-				res.append('Access-Control-Allow-Headers', 'Content-Type');
-				res.append('Furry', 'nuzzles your bulgy wulgy UwU');
-				next();
-			})
-			.catch((rateLimiterRes) => {
-				res.append('Retry-After', rateLimiterRes.msBeforeNext / 1000);
-				res.append('X-RateLimit-Limit', opts.points);
-				res.append('X-RateLimit-Remaining', rateLimiterRes.remainingPoints);
-				res.append('X-RateLimit-Reset', new Date(Date.now() + rateLimiterRes.msBeforeNext));
-				res.status(429).json({
-					status: false,
-					code: 455320,
-					message: 'Rate limited.'
-				});
-			});
+		res.append('Access-Control-Allow-Origin', ['https://skf-studios.com', 'skf-studios.com', 'dashboard.skf-studios.com']);
+		res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+		res.append('Access-Control-Allow-Headers', 'Content-Type');
+		res.append('x-powered-by', 'Fox Server UwU');
+		res.append('Server', 'nuzzles your bulgy wulgy UwU');
+		next();
 	});
 
 	server.use(session({secret: `${client.fingerprint}`, resave: false, saveUninitialized: false}));
