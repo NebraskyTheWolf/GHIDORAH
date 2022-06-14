@@ -37,20 +37,20 @@ module.exports = client => {
 	}));
 
 	server.use((req, res, next) => {
-		req.headers['Access-Control-Allow-Origin'] = [
+		res.setHeader('Access-Control-Allow-Origin', [
 			'https://skf-studios.com',
 			'skf-studios.com',
 			'dashboard.skf-studios.com'
-		];
-		req.headers['Access-Control-Allow-Methods'] = [
+		]);
+		res.setHeader('Access-Control-Allow-Methods', [
 			'GET',
 			'PUT',
 			'POST',
 			'DELETE'
-		];
-		req.headers['Access-Control-Allow-Headers'] = 'Content-Type';
-		req.headers['x-powered-by'] = 'FoxProx v2.3.0';
-		req.headers['Server'] = 'nuzzles your bulgy wulgy UwU';
+		]);
+		res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+		res.setHeader('x-powered-by', 'FoxProx v2.3.0');
+		res.setHeader('Server', 'nuzzles your bulgy wulgy UwU');
 		next();
 	});
 
