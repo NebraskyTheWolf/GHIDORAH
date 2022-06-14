@@ -18,6 +18,8 @@ module.exports = function (req, res, next) {
             message: 'Too Many Requests.'
         }).end();
     });
+
+    next();
 };
 
 function getHeaders(res) {

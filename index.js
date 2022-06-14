@@ -156,7 +156,8 @@ client.createOrSet = createOrSet;
     "command",
     "event",
     "anticrash",
-    "payload"
+    "payload",
+    "security"
 ].forEach(x => require(`./handlers/${x}.js`)(client));
 [
     "alwaysOn",
