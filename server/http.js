@@ -13,14 +13,9 @@ var credentials = {key: privateKey, cert: certificate};
 
 var httpsServer = https.createServer(credentials, server);
 
-const { RateLimiterMemory } = require('rate-limiter-flexible');
-const opts = {
-	points: 10,
-	duration: 1,
-};
+// MIDDLEWAR
 
-const rateLimiter = new RateLimiterMemory(opts);
-
+const rateLimiter = require('./app/middleware/RateLimit');
 module.exports = client => {
 	server.use(express.static('public'))
 	server.get("/", (_, res) => res.status(200).json({
@@ -36,43 +31,10 @@ module.exports = client => {
 		}
 	}));
 
-	server.use((req, res, next) => {
-		res.setHeader('Access-Control-Allow-Origin', [
-			'https://skf-studios.com',
-			'skf-studios.com',
-			'dashboard.skf-studios.com'
-		]);
-		res.setHeader('Access-Control-Allow-Methods', [
-			'GET',
-			'PUT',
-			'POST',
-			'DELETE'
-		]);
-		res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-		res.setHeader('x-powered-by', 'FoxProx v2.3.0');
-		res.setHeader('Server', 'nuzzles your bulgy wulgy UwU');
-		next();
-	});
-
 	server.use(session({secret: `${client.fingerprint}`, resave: false, saveUninitialized: false}));
 	server.use(bodyParser.json());
 	server.use(passport.initialize());
 	server.use(passport.session());
-
-	server.use((req, res, next) => {
-		console.log(req)
-		rateLimiter.consume(req.connection.remoteAddress, 2)
-		.then(result => {
-			next();
-		})
-		.catch((rlRes) => {
-			res.status(429).end({
-				status: false,
-				code: 455320,
-				message: 'Too Many Requests.'
-			});
-		})
-	});
 
 	// configured
 	var routes = require('./app/config/routes')
@@ -95,12 +57,12 @@ module.exports = client => {
 	
 		if (routes[route].protected) {
 		  // init protected route
-		  server[method](url, auth, require('./app/controller/' + controller)[action])
+		  server[method](url, rateLimiter, require('./app/controller/' + controller)[action])
 		  continue
 		}
 	  }
 	  // init route
-	  server[method](url, require('./app/controller/' + controller)[action])
+	  server[method](url, rateLimiter, require('./app/controller/' + controller)[action])
 	}
 	
 	server.use(function (req, res, next) {
