@@ -7,6 +7,7 @@ const rateLimiter = new RateLimiterMemory(opts);
 
 module.exports = function (req, res, next) {
     getHeaders(res);
+    console.log(req.headers)
     rateLimiter.consume(req.connection.remoteAddress, 2)
     .then(result => {
         next();
