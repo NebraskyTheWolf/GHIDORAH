@@ -13,9 +13,23 @@ var credentials = {key: privateKey, cert: certificate};
 
 var httpsServer = https.createServer(credentials, server);
 
-// MIDDLEWAR
+const rateLimit = require('express-rate-limit');
+const apiRequestLimiter = rateLimit({
+    windowMs: 1 * 60 * 1000,
+    max: 20,
+	handler: function (req, res, /*next*/) {
+		return res.status(429).json({
+			status: false,
+			code: 455320,
+			message: 'Too Many Requests'
+		});
+	} 
+});
 
+// MIDDLEWAR
 const rateLimiter = require('./app/middleware/RateLimit');
+
+
 module.exports = client => {
 	server.use(express.static('public'))
 	server.get("/", (_, res) => res.status(200).json({
@@ -35,6 +49,8 @@ module.exports = client => {
 	server.use(bodyParser.json());
 	server.use(passport.initialize());
 	server.use(passport.session());
+
+	server.use(apiRequestLimiter)
 
 	// configured
 	var routes = require('./app/config/routes')
