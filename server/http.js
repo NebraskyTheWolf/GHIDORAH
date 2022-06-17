@@ -16,7 +16,6 @@ var httpsServer = https.createServer(credentials, server);
 // MIDDLEWAR
 const rateLimiter = require('./app/middleware/RateLimit');
 
-
 module.exports = client => {
 	server.use(express.static('public'))
 	server.get("/", (_, res) => res.status(200).json({
@@ -63,7 +62,7 @@ module.exports = client => {
 		}
 	  }
 	  // init route
-	  server[method](url, rateLimiter, require('./app/controller/' + controller)[action])
+	  server[method](url, require('./app/controller/' + controller)[action])
 	}
 	
 	server.use(function (req, res, next) {
