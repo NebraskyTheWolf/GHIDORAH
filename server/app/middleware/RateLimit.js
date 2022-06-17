@@ -3,9 +3,7 @@ module.exports = function (req, res, next) {
     if (token) {
         client.Database.fetchApplication(token).then(result => {
             if (result.appEnabled) {
-                next().json({
-                    scope: 'VALIDATED'
-                });
+                next();
             } else {
                 res.status(401).json({
                     status: false,
