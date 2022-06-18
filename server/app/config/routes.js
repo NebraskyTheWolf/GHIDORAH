@@ -77,91 +77,91 @@ module.exports = {
 
     // MINECRAFT SERVER 
     // # PLAYER
-    'get /miencraft/player/:uuid': {'function': 'MinecraftController.getPlayerByUUID', protected: true},
-    'post /miencraft/player/create': {'function': 'MinecraftController.createPlayer', protected: true},
-    'post /miencraft/player/update': {'function': 'MinecraftController.updatePlayer', protected: true},
+    'get /minecraft/player/:uuid': {'function': 'MinecraftController.getPlayerByUUID', protected: true},
+    'post /minecraft/player/create': {'function': 'MinecraftController.createPlayer', protected: true},
+    'post /minecraft/player/update': {'function': 'MinecraftController.updatePlayer', protected: true},
 
     // # PLAYER SETTINGS
-    'get /miencraft/player/settings/:uuid': {'function': 'MinecraftController.getPlayerSettingsByUUID', protected: true},
-    'post /miencraft/player/settings/create': {'function': 'MinecraftController.createSettingsPlayer', protected: true},
-    'post /miencraft/player/settings/update': {'function': 'MinecraftController.updateSettingsPlayer', protected: true},
+    'get /minecraft/player/settings/:uuid': {'function': 'MinecraftController.getPlayerSettingsByUUID', protected: true},
+    'post /minecraft/player/settings/create': {'function': 'MinecraftController.createSettingsPlayer', protected: true},
+    'post /minecraft/player/settings/update': {'function': 'MinecraftController.updateSettingsPlayer', protected: true},
 
     // # PROMOTIONS
-    'get /miencraft/server/promotions': {'function': 'MinecraftController.getAllActivePromotions', protected: true},
-    'get /miencraft/server/promotions/:promotionId': {'function': 'MinecraftController.getPromotionByID', protected: true},
-    'post /miencraft/server/promotions/create': {'function': 'MinecraftController.createPromotions', protected: true},
-    'post /miencraft/server/promotions/delete': {'function': 'MinecraftController.deletePromotions', protected: true},
+    'get /minecraft/server/promotions': {'function': 'MinecraftController.getAllActivePromotions', protected: true},
+    'get /minecraft/server/promotions/:promotionId': {'function': 'MinecraftController.getPromotionByID', protected: true},
+    'post /minecraft/server/promotions/create': {'function': 'MinecraftController.createPromotions', protected: true},
+    'post /minecraft/server/promotions/delete': {'function': 'MinecraftController.deletePromotions', protected: true},
     
     // # TRANSACTIONS
-    'get /miencraft/server/transactions/:uuid/:selected': {'function': 'MinecraftController.getTransactions', protected: true},
-    'get /miencraft/server/transactions/:uuid/:gameId/:selected': {'function': 'MinecraftController.getTransactionsByGame', protected: true},
-    'post /miencraft/server/transactions/create': {'function': 'MinecraftController.createPromotions', protected: true},
-    'post /miencraft/server/transactions/update': {'function': 'MinecraftController.updatePromotions', protected: true},
+    'get /minecraft/server/transactions/:uuid/:selected': {'function': 'MinecraftController.getTransactions', protected: true},
+    'get /minecraft/server/transactions/:uuid/:gameId/:selected': {'function': 'MinecraftController.getTransactionsByGame', protected: true},
+    'post /minecraft/server/transactions/create': {'function': 'MinecraftController.createPromotions', protected: true},
+    'post /minecraft/server/transactions/update': {'function': 'MinecraftController.updatePromotions', protected: true},
 
     // # NICKNAME
-    'get /miencraft/server/nicknames/random': {'function': 'MinecraftController.getRandomNickname', protected: true},
-    'get /miencraft/server/nicknames/isBlacklisted': {'function': 'MinecraftController.isNicknameBlacklisted', protected: true},
-    'post /miencraft/server/nicknames/reserve': {'function': 'MinecraftController.reserveNickname', protected: true},
-    'post /miencraft/server/nicknames/free': {'function': 'MinecraftController.freeNickname', protected: true},
+    'get /minecraft/server/nicknames/random': {'function': 'MinecraftController.getRandomNickname', protected: true},
+    'get /minecraft/server/nicknames/isBlacklisted': {'function': 'MinecraftController.isNicknameBlacklisted', protected: true},
+    'post /minecraft/server/nicknames/reserve': {'function': 'MinecraftController.reserveNickname', protected: true},
+    'post /minecraft/server/nicknames/free': {'function': 'MinecraftController.freeNickname', protected: true},
 
     // # MESSAGES
-    'get /miencraft/server/messages': {'function': 'MinecraftController.getScheduledMessages', protected: true},
-    'get /miencraft/server/messages/:messageId': {'function': 'MinecraftController.getScheduledMessage', protected: true},
-    'post /miencraft/server/messages/update': {'function': 'MinecraftController.updateScheduledMessage', protected: true},
-    'post /miencraft/server/messages/create': {'function': 'MinecraftController.createScheduledMessage', protected: true},
+    'get /minecraft/server/messages': {'function': 'MinecraftController.getScheduledMessages', protected: true},
+    'get /minecraft/server/messages/:messageId': {'function': 'MinecraftController.getScheduledMessage', protected: true},
+    'post /minecraft/server/messages/update': {'function': 'MinecraftController.updateScheduledMessage', protected: true},
+    'post /minecraft/server/messages/create': {'function': 'MinecraftController.createScheduledMessage', protected: true},
 
     // # ITEMS
-    'get /miencraft/server/items': {'function': 'MinecraftController.getAllItemDescription', protected: true},
-    'get /miencraft/server/items/:itemId': {'function': 'MinecraftController.getItemDescription', protected: true},
-    'post /miencraft/server/items/update': {'function': 'MinecraftController.updateItemDescription', protected: true},
-    'post /miencraft/server/items/create': {'function': 'MinecraftController.createItemDescription', protected: true},
+    'get /minecraft/server/items': {'function': 'MinecraftController.getAllItemDescription', protected: true},
+    'get /minecraft/server/items/:itemId': {'function': 'MinecraftController.getItemDescription', protected: true},
+    'post /minecraft/server/items/update': {'function': 'MinecraftController.updateItemDescription', protected: true},
+    'post /minecraft/server/items/create': {'function': 'MinecraftController.createItemDescription', protected: true},
  
     // # HOST
-    'get /miencraft/server/hosts': {'function': 'MinecraftController.getAllHostRecord', protected: true},
-    'get /miencraft/server/hosts/:hostId': {'function': 'MinecraftController.getHostRecord', protected: true},
-    'post /miencraft/server/hosts/update': {'function': 'MinecraftController.updateHostRecord', protected: true},
-    'post /miencraft/server/hosts/create': {'function': 'MinecraftController.createHostRecord', protected: true},
+    'get /minecraft/server/hosts': {'function': 'MinecraftController.getAllHostRecord', protected: true},
+    'get /minecraft/server/hosts/:hostId': {'function': 'MinecraftController.getHostRecord', protected: true},
+    'post /minecraft/server/hosts/update': {'function': 'MinecraftController.updateHostRecord', protected: true},
+    'post /minecraft/server/hosts/create': {'function': 'MinecraftController.createHostRecord', protected: true},
 
     // # GROUPS
-    'get /miencraft/server/groups': {'function': 'MinecraftController.getAllPlayerGroups', protected: true},
-    'get /miencraft/server/groups/:groupId': {'function': 'MinecraftController.getPlayerGroup', protected: true},
-    'post /miencraft/server/groups/update': {'function': 'MinecraftController.updatePlayerGroup', protected: true},
-    'post /miencraft/server/groups/create': {'function': 'MinecraftController.createPlayerGroup', protected: true},
+    'get /minecraft/server/groups': {'function': 'MinecraftController.getAllPlayerGroups', protected: true},
+    'get /minecraft/server/groups/:groupId': {'function': 'MinecraftController.getPlayerGroup', protected: true},
+    'post /minecraft/server/groups/update': {'function': 'MinecraftController.updatePlayerGroup', protected: true},
+    'post /minecraft/server/groups/create': {'function': 'MinecraftController.createPlayerGroup', protected: true},
 
     // # FRIENDSHIP
-    'get /miencraft/server/friendship/requests/:uuid': {'function': 'MinecraftController.getFriendshipDemandList', protected: true},
-    'get /miencraft/server/friendship/:uuid': {'function': 'MinecraftController.getFriendshipList', protected: true},
-    'post /miencraft/server/friendship/post': {'function': 'MinecraftController.postFriendshipDemand', protected: true},
-    'post /miencraft/server/friendship/accept': {'function': 'MinecraftController.acceptFriendshipDemand', protected: true},
-    'post /miencraft/server/friendship/deny': {'function': 'MinecraftController.refuseFriendshipDemand', protected: true},
+    'get /minecraft/server/friendship/requests/:uuid': {'function': 'MinecraftController.getFriendshipDemandList', protected: true},
+    'get /minecraft/server/friendship/:uuid': {'function': 'MinecraftController.getFriendshipList', protected: true},
+    'post /minecraft/server/friendship/post': {'function': 'MinecraftController.postFriendshipDemand', protected: true},
+    'post /minecraft/server/friendship/accept': {'function': 'MinecraftController.acceptFriendshipDemand', protected: true},
+    'post /minecraft/server/friendship/deny': {'function': 'MinecraftController.refuseFriendshipDemand', protected: true},
 
     // # EVENTS
-    'get /miencraft/server/events': {'function': 'MinecraftController.getEvents', protected: true},
-    'get /miencraft/server/events/:eventId': {'function': 'MinecraftController.getEvent', protected: true},
-    'get /miencraft/server/events/time/:timestamp': {'function': 'MinecraftController.getEventTime', protected: true},
-    'get /miencraft/server/events/winner/:eventId': {'function': 'MinecraftController.getEventWinners', protected: true},
-    'post /miencraft/server/events/update': {'function': 'MinecraftController.updateEvent', protected: true},
-    'post /miencraft/server/events/winner/update': {'function': 'MinecraftController.updateEventWinner', protected: true},
-    'post /miencraft/server/events/create': {'function': 'MinecraftController.createEvent', protected: true},
-    'post /miencraft/server/events/winner/create': {'function': 'MinecraftController.createWinnerEvent', protected: true},
+    'get /minecraft/server/events': {'function': 'MinecraftController.getEvents', protected: true},
+    'get /minecraft/server/events/:eventId': {'function': 'MinecraftController.getEvent', protected: true},
+    'get /minecraft/server/events/time/:timestamp': {'function': 'MinecraftController.getEventTime', protected: true},
+    'get /minecraft/server/events/winner/:eventId': {'function': 'MinecraftController.getEventWinners', protected: true},
+    'post /minecraft/server/events/update': {'function': 'MinecraftController.updateEvent', protected: true},
+    'post /minecraft/server/events/winner/update': {'function': 'MinecraftController.updateEventWinner', protected: true},
+    'post /minecraft/server/events/create': {'function': 'MinecraftController.createEvent', protected: true},
+    'post /minecraft/server/events/winner/create': {'function': 'MinecraftController.createWinnerEvent', protected: true},
 
     // # CONFIG
-    'get /miencraft/server/config': {'function': 'MinecraftController.getConfig', protected: true},
-    'post /miencraft/server/config/update': {'function': 'MinecraftController.updateConfig', protected: true},
+    'get /minecraft/server/config': {'function': 'MinecraftController.getConfig', protected: true},
+    'post /minecraft/server/config/update': {'function': 'MinecraftController.updateConfig', protected: true},
 
     // # denounce
-    'get /miencraft/server/denounces': {'function': 'MinecraftController.getDenounces', protected: true},
-    'post /miencraft/server/denounce/create': {'function': 'MinecraftController.denouncePlayer', protected: true},
+    'get /minecraft/server/denounces': {'function': 'MinecraftController.getDenounces', protected: true},
+    'post /minecraft/server/denounce/create': {'function': 'MinecraftController.denouncePlayer', protected: true},
 
     // # ACHIEVEMENTS CATEGORY
-    'get /miencraft/server/achievements/category': {'function': 'MinecraftController.getAchievementCategories', protected: true},
-    'get /miencraft/server/achievements/category/:categoryId': {'function': 'MinecraftController.getAchievementCategory', protected: true},
+    'get /minecraft/server/achievements/category': {'function': 'MinecraftController.getAchievementCategories', protected: true},
+    'get /minecraft/server/achievements/category/:categoryId': {'function': 'MinecraftController.getAchievementCategory', protected: true},
     // # ACHIEVEMENTS
-    'get /miencraft/server/achievements': {'function': 'MinecraftController.getAchievements', protected: true},
-    'get /miencraft/server/achievements/:achievementId': {'function': 'MinecraftController.getAchievement', protected: true},
+    'get /minecraft/server/achievements': {'function': 'MinecraftController.getAchievements', protected: true},
+    'get /minecraft/server/achievements/:achievementId': {'function': 'MinecraftController.getAchievement', protected: true},
     // # ACHIEVEMENTS PROGRESS
-    'get /miencraft/server/achievements/progress': {'function': 'MinecraftController.getAchievementProgresses', protected: true},
-    'get /miencraft/server/achievements/progress/:progressId': {'function': 'MinecraftController.getAchievementProgress', protected: true},
-    'post /miencraft/server/achievements/progress/update': {'function': 'MinecraftController.updateAchievementProgress', protected: true},
-    'post /miencraft/server/achievements/progress/create': {'function': 'MinecraftController.createAchievementProgress', protected: true},
+    'get /minecraft/server/achievements/progress': {'function': 'MinecraftController.getAchievementProgresses', protected: true},
+    'get /minecraft/server/achievements/progress/:progressId': {'function': 'MinecraftController.getAchievementProgress', protected: true},
+    'post /minecraft/server/achievements/progress/update': {'function': 'MinecraftController.updateAchievementProgress', protected: true},
+    'post /minecraft/server/achievements/progress/create': {'function': 'MinecraftController.createAchievementProgress', protected: true},
 }
