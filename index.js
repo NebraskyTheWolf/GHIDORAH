@@ -2,6 +2,7 @@ const { Collection, Client, Intents } = require("discord.js");
 const discordModals = require('discord-modals')
 
 const mongoose = require('mongoose');
+const minecraftMongo = require('mongoose');
 
 const events = require('events');
 
@@ -143,6 +144,12 @@ mongoose.connect(config.MongoDBInfo.host, config.MongoDBInfo.options).then(() =>
     client.logger.log('INFO', 'Connected to MongoDB');
 }).catch((err) => {
     client.logger.log('WARN', 'Unable to connect to MongoDB Database.');
+});
+
+minecraftMongo.connect(config.MinecraftMongoDB.host, config.MinecraftMongoDB.options).then(() => {
+    client.logger.log('INFO', 'Connected to minecraftMongoDB');
+}).catch((err) => {
+    client.logger.log('WARN', 'Unable to connect to minecraftMongoDB Database.');
 });
 
 redisClient.connect().then(() => {

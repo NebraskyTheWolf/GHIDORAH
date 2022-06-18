@@ -40,6 +40,7 @@ const securitySchema = require('./Models/Guild/Security/Application');
 const payloadSchema = require('./Models/Guild/Security/Payload/Payload');
 const permissionsSchema = require('./Models/Guild/Security/Permissions/Permissions');
 
+// MINECRAFT
 
 const { v4 } = require('uuid');
 const { client } = require('tmi.js');

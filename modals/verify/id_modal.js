@@ -72,7 +72,7 @@ module.exports = {
             }
         } else if (data.type === 'STAFF_APPLY') {
                     const channem = client.guilds.cache.get(guild.id)
-                        .channels.cache.get('979109709091078165');
+                        .channels.cache.get('983431977996783686');
                     const firstResponse = interaction.fields[0].value;
                     const secondResponse = interaction.fields[1].value;
                     const thirdResponse = interaction.fields[2].value;

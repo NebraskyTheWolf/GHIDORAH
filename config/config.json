@@ -18,6 +18,13 @@
         	"useUnifiedTopology": true
 		}
 	},
+	"MinecraftMongoDB": {
+		"host": "mongodb://localhost:27017/SAMAGAMES",
+		"options": {
+			"useNewUrlParser": true,
+        	"useUnifiedTopology": true
+		}
+	},
 	"RedisClient": {
 		"url": "redis://localhost:6379"
 	},
