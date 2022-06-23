@@ -42,6 +42,8 @@ const permissionsSchema = require('./Models/Guild/Security/Permissions/Permissio
 
 // MINECRAFT
 
+const playerSchema = require('./Models/Minecraft/Server/Player/Player');
+
 const { v4 } = require('uuid');
 const { client } = require('tmi.js');
 
@@ -730,4 +732,28 @@ module.exports.createPermission = async function (key, auth = {}, callback) {
             status: 'REJECTED'
         });
     });
+}
+
+// MINECRAFT 
+
+module.exports.getPlayer = async function (uuid) {
+    return playerSchema.findOne({ uuid: uuid });
+}
+
+module.exports.createPlayer = async function (data) {
+    let player = playerSchema({
+        uuid: data.uuid,
+        name: data.name,
+        nickname: null,
+        coins: 500,
+        stars: 16,
+        powders: 0,
+        last_login: Date.now(),
+        first_login: Date.now(),
+        last_ip: data.ip,
+        topTpKey: null,
+        group_id: 1
+    });
+    player.save().catch(err => client.logger.log('ERROR', `Error occurred: ${err}`));
+    return player;
 }

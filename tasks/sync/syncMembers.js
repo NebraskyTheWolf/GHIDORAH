@@ -1,5 +1,3 @@
-const { client } = require("tmi.js");
-
 module.exports = {
     task: {
         name: 'syncmembers',

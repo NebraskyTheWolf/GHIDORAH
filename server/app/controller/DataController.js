@@ -1,7 +1,7 @@
 module.exports = {
     payload: function (req, res) {
         const data = req.body;
-        const token = req.get('GH-Authorisation-Token');
+        const token = req.get('z');
         if (token) {
             client.Database.fetchApplication(token).then(result => {
                 if (result.appEnabled) {

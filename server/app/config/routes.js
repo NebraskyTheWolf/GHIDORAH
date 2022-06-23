@@ -74,7 +74,6 @@ module.exports = {
     // SOCIAL CALL
     'get /auth/twitch/:userId': {'function': 'TwitchController.login', protected: false},
 
-
     // MINECRAFT SERVER 
     // # PLAYER
     'get /minecraft/player/:uuid': {'function': 'MinecraftController.getPlayerByUUID', protected: true},
@@ -95,12 +94,12 @@ module.exports = {
     // # TRANSACTIONS
     'get /minecraft/server/transactions/:uuid/:selected': {'function': 'MinecraftController.getTransactions', protected: true},
     'get /minecraft/server/transactions/:uuid/:gameId/:selected': {'function': 'MinecraftController.getTransactionsByGame', protected: true},
-    'post /minecraft/server/transactions/create': {'function': 'MinecraftController.createPromotions', protected: true},
-    'post /minecraft/server/transactions/update': {'function': 'MinecraftController.updatePromotions', protected: true},
+    'post /minecraft/server/transactions/create': {'function': 'MinecraftController.createTransactions', protected: true},
+    'post /minecraft/server/transactions/update': {'function': 'MinecraftController.updateTransactions', protected: true},
 
     // # NICKNAME
     'get /minecraft/server/nicknames/random': {'function': 'MinecraftController.getRandomNickname', protected: true},
-    'get /minecraft/server/nicknames/isBlacklisted': {'function': 'MinecraftController.isNicknameBlacklisted', protected: true},
+    'get /minecraft/server/nicknames/isBlacklisted/:nickname': {'function': 'MinecraftController.isNicknameBlacklisted', protected: true},
     'post /minecraft/server/nicknames/reserve': {'function': 'MinecraftController.reserveNickname', protected: true},
     'post /minecraft/server/nicknames/free': {'function': 'MinecraftController.freeNickname', protected: true},
 
@@ -164,4 +163,19 @@ module.exports = {
     'get /minecraft/server/achievements/progress/:progressId': {'function': 'MinecraftController.getAchievementProgress', protected: true},
     'post /minecraft/server/achievements/progress/update': {'function': 'MinecraftController.updateAchievementProgress', protected: true},
     'post /minecraft/server/achievements/progress/create': {'function': 'MinecraftController.createAchievementProgress', protected: true},
+
+    // # SANCTIONS
+    'post /minecraft/server/sanctions/create': {'function': 'MinecraftController.applySanction', protected: true},
+    'post /minecraft/server/sanctions/remove': {'function': 'MinecraftController.getFriendshipList', protected: true},
+    'post /minecraft/server/sanctions/update': {'function': 'MinecraftController.updateSanctionStatus', protected: true},
+
+    'get /minecraft/server/sanctions/by-uuid/ban/:uuid': {'function': 'MinecraftController.getPlayerBanned', protected: true},
+    'get /minecraft/server/sanctions/by-uuid/mute/:uuid': {'function': 'MinecraftController.getPlayerMuted', protected: true},
+    'get /minecraft/server/sanctions/by-uuid/all/:uuid/:sanctionType': {'function': 'MinecraftController.getAllSanctions', protected: true},
+    'get /minecraft/server/sanctions/by-uuid/all-active/:uuid/:sanctionType': {'function': 'MinecraftController.getAllActiveSanctions', protected: true},
+    'get /minecraft/server/sanctions/by-uuid/all-passive/:uuid/:sanctionType': {'function': 'MinecraftController.getAllPassiveSanctions', protected: true},
+    'get /minecraft/server/sanctions/moderator/:uuid': {'function': 'MinecraftController.getAllModeratorSanctions', protected: true},
+
+    'post /minecraft/server/permissions': {'function': 'MinecraftController.getPermissionsByType', protected: true},
+
 }

@@ -1,6 +1,47 @@
+const { client } = require("tmi.js");
+
 module.exports = {
-    getPlayerByUUID: function (req, res) {},
-    createPlayer: function (req, res) {},
+    getPlayerByUUID: function (req, res) {
+        if (req.params.uuid === undefined)
+            res.status(404).json({
+                status: false,
+                error: 'Invalid UUID.'
+            });
+        
+        const player = client.Database.getPlayer(req.params.uuid);
+        if (player)
+            return res.status(200).json(player);
+        else
+            return res.status(404).json({
+                status: false,
+                code: 'REJECTED',
+                error: 'Player not found.'
+            });
+    },
+    createPlayer: function (req, res) {
+        if (req.body.uuid === undefined)
+            return res.status(404).json({
+                status: false,
+                code: 'REJECTED',
+                error: 'Segment \'UUID\' can\'t be null.'
+            });
+        
+        const player = client.Database.createPlayer({
+            uuid: req.body.uuid,
+            name: req.body.name,
+            ip: req.body.ip
+        });
+
+        if (player) {
+            return res.status(200).json(player);
+        } else {
+            return res.status(500).json({
+                status: false,
+                code: 'REJECTED',
+                error: 'Error occurred during database writes.'
+            });
+        }
+    },
     updatePlayer: function (req, res) {},
 
     getPlayerSettingsByUUID: function (req, res) {},
@@ -71,4 +112,16 @@ module.exports = {
     getAchievementProgress: function (req, res) {},
     updateAchievementProgress: function (req, res) {},
     createAchievementProgress: function (req, res) {},
+
+    applySanction: function (req, res) {},
+    getFriendshipList: function (req, res) {},
+    updateSanctionStatus: function (req, res) {},
+    getPlayerBanned: function (req, res) {},
+    getPlayerMuted: function (req, res) {},
+    getAllSanctions: function (req, res) {},
+    getAllActiveSanctions: function (req, res) {},
+    getAllPassiveSanctions: function (req, res) {},
+    getAllModeratorSanctions: function (req, res) {},
+
+    getPermissionsByType: function (req, res) {}
 }
