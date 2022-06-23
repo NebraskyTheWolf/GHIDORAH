@@ -3,8 +3,8 @@ const mongoose = require("mongoose");
 module.exports = mongoose.model("Events", new mongoose.Schema({
     event_organizer: { type: String },
     event_template: { type: String },
-    reward_coins: { type: BigInt },
-    reward_pearls: { type: BigInt },
+    reward_coins: { type: Number },
+    reward_pearls: { type: Number },
     event_date: { type: String },
 }));
 

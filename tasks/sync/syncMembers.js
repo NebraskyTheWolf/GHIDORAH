@@ -15,10 +15,7 @@ module.exports = {
                             client.logger.log('CRITICAL', `Impossible to sync ${member.id}`)
                         }
                     }
-                }
-                    
-                        
-                            
+                }        
             });
         });
         // USELESS DEBUG MAN ;3

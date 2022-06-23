@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 
 module.exports = mongoose.model("Groups", new mongoose.Schema({
-    group_id: { type: BigInt },
+    group_id: { type: Number },
     group_name: { type: String },
-    rank: { type: BigInt },
-    tag: { type: BigInt },
-    prefix: { type: BigInt },
-    suffix: { type: BigInt },
-    multiplier: { type: BigInt }
+    rank: { type: Number },
+    tag: { type: String },
+    prefix: { type: String },
+    suffix: { type: String },
+    multiplier: { type: Number }
 }));
