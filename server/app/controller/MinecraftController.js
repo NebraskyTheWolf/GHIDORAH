@@ -40,11 +40,39 @@ module.exports = {
             });
         }
     },
-    updatePlayer: function (req, res) {},
+    updatePlayer: function (req, res) {
+        if (req.body.uuid === undefined)
+            return res.status(404).json({
+                status: false,
+                code: 'REJECTED',
+                error: 'Segment \'UUID\' can\'t be null.'
+            });
+    },
 
-    getPlayerSettingsByUUID: function (req, res) {},
-    createSettingsPlayer: function (req, res) {},
-    updateSettingsPlayer: function (req, res) {},
+    getPlayerSettingsByUUID: function (req, res) {
+        if (req.params.uuid === undefined)
+            return res.status(404).json({
+                status: false,
+                code: 'REJECTED',
+                error: 'Segment \'UUID\' can\'t be null.'
+            });
+    },
+    createSettingsPlayer: function (req, res) {
+        if (req.body.uuid === undefined)
+            return res.status(404).json({
+                status: false,
+                code: 'REJECTED',
+                error: 'Segment \'UUID\' can\'t be null.'
+            });
+    },
+    updateSettingsPlayer: function (req, res) {
+        if (req.body.uuid === undefined)
+            return res.status(404).json({
+                status: false,
+                code: 'REJECTED',
+                error: 'Segment \'UUID\' can\'t be null.'
+            });
+    },
 
     getAllActivePromotions: function (req, res) {},
     getPromotionByID: function (req, res) {},
@@ -111,15 +139,78 @@ module.exports = {
     updateAchievementProgress: function (req, res) {},
     createAchievementProgress: function (req, res) {},
 
-    applySanction: function (req, res) {},
-    removeSanction: function (req, res) {},
-    updateSanctionStatus: function (req, res) {},
-    getPlayerBanned: function (req, res) {},
-    getPlayerMuted: function (req, res) {},
-    getAllSanctions: function (req, res) {},
-    getAllActiveSanctions: function (req, res) {},
-    getAllPassiveSanctions: function (req, res) {},
-    getAllModeratorSanctions: function (req, res) {},
+    applySanction: function (req, res) {
+        if (req.body.uuid === undefined)
+            return res.status(404).json({
+                status: false,
+                code: 'REJECTED',
+                error: 'Segment \'UUID\' can\'t be null.'
+            });
+    },
+    removeSanction: function (req, res) {
+        if (req.body.uuid === undefined)
+            return res.status(404).json({
+                status: false,
+                code: 'REJECTED',
+                error: 'Segment \'UUID\' can\'t be null.'
+            });
+    },
+    updateSanctionStatus: function (req, res) {
+        if (req.body.uuid === undefined)
+            return res.status(404).json({
+                status: false,
+                code: 'REJECTED',
+                error: 'Segment \'UUID\' can\'t be null.'
+            });
+    },
+    getPlayerBanned: function (req, res) {
+        if (req.body.uuid === undefined)
+            return res.status(404).json({
+                status: false,
+                code: 'REJECTED',
+                error: 'Segment \'UUID\' can\'t be null.'
+            });
+    },
+    getPlayerMuted: function (req, res) {
+        if (req.body.uuid === undefined)
+            return res.status(404).json({
+                status: false,
+                code: 'REJECTED',
+                error: 'Segment \'UUID\' can\'t be null.'
+            });
+    },
+    getAllSanctions: function (req, res) {
+        if (req.body.uuid === undefined)
+            return res.status(404).json({
+                status: false,
+                code: 'REJECTED',
+                error: 'Segment \'UUID\' can\'t be null.'
+            });
+    },
+    getAllActiveSanctions: function (req, res) {
+        if (req.body.uuid === undefined)
+            return res.status(404).json({
+                status: false,
+                code: 'REJECTED',
+                error: 'Segment \'UUID\' can\'t be null.'
+            });
+    },
+    getAllPassiveSanctions: function (req, res) {
+        if (req.body.uuid === undefined)
+            return res.status(404).json({
+                status: false,
+                code: 'REJECTED',
+                error: 'Segment \'UUID\' can\'t be null.'
+            });
+    },
+    getAllModeratorSanctions: function (req, res) {
+        if (req.body.uuid === undefined)
+            return res.status(404).json({
+                status: false,
+                code: 'REJECTED',
+                error: 'Segment \'UUID\' can\'t be null.'
+            });
+    },
 
     getPermissionsByType: function (req, res) {}
 }
