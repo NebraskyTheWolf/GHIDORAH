@@ -1,5 +1,3 @@
-const { client } = require("tmi.js");
-
 module.exports = {
     getPlayerByUUID: function (req, res) {
         if (req.params.uuid === undefined)
@@ -55,8 +53,8 @@ module.exports = {
 
     getTransactions: function (req, res) {},
     getTransactionsByGame: function (req, res) {},
-    createPromotions: function (req, res) {},
-    updatePromotions: function (req, res) {},
+    createTransactions: function (req, res) {},
+    updateTransactions: function (req, res) {},
 
     getRandomNickname: function (req, res) {},
     isNicknameBlacklisted: function (req, res) {},
