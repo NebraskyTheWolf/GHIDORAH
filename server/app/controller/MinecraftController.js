@@ -114,7 +114,7 @@ module.exports = {
     createAchievementProgress: function (req, res) {},
 
     applySanction: function (req, res) {},
-    getFriendshipList: function (req, res) {},
+    removeSanction: function (req, res) {},
     updateSanctionStatus: function (req, res) {},
     getPlayerBanned: function (req, res) {},
     getPlayerMuted: function (req, res) {},

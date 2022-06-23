@@ -166,7 +166,7 @@ module.exports = {
 
     // # SANCTIONS
     'post /minecraft/server/sanctions/create': {'function': 'MinecraftController.applySanction', protected: true},
-    'post /minecraft/server/sanctions/remove': {'function': 'MinecraftController.getFriendshipList', protected: true},
+    'post /minecraft/server/sanctions/remove': {'function': 'MinecraftController.removeSanction', protected: true},
     'post /minecraft/server/sanctions/update': {'function': 'MinecraftController.updateSanctionStatus', protected: true},
 
     'get /minecraft/server/sanctions/by-uuid/ban/:uuid': {'function': 'MinecraftController.getPlayerBanned', protected: true},
