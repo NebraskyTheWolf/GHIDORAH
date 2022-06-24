@@ -146,18 +146,6 @@ mongoose.connect(config.MongoDBInfo.host, config.MongoDBInfo.options).then(() =>
     client.logger.log('WARN', 'Unable to connect to MongoDB Database.');
 });
 
-minecraftMongo.connect(config.MinecraftMongoDB.host, config.MinecraftMongoDB.options).then(() => {
-    client.logger.log('INFO', 'Connected to minecraftMongoDB');
-}).catch((err) => {
-    client.logger.log('WARN', 'Unable to connect to minecraftMongoDB Database.');
-});
-
-redisClient.connect().then(() => {
-    client.logger.log('INFO', 'Connected to Redis.');
-}).catch((err) => {
-    client.logger.log('WARN', 'Unable to connect to Redis server.')
-});
-
 client.createOrSet = createOrSet;
 [
     "command",
