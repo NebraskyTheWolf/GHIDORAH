@@ -211,6 +211,5 @@ module.exports = {
                 error: 'Segment \'UUID\' can\'t be null.'
             });
     },
-
     getPermissionsByType: function (req, res) {}
 }
