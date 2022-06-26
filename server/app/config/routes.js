@@ -52,7 +52,7 @@ module.exports = {
     'get /servers/by-id/:guildId/config': {'function': 'ServerController.getServerConfig', protected: false},
     'get /servers/by-id/:guildId/leaderboard': {'function': 'ServerController.fetchLeaderboard', protected: false},
     'get /servers/by-id/:guildId/rules': {'function': 'ServerController.fetchRules', protected: false},
-    'get /servers/by-id/:guildId/verification/:userId': {'function': 'ServerController.checkVerify', protected: false},
+    'get /servers/by-id/:guildId/verification/by-user/:userId': {'function': 'ServerController.checkVerify', protected: false},
     'get /servers/by-id/:guildId/verification': {'function': 'ServerController.fetchAllVerify', protected: false},
     'get /servers/by-id/:guildId/verification/counts': {'function': 'ServerController.countVerify', protected: false},
 
