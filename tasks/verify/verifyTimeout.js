@@ -7,9 +7,9 @@ module.exports = {
         cronTime: 30000
     },
     async execute() {
-        await client.Database.getAllEntries().then(result => {
+        await client.Database.getAllEntries().then(async result => {
             if ((date - new Date(result.registeredAt) > ALIVE_ENTRY)) {
-                await client.Database.deleteEntry(result.id).then(request => {
+                await client.Database.deleteEntry(result.id).then(async request => {
                     if (result.id === 'DEFAULT') return;
                     
                     if (request)
