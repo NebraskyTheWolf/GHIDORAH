@@ -126,7 +126,7 @@ module.exports = {
         if (req.params.guildId === undefined || req.params.userId === undefined)
             res.status(403).json({status: false, error: 'Invalid guildId or userId.'});
         
-        const verify = client.Database.checkEntry(req.params.guildId, req.params.userId);
+        const verify = await client.Database.checkEntry(req.params.guildId, req.params.userId);
         if (verify)
             res.status(200).json({
                 status: true,
@@ -142,7 +142,7 @@ module.exports = {
         if (req.params.guildId === undefined)
             res.status(403).json({status: false, error: 'Invalid guildId.'});
 
-        const entries = client.Database.getAllEntries(req.params.guildId);
+        const entries = await client.Database.getAllEntries(req.params.guildId);
         if (entries)
             res.status(200).json({
                 status: true,
