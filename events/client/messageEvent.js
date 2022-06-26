@@ -95,9 +95,9 @@ module.exports = async (client, message) => {
                 "type": 1,
                 "components": [
                   {
-                    "style": 5,
+                    "style": 2,
                     "label": `Verify here`,
-                    "url": `https://skf-studios.com/verify`,
+                    "custom_id": `row_verify`,
                     "disabled": false,
                     "emoji": {
                       "id": `783810410997481512`,
@@ -112,8 +112,8 @@ module.exports = async (client, message) => {
             "embeds": [
               {
                 "type": "rich",
-                "title": `Chill Zone - Verification`,
-                "description": `Please do \`/verify\` with GHIDORAH. The bot will give you a code and click on the button bellow to have access to the werbsite.`,
+                "title": `Sekei's Floof Den - Verification`,
+                "description": `Please click on the button bellow to starts your verification.`,
                 "color": 0xc515bf
               }
             ]
