@@ -770,9 +770,9 @@ module.exports.createEntry = async function (guildId, userId) {
 
 module.exports.checkEntry = async function (guildId, userId) {
     await entrySchema.findOne({ guildId: guildId, id: userId }).then(result => {
-        return true;
+        console.log('Result: ' + result);
     }).catch(err => {
-        return false;
+        console.log('Error: ' + err);
     });
 }
 
