@@ -82,7 +82,7 @@ module.exports = async (client, message) => {
           "embeds": [
             {
               "type": "rich",
-              "title": `SKF Studio - Staff applications`,
+              "title": `Staff applications`,
               "description": `Hello everyone, we're happy to announce we openened the Staff Applications.\n\nIf you are interested to be in our staff please click on the button \`Apply\` bellow.`,
               "color": 0x12d97c
             }

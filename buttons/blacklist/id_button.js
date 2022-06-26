@@ -30,6 +30,8 @@ module.exports = {
         if (data.type === "USER_ACTION") {
             switch (data.buttonType) {
                 case "acceptVerify": {
+                    const verifyEntry = client.Database.checkEntry(interaction.guild_id, interactionUser.id);
+
                     const memberU = members.cache.get(data.userId);
 
                     const role = server.roles.cache.get(guild.config.autorole.verified);
@@ -46,33 +48,40 @@ module.exports = {
                     else
                         embedWelcome.setDescription(`Welcome to ${server.name} <@${data.userId}> \n Have fun on ${server.name}! :3 *Yap yap yap*`);
 
-                    interaction.update({
-                        components: [
-                            {
-                                type: 1,
-                                components: [
-                                    {
-                                        "style": 3,
-                                        "label": `Accepted.`,
-                                        "custom_id": `row_id_userAction_${data.userId}_${guild.id}_acceptVerify`,
-                                        "disabled": true,
-                                        "type": 2
-                                    },
-                                    {
-                                        "style": 4,
-                                        "label": `Deny`,
-                                        "custom_id": `row_id_userAction_${data.userId}_${guild.id}_denyVerify`,
-                                        "disabled": true,
-                                        "type": 2
-                                    }
-                                ]
-                            }
-                        ]
-                    });
+                    if (verifyEntry) {
+                        interaction.update({
+                            components: [
+                                {
+                                    type: 1,
+                                    components: [
+                                        {
+                                            "style": 3,
+                                            "label": `Accepted.`,
+                                            "custom_id": `row_id_userAction_${data.userId}_${guild.id}_acceptVerify`,
+                                            "disabled": true,
+                                            "type": 2
+                                        },
+                                        {
+                                            "style": 4,
+                                            "label": `Deny`,
+                                            "custom_id": `row_id_userAction_${data.userId}_${guild.id}_denyVerify`,
+                                            "disabled": true,
+                                            "type": 2
+                                        }
+                                    ]
+                                }
+                            ]
+                        });
 
-                    generalChat.send({
-                        embeds: [embedWelcome]
-                    });
+                        generalChat.send({
+                            embeds: [embedWelcome]
+                        });
+                    } else {
+                        interaction.reply({
+                            content: 'Action "ACCEPT" impossible, User verification timed out.',
+                            ephemeral: true
+                        });
+                    }
                 }
                 break;
                 case "acceptVerifyOnline": {
@@ -173,29 +182,37 @@ module.exports = {
                 }
                 break;
                 case "denyVerify": {
-                    interaction.update({
-                        components: [
-                            {
-                                type: 1,
-                                components: [
-                                    {
-                                        "style": 4,
-                                        "label": `Accept`,
-                                        "custom_id": `row_id_userAction_${data.userId}_${guild.id}_acceptVerify`,
-                                        "disabled": true,
-                                        "type": 2
-                                    },
-                                    {
-                                        "style": 3,
-                                        "label": `Cancelled.`,
-                                        "custom_id": `row_id_userAction_${data.userId}_${guild.id}_denyVerify`,
-                                        "disabled": true,
-                                        "type": 2
-                                    }
-                                ]
-                            }
-                        ]
-                    });
+                    const verifyEntry = client.Database.checkEntry(interaction.guild_id, interactionUser.id);
+                    if (verifyEntry) {
+                        interaction.update({
+                            components: [
+                                {
+                                    type: 1,
+                                    components: [
+                                        {
+                                            "style": 4,
+                                            "label": `Accept`,
+                                            "custom_id": `row_id_userAction_${data.userId}_${guild.id}_acceptVerify`,
+                                            "disabled": true,
+                                            "type": 2
+                                        },
+                                        {
+                                            "style": 3,
+                                            "label": `Cancelled.`,
+                                            "custom_id": `row_id_userAction_${data.userId}_${guild.id}_denyVerify`,
+                                            "disabled": true,
+                                            "type": 2
+                                        }
+                                    ]
+                                }
+                            ]
+                        });
+                    } else {
+                        interaction.reply({
+                            content: 'Action "DENY" impossible, User verification timed out.',
+                            ephemeral: true
+                        });
+                    }
                 }
                 break;
                 case "denyVerifyOnline": {
@@ -296,7 +313,7 @@ module.exports = {
                                     new TextInputComponent()
                                         .setCustomId(`row_id_userVerify_${interaction.user.id}_${guild.id}_textActionData_4`)
                                         .setStyle("LONG")
-                                        .setLabel("WHY YOU WANT TO JOIN OUR SERVER?")
+                                        .setLabel("f")
                                         .setMinLength(0)
                                         .setMaxLength(4000)
                                         .setPlaceholder("If so, could you describe them?")

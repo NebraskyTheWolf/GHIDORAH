@@ -26,7 +26,7 @@ module.exports = {
                     const embed = new MessageEmbed()
                         .setColor("ORANGE")
                         .setTitle("GHIDORAH - Verification request.")
-                        .setDescription(`How did you find us?: \`\`\`${firstResponse}\`\`\` How old are you?: \`\`\`${secondResponse}\`\`\` Why you want to join our server?: \`\`\`${lastResponse}\`\`\` Have you read the rules?: \`\`\`${rulesResponse}\`\`\``)
+                        .setDescription(`How did you find us?: \`\`\`${firstResponse}\`\`\` How old are you?: \`\`\`${secondResponse}\`\`\` Do you have a fursona?: \`\`\`${lastResponse}\`\`\` Have you read the rules?: \`\`\`${rulesResponse}\`\`\``)
                         .addField("Username", `${interaction.user.username}`, true)
                         .addField("Descriminator", `${interaction.user.discriminator}`, true)
                         .addField("ID", `${interaction.user.id}`, true)
@@ -55,13 +55,15 @@ module.exports = {
                                 ]
                             }
                         ]
-                    });
+                    })
+
+                    client.Database.createEntry(guild.id, interaction.user.id);
 
                     interaction.reply({
                         "embeds": [
                             {
                               "type": "rich",
-                              "title": `GIDORAH - Verification request sent!`,
+                              "title": `GHIDORAH - Verification request sent!`,
                               "description": `Your application has been sent please wait.\n\nWe have a lots of applications in queue so please be patient :3`,
                               "color": 0xd9bb12
                             }
@@ -85,7 +87,7 @@ module.exports = {
                         .setDescription(`Please talk a bit about you: \`\`\`${firstResponse}\`\`\` How old are you?: \`\`\`${secondResponse}\`\`\` Why should we take you and not anyone else?: \`\`\`${thirdResponse}\`\`\` Do you have a moderations past?: \`\`\`${lastResponse}\`\`\` Do you have been sanctioned on this server?: \`\`\`${rulesResponse}\`\`\``)
                         .addField("Username", `${interaction.user.username}`, true)
                         .addField("Descriminator", `${interaction.user.discriminator}`, true)
-                        .addField("ID", `${interaction.user.id}`, true)
+                        .addField("Created at", `${moment(userinfoget.user.createdAt)}`, true)
                         .setThumbnail(`https://cdn.discordapp.com/avatars/${interaction.user.id}/${interaction.user.avatar}.jpeg`);
                     
                     channem.send({

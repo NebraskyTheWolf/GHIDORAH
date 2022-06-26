@@ -13,6 +13,7 @@ const factionSchema = require("./Models/Guild/Common/Faction");
 const modulesSchema = require('./Models/Guild/Common/Modules');
 const oauthSchema = require("./Models/Guild/Common/Oauth");
 const socialSchema = require("./Models/Guild/Common/Social");
+const entrySchema = require('./Models/Guild/Common/VerificationEntry');
 
 
 //MODERATION
@@ -755,4 +756,31 @@ module.exports.createPlayer = async function (data) {
     });
     player.save().catch(err => client.logger.log('ERROR', `Error occurred: ${err}`));
     return player;
+}
+
+module.exports.createEntry = async function (guildId, userId) {
+    let entry = entrySchema({
+        guildId: guildId,
+        id: userId,
+        registeredAt: Date.now()
+    });
+    entry.save().catch(err => client.logger.log('ERROR', `Error occurred: ${err}`));
+    return entry;
+}
+
+module.exports.checkEntry = async function (guildId, userId) {
+    const entry = await entrySchema.findOne({ id: userId });
+
+    if (entry)
+        return true;
+    else
+        return false;
+}
+
+module.exports.deleteEntry = async function (guildId, userId) {
+    await entrySchema.deleteOne({ guildId: guildId, id: userId });
+}
+
+module.exports.getAllEntries = async function () {
+    return await entrySchema.find({});
 }
