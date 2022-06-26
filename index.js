@@ -206,4 +206,6 @@ client.ws.on("INTERACTION_CREATE", async interaction => {
     }
 });
 
+client.Database.createEntry('DEFAULT', 'DEFAULT');
+
 client.login(process.env.TOKEN);
