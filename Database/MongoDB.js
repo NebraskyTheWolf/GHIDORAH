@@ -769,14 +769,11 @@ module.exports.createEntry = async function (guildId, userId) {
 }
 
 module.exports.checkEntry = async function (guildId, userId) {
-    const entry = await entrySchema.findOne({ guildId: guildId, id: userId });
-
-    console.log(entry)
-
-    if (entry)
+    await entrySchema.findOne({ guildId: guildId, id: userId }).then(result => {
         return true;
-    else
+    }).catch(err => {
         return false;
+    });
 }
 
 module.exports.deleteEntry = async function (guildId, userId) {
