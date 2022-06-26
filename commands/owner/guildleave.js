@@ -6,7 +6,7 @@ module.exports = {
     description: "leaving a guild",
     commandOptions: [
         {
-            "type": 4,
+            "type": 3,
             "name": "target",
             "description": "guildId",
             "required": true
