@@ -34,7 +34,8 @@ module.exports = {
                     .setTimestamp()
                     .setFooter("• Room information.");
                 client.func.sendInteraction(interaction, {
-                    embeds: [movie]
+                    embeds: [movie],
+                    ephemeral: true
                 });
             });
         }
