@@ -6,7 +6,7 @@ module.exports = {
     },
     async execute(interaction, interactionUser, guild) {
 
-        const verifyEntry = client.Database.checkEntry(interaction.guild_id, interactionUser.id);
+        const verifyEntry = client.Database.checkEntry(guild.id, interactionUser.id);
 
         if (verifyEntry) {
             const embed = new MessageEmbed()
