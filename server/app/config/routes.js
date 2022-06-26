@@ -54,9 +54,11 @@ module.exports = {
     'get /servers/by-id/:guildId/rules': {'function': 'ServerController.fetchRules', protected: false},
     'get /servers/by-id/:guildId/verification/:userId': {'function': 'ServerController.checkVerify', protected: false},
     'get /servers/by-id/:guildId/verification': {'function': 'ServerController.fetchAllVerify', protected: false},
+    'get /servers/by-id/:guildId/verification/counts': {'function': 'ServerController.countVerify', protected: false},
 
     'get /user/by-id/:userid/:guildId': {'function': 'ServerController.getUsernameByID', protected: false},
     'get /user/by-id/:userid/:guildId/level': {'function': 'ServerController.fetchLevel', protected: false},
+    
 
     'get /server/by-owner/:ownerId': {'function': 'ServerController.fetchServerByOwner', protected: false},
 

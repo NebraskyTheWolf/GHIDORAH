@@ -153,6 +153,16 @@ module.exports = {
                 status: false,
                 data: {}
             });
+    },
+    countVerify : async function (req, res) {
+        if (req.params.guildId === undefined)
+            res.status(403).json({status: false, error: 'Invalid guildId.'});
+
+        const entries = await client.Database.countVerify(req.params.guildId);
+        res.status(200).json({
+            status: true,
+            counts: entries
+        });
     }
     // AJAX CONTROLLER
 };

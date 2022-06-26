@@ -779,3 +779,10 @@ module.exports.deleteEntry = async function (guildId, userId) {
 module.exports.getAllEntries = async function () {
     return await entrySchema.find();
 }
+
+module.exports.countVerify = async function (guildId) {
+    await entrySchema.find({ guildId: guildId }).count({}, (error, result) => {
+        if (error) return 0;
+        return parseInt(result);
+    });
+}
