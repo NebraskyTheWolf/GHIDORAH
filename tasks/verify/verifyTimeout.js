@@ -7,7 +7,7 @@ module.exports = {
         cronTime: 300000
     },
     execute() {
-        client.Database.getAllEntries().forEach(result => {
+        client.Database.getAllEntries().then(result => {
             if ((date - new Date(result.registeredAt) > ALIVE_ENTRY)) {
                 client.Database.deleteEntry(result.id).then(request => {
                     if (result.id === 'DEFAULT') return;
