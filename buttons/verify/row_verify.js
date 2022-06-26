@@ -6,9 +6,9 @@ module.exports = {
     },
     async execute(interaction, interactionUser, guild) {
 
-        const verifyEntry = client.Database.checkEntry(guild.id, interactionUser.id);
+        const verifyEntry = await client.Database.checkEntry(guild.id, interactionUser.id);
         console.log(verifyEntry);
-        
+
         if (verifyEntry) {
             const embed = new MessageEmbed()
                 .setColor("RED")
