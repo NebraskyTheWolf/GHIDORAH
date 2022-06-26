@@ -4,7 +4,7 @@ const ALIVE_ENTRY = 60 * 60 * 1000;
 module.exports = {
     task: {
         name: 'verifytimeout',
-        cronTime: 300000
+        cronTime: 30000
     },
     async execute() {
         await client.Database.getAllEntries().then(result => {
