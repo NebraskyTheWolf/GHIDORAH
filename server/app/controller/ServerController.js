@@ -2,6 +2,7 @@ require("discord-banner")(process.env.TOKEN, {
     cacheTime: 60*60*1000
 });
 const { getUserBanner } = require("discord-banner");
+const { client } = require("tmi.js");
 
 module.exports = {
     getServerByID: function (req, res) {
@@ -120,6 +121,38 @@ module.exports = {
             res.status(404).json({
                 status: true,
                 data: []
+            });
+    },
+    checkVerify: async function (req, res) {
+        if (req.params.guildId === undefined || req.params.userId === undefined)
+            res.status(403).json({status: false, error: 'Invalid guildId or userId.'});
+        
+        const verify = client.Database.checkEntry(req.params.guildId, req.params.userId);
+        if (verify)
+            res.status(200).json({
+                status: true,
+                data: verify
+            });
+        else 
+            res.status(404).json({
+                status: false,
+                data: {}
+            });
+    },
+    fetchAllVerify : async function (req, res) {
+        if (req.params.guildId === undefined)
+            res.status(403).json({status: false, error: 'Invalid guildId.'});
+
+        const entries = client.Database.getAllEntries(req.params.guildId);
+        if (entries)
+            res.status(200).json({
+                status: true,
+                data: entries
+            });
+        else 
+            res.status(404).json({
+                status: false,
+                data: {}
             });
     }
     // AJAX CONTROLLER
