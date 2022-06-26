@@ -2,7 +2,6 @@ require("discord-banner")(process.env.TOKEN, {
     cacheTime: 60*60*1000
 });
 const { getUserBanner } = require("discord-banner");
-const { client } = require("tmi.js");
 
 module.exports = {
     getServerByID: function (req, res) {
