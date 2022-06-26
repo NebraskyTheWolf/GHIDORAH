@@ -769,7 +769,12 @@ module.exports.createEntry = async function (guildId, userId) {
 }
 
 module.exports.checkEntry = async function (guildId, userId) {
-    const verify = await entrySchema.findOne({ guildId: guildId, id: userId });
+    const verify = await entrySchema.find({  }, {
+        $elemMatch: {
+            guildId: guildId,
+            id: userId
+        }
+    })
     if (verify)
         return true;
     else
