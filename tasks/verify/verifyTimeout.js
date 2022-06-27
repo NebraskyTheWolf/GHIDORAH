@@ -1,5 +1,5 @@
 const date = new Date();
-const ALIVE_ENTRY = 60 * 60 * 1000;
+const ALIVE_ENTRY = 5 * 60 * 1000;
 
 module.exports = {
     task: {

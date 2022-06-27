@@ -30,7 +30,7 @@ module.exports = {
         if (data.type === "USER_ACTION") {
             switch (data.buttonType) {
                 case "acceptVerify": {
-                    const verifyEntry = await client.Database.checkEntry(interaction.guild_id, interactionUser.id);
+                    const verifyEntry = await client.Database.checkEntry(interaction.guild_id, data.userId);
 
                     const memberU = members.cache.get(data.userId);
 
@@ -76,6 +76,7 @@ module.exports = {
                         generalChat.send({
                             embeds: [embedWelcome]
                         });
+                        await client.Database.deleteEntry(guild.id, data.userId);
                     } else {
                         interaction.reply({
                             content: 'Action "ACCEPT" impossible, User verification timed out.',
@@ -182,7 +183,7 @@ module.exports = {
                 }
                 break;
                 case "denyVerify": {
-                    const verifyEntry = await client.Database.checkEntry(interaction.guild_id, interactionUser.id);
+                    const verifyEntry = await client.Database.checkEntry(interaction.guild_id, data.userId);
                     if (verifyEntry) {
                         interaction.update({
                             components: [
@@ -207,6 +208,7 @@ module.exports = {
                                 }
                             ]
                         });
+                        await client.Database.deleteEntry(guild.id, data.userId);
                     } else {
                         interaction.reply({
                             content: 'Action "DENY" impossible, User verification timed out.',
