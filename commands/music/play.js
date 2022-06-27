@@ -27,7 +27,7 @@ module.exports = {
                 autoSelfDeaf: true,
                 metadata: interaction.channel
         });
-     
+    
         try {
             if (!interaction.guild.me.voice.channelID) await queue.connect(interaction.member.voice.channel)
         } catch {
