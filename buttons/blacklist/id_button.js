@@ -30,7 +30,7 @@ module.exports = {
         if (data.type === "USER_ACTION") {
             switch (data.buttonType) {
                 case "acceptVerify": {
-                    const verifyEntry = await client.Database.checkEntry(interaction.guild_id, data.userId);
+                    const verifyEntry = await client.Database.checkEntry(guild.id, data.userId);
 
                     const memberU = members.cache.get(data.userId);
 
@@ -183,7 +183,7 @@ module.exports = {
                 }
                 break;
                 case "denyVerify": {
-                    const verifyEntry = await client.Database.checkEntry(interaction.guild_id, data.userId);
+                    const verifyEntry = await client.Database.checkEntry(guild.id, data.userId);
                     if (verifyEntry) {
                         interaction.update({
                             components: [
