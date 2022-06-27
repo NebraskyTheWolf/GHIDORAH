@@ -46,7 +46,6 @@ const permissionsSchema = require('./Models/Guild/Security/Permissions/Permissio
 const playerSchema = require('./Models/Minecraft/Server/Player/Player');
 
 const { v4 } = require('uuid');
-const { client } = require('tmi.js');
 
 module.exports.fetchUser = async function(key) {
     let userDB = await userSchema.findOne({ id: key });
