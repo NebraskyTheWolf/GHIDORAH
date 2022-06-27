@@ -101,6 +101,21 @@ module.exports = {
             res.status(404).json({status: false, data: {}});
         });
     },
+    createRules: async function (req, res) {
+        if (req.body.guildId === undefined || req.body.data === undefined)
+            res.status(403).json({status: false, error: 'Invalid guildId.'});
+        await client.Database.createRules(req.body.guildId, req.body.data).then(result => {
+            res.status(200).json({
+                status: true,
+                data: result
+            });
+        }).catch(err => {
+            res.status(404).json({
+                status: false,
+                data: err
+            });
+        });
+    },
     fetchServerByOwner: async function (req, res) {
         if (req.params.ownerId === undefined)
             res.status(403).json({status: false, error: 'Invalid ownerId.'});

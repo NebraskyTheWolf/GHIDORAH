@@ -46,6 +46,7 @@ const permissionsSchema = require('./Models/Guild/Security/Permissions/Permissio
 const playerSchema = require('./Models/Minecraft/Server/Player/Player');
 
 const { v4 } = require('uuid');
+const { client } = require('tmi.js');
 
 module.exports.fetchUser = async function(key) {
     let userDB = await userSchema.findOne({ id: key });
@@ -600,6 +601,16 @@ module.exports.createNode = async function(data = {}, callback) {
 
 module.exports.fetchRules = async function (guildId) {
     return await rulesSchema.findOne({ guildId: guildId });
+}
+
+module.exports.createRules = async function (guildId, data) {
+    const create = await rulesSchema({
+        guildId: guildId,
+        rules: data,
+        active: true
+    });
+    create.save().catch(err => client.logger.log('ERROR', `Error occurred: ${err}`));
+    return create;
 }
 
 module.exports.fetchApplication = async function (token) {

@@ -55,11 +55,9 @@ module.exports = {
     'get /servers/by-id/:guildId/verification/by-user/:userId': {'function': 'ServerController.checkVerify', protected: false},
     'get /servers/by-id/:guildId/verification': {'function': 'ServerController.fetchAllVerify', protected: false},
     'get /servers/by-id/:guildId/verification/counts': {'function': 'ServerController.countVerify', protected: false},
-
     'get /user/by-id/:userid/:guildId': {'function': 'ServerController.getUsernameByID', protected: false},
     'get /user/by-id/:userid/:guildId/level': {'function': 'ServerController.fetchLevel', protected: false},
-    
-
+    'post /servers/by-id/:guildId/rules/create': {'function': 'ServerController.createRules', protected: true},
     'get /server/by-owner/:ownerId': {'function': 'ServerController.fetchServerByOwner', protected: false},
 
     'post /discord/interactions': {'function': 'DiscordController.discordInteractions', protected: false},
