@@ -791,8 +791,8 @@ module.exports.deleteEntry = async function (guildId, userId) {
     await entrySchema.deleteOne({ guildId: guildId, id: userId });
 }
 
-module.exports.getAllEntries = async function () {
-    return await entrySchema.find();
+module.exports.getAllEntries = async function (guildId) {
+    return await entrySchema.find({ guildId: guildId });
 }
 
 module.exports.countVerify = async function (guildId) {
