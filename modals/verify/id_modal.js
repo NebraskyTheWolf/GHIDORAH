@@ -31,6 +31,7 @@ module.exports = {
                         .addField("Username", `${interaction.user.username}`, true)
                         .addField("Descriminator", `${interaction.user.discriminator}`, true)
                         .addField("ID", `${interaction.user.id}`, true)
+                        .addField("Created at", `${moment(interaction.user.createdAt)}`, true)
                         .setThumbnail(`https://cdn.discordapp.com/avatars/${interaction.user.id}/${interaction.user.avatar}.jpeg`);
                     
                     logChannel.send({
@@ -88,7 +89,6 @@ module.exports = {
                         .setDescription(`Please talk a bit about you: \`\`\`${firstResponse}\`\`\` How old are you?: \`\`\`${secondResponse}\`\`\` Why should we take you and not anyone else?: \`\`\`${thirdResponse}\`\`\` Do you have a moderations past?: \`\`\`${lastResponse}\`\`\` Do you have been sanctioned on this server?: \`\`\`${rulesResponse}\`\`\``)
                         .addField("Username", `${interaction.user.username}`, true)
                         .addField("Descriminator", `${interaction.user.discriminator}`, true)
-                        .addField("Created at", `${moment(userinfoget.user.createdAt)}`, true)
                         .setThumbnail(`https://cdn.discordapp.com/avatars/${interaction.user.id}/${interaction.user.avatar}.jpeg`);
                     
                     channem.send({
