@@ -427,7 +427,7 @@ module.exports.fetchMessage = async function (messageId) {
 }
 
 module.exports.fetchMessageByUser = async function (userId) {
-    return await messagesSchema.findOne({ id: userId });
+    return await messagesSchema.find({ id: userId });
 }
 
 // LEVELS
