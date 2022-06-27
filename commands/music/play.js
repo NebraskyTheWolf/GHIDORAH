@@ -20,15 +20,52 @@ module.exports = {
             searchEngine: QueryType.AUTO
         });
 
-        if (!res || !res.tracks.length) return;
+        console.log(res);
+
+        if (!res || !res.tracks.length) {
+            client.api.interactions(interaction.id, interaction.token).callback.post({
+                "data": {
+                    "type": 4,
+                    "data": {
+                        "components": [
+                            {
+                              "type": 1,
+                              "components": [
+                                {
+                                  "style": 4,
+                                  "label": `Track not found.`,
+                                  "custom_id": `row_0_button_0`,
+                                  "disabled": true,
+                                  "emoji": {
+                                    "id": `920840187230158848`,
+                                    "name": `TFA_Music`,
+                                    "animated": false
+                                  },
+                                  "type": 2
+                                }
+                              ]
+                            }
+                        ],
+                        "ephemeral": true
+                    }
+                }
+            });
+            return;
+        }
+
+        console.log(interaction.guild)
 
         const queue = await client.player.createQueue(interaction.guild, {
                 leaveOnEnd: true,
                 autoSelfDeaf: true,
                 metadata: interaction.channel
         });
+
+        console.log(queue);
     
         try {
+            console.log(interaction.guild.me.voice.channelId)
+            console.log(interaction.guild.me.voice.channel)
             if (!interaction.guild.me.voice.channelId) await queue.connect(interaction.member.voice.channel)
         } catch {
             await client.player.deleteQueue(interaction.guild_id);
