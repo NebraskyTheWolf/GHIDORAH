@@ -3,7 +3,7 @@ const { v4 } = require('uuid');
 const moment = require('moment');
 
 module.exports = {
-    name: "verifyqueue",
+    name: "blacklist",
     description: "queue of wating users ( debug purpose )",
     commandOptions: [
         {
