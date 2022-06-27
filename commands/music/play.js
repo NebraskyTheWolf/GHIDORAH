@@ -29,12 +29,12 @@ module.exports = {
         });
     
         try {
-            if (!interaction.guild.me.voice.channelID) await queue.connect(interaction.member.voice.channel)
+            if (!interaction.guild.me.voice.channelId) await queue.connect(interaction.member.voice.channel)
         } catch {
             await client.player.deleteQueue(interaction.guild.id);
             return;
         }
-       
+        
         res.playlist ? queue.addTracks(res.tracks) : queue.addTrack(res.tracks[0]);
         if (!queue.playing) await queue.play()
     }
