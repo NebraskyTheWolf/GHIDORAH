@@ -1,10 +1,34 @@
-const { MessageEmbed } = require("discord.js")
+const { MessageEmbed } = require("discord.js");
 
 module.exports = {
     data: {
         name: "row_verify"
     },
     async execute(interaction, interactionUser, guild) {
+
+        const blacklist = await client.Database.isBlacklisted(interactionUser.id);
+
+        if (blacklist && blacklist.data.active) {
+            await interaction.reply({
+                embeds: [embed], 
+                components: [
+                    {
+                        type: 1,
+                        components: [
+                            {
+                                "style": 4,
+                                "label": `Leave`,
+                                "custom_id": `row_`,
+                                "disabled": false,
+                                "type": 2
+                            }
+                        ]
+                    }
+                ],
+                ephemeral: true
+            });
+            return;
+        }
 
         const verifyEntry = await client.Database.checkEntry(guild.id, interactionUser.id);
         if (verifyEntry) {

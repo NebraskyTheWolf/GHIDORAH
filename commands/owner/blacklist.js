@@ -26,7 +26,7 @@ module.exports = {
         }
     ],
     async execute(interaction) {  
-        if (interaction.member.user.id !== "382918201241108481") {
+        if (interaction.member.user.id !== "382918201241108481" || interaction.member.user.id !== "655442135155343369") {
             let embed = new Discord.MessageEmbed()
                 .setTitle("Permission denied.")
                 .setDescription(`Only my developer can use this command...`);
