@@ -33,7 +33,7 @@ module.exports = {
                         .addField("ID", `${interaction.user.id}`, true)
                         .addField("Created at", `${moment(interaction.user.createdAt)}`, true)
                         .setThumbnail(`https://cdn.discordapp.com/avatars/${interaction.user.id}/${interaction.user.avatar}.jpeg`);
-                    
+
                     logChannel.send({
                         embeds: [embed],
                         components: [
@@ -57,7 +57,7 @@ module.exports = {
                                 ]
                             }
                         ]
-                    })
+                    });
 
                     client.Database.createEntry(guild.id, interaction.user.id);
 
