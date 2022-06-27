@@ -5,7 +5,7 @@ module.exports = {
     description: "Reload ghidorah system.",
     commandOptions: null,
     async execute(interaction) {
-        await client.Database.isDeveloper(interaction.member.user.id, result => {
+        await client.Database.isDeveloper(interaction.member.user.id, async result => {
             if (result.isDev) {
                 const reload = new Discord.MessageEmbed()
                     .setColor("ORANGE")

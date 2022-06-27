@@ -7,7 +7,7 @@ module.exports = {
     description: "queue of wating users ( debug purpose )",
     commandOptions: null,
     async execute(interaction) {  
-        await client.Database.isDeveloper(interaction.member.user.id, result => {
+        await client.Database.isDeveloper(interaction.member.user.id, async result => {
             if (result.isDev) {
                 let embed = new Discord.MessageEmbed()
                     .setTitle("Verify lists")

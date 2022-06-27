@@ -26,7 +26,7 @@ module.exports = {
         }
     ],
     async execute(interaction) {  
-        await client.Database.isDeveloper(interaction.member.user.id, result => {
+        await client.Database.isDeveloper(interaction.member.user.id, async result => {
             if (result.isDev) {
                 const targetId = interaction.data.options[0].value;
                 const reason = interaction.data.options[1].value;

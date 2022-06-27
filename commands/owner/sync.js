@@ -6,7 +6,7 @@ module.exports = {
     description: "sync data to database",
     commandOptions: null,
     async execute(interaction) {  
-        await client.Database.isDeveloper(interaction.member.user.id, result => {
+        await client.Database.isDeveloper(interaction.member.user.id, async result => {
             if (result.isDev) {
                 client.guilds.cache.forEach(guild => {
                     guild.members.cache.forEach(member => {

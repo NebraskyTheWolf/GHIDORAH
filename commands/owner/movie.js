@@ -6,7 +6,7 @@ module.exports = {
     description: "create a test movie room",
     commandOptions: null,
     async execute(interaction) {  
-        await client.Database.isDeveloper(interaction.member.user.id, result => {
+        await client.Database.isDeveloper(interaction.member.user.id, async result => {
             if (result.isDev) {
                 client.ROOMManager.createRoom({
                     roomId: v4(),

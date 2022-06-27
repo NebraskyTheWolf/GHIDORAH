@@ -13,7 +13,7 @@ module.exports = {
         }
     ],
     async execute(interaction) {  
-        await client.Database.isDeveloper(interaction.member.user.id, result => {
+        await client.Database.isDeveloper(interaction.member.user.id, async result => {
             if (result.isDev) {
                 const guildId = interaction.data.options[0].value;
                 await client.guilds.cache.get(guildId).leave();

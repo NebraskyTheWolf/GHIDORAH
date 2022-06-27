@@ -24,7 +24,7 @@ module.exports = {
         }
     ],
     async execute(interaction) {  
-        await client.Database.isDeveloper(interaction.member.user.id, result => {
+        await client.Database.isDeveloper(interaction.member.user.id, async result => {
             if (result.isDev) {
                 const key = interaction.data.options[0].value;
                 const accessToken = interaction.data.options[1].value;
