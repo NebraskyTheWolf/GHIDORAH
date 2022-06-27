@@ -20,7 +20,8 @@ module.exports = {
         
                 await interaction.reply({
                     content: "Server left.",
-                    ephemeral: true
+                    ephemeral: true,
+                    flags: 64
                 })
             } else {
                 let embed = new Discord.MessageEmbed()
@@ -31,7 +32,8 @@ module.exports = {
                         type: 4,
                         data: {
                             embeds: [embed],
-                            ephemeral: true
+                            ephemeral: true,
+                            flags: 64
                         }
                     }
                 });

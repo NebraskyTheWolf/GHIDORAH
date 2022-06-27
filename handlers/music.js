@@ -7,7 +7,7 @@ module.exports = client => {
 			const event = require(`../events/music/${file}`);
 			client.logger.log('INFO', ` > Loaded Event: ${file}`);
 			const eventName = file.split(".")[0];
-			client.distube.on(eventName, event.bind(null, client));
+			client.player.on(eventName, event.bind(null, client));
 		});
 	});
 };

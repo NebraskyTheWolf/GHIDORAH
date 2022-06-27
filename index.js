@@ -1,3 +1,4 @@
+const { Player } = require('discord-player');
 const { Collection, Client, Intents } = require("discord.js");
 const discordModals = require('discord-modals')
 
@@ -132,6 +133,13 @@ client.PayloadHandler = PayloadHandler;
 client.payload = new Collection();
 
 client.fingerprint = prints;
+
+client.player = new Player(client, {
+    ytdlOptions: {
+        quality: 'highestaudio',
+        highWaterMark: 1 << 25
+    }
+});
 
 function createOrSet(array, key, value) {
     if (array[key] !== undefined)

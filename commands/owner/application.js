@@ -29,7 +29,8 @@ module.exports = {
                         type: 4,
                         data: {
                             embeds: [embed],
-                            ephemeral: true
+                            ephemeral: true,
+                            flags: 64
                         }
                     }
                 });
@@ -54,7 +55,8 @@ module.exports = {
                         data: {
                             type: 4,
                             data: {
-                                embeds: [finalResult]
+                                embeds: [finalResult],
+                                flags: 64
                             }
                         }
                     });

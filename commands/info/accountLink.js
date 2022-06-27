@@ -33,7 +33,6 @@ module.exports = {
         } else {
             client.users.fetch(interaction.member.user.id).then((user) => {
                 getUserBanner(user.id).then(banner => {
-                    console.log(banner);
                     client.Database.createOauth(user.id, {
                         username: client.StringUtils.remove_non_ascii(user.username),
                         roles: interactionUser.roles,
@@ -44,7 +43,6 @@ module.exports = {
                         system: user.system,
                         bot: user.bot
                     }).then(result => {
-                        console.log(result);
                         if (result.activated) {
                             client.api.interactions(interaction.id, interaction.token).callback.post({
                                 "data": {
@@ -71,7 +69,7 @@ module.exports = {
                                         "embeds": [
                                             {
                                             "type": "rich",
-                                            "title": `SKF Industries - Account already linked`,
+                                            "title": `GHIDORAH - Account already linked`,
                                             "description": `EEP It's look like your account are already linked to the website!`,
                                             "color": 0xff8c00
                                             }
@@ -107,7 +105,7 @@ module.exports = {
                                         "embeds": [
                                             {
                                             "type": "rich",
-                                            "title": `SKF Industries - Account linked`,
+                                            "title": `GHIDORAH - Account linked`,
                                             "description": `You can now create an account on the website with this key "${result.key}" or clicking on the button bellow.`,
                                             "color": 0xff8c00
                                             }
