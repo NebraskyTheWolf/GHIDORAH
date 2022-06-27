@@ -315,7 +315,7 @@ module.exports = {
                                     new TextInputComponent()
                                         .setCustomId(`row_id_userVerify_${interaction.user.id}_${guild.id}_textActionData_4`)
                                         .setStyle("LONG")
-                                        .setLabel("f")
+                                        .setLabel("DO YOU HAVE A FURSONA?")
                                         .setMinLength(0)
                                         .setMaxLength(4000)
                                         .setPlaceholder("If so, could you describe them?")

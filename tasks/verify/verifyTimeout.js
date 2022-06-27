@@ -8,7 +8,6 @@ module.exports = {
     },
     async execute() {
         await client.Database.getAllEntries().then(async result => {
-            console.log((date - new Date(result.registeredAt)) > ALIVE_ENTRY)
             if ((date - new Date(result.registeredAt)) > ALIVE_ENTRY) {
                 await client.Database.deleteEntry(result.id).then(async request => {
                     if (result.id === 'DEFAULT') return;
