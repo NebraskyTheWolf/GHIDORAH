@@ -11,7 +11,7 @@ module.exports = {
             const embed = new MessageEmbed()
                 .setColor("ORANGE")
                 .setTitle("GHIDORAH - Verification failed.")
-                .setDescription(`You are system blacklisted for \`\`\`\ ${blacklist.data.reason} \`\`\``);
+                .setDescription(`You are system blacklisted for \`\`\`\ ${blacklist.data.reasons} \`\`\``);
             await interaction.reply({
                     embeds: [embed], 
                     components: [
