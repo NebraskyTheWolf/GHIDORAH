@@ -2,8 +2,8 @@ const Discord = require("discord.js");
 const { v4 } = require('uuid');
 
 module.exports = {
-    name: "sync",
-    description: "sync data to database",
+    name: "adddev",
+    description: "add developer",
     commandOptions: [
         {
             "type": 6,
