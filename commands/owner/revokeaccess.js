@@ -6,20 +6,23 @@ module.exports = {
     description: "revoke api",
     commandOptions: null,
     async execute(interaction) {  
-        if (interaction.member.user.id !== "382918201241108481") {
-            let embed = new Discord.MessageEmbed()
-                .setTitle("Permission denied.")
-                .setDescription(`Only my developer can use this command...`);
-            client.api.interactions(interaction.id, interaction.token).callback.post({
-                data: {
-                    type: 4,
+        await client.Database.isDeveloper(interaction.member.user.id, result => {
+            if (result.isDev) {
+                // FUCK ME DADDY UWU
+            } else {
+                let embed = new Discord.MessageEmbed()
+                    .setTitle("Permission denied.")
+                    .setDescription(`Only my developer can use this command...`);
+                client.api.interactions(interaction.id, interaction.token).callback.post({
                     data: {
-                        embeds: [embed],
-                        ephemeral: true
+                        type: 4,
+                        data: {
+                            embeds: [embed],
+                            ephemeral: true
+                        }
                     }
-                }
-            });
-            return;
-        }
+                });
+            }
+        }); 
     }
 }

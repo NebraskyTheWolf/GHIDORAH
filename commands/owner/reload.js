@@ -5,57 +5,58 @@ module.exports = {
     description: "Reload ghidorah system.",
     commandOptions: null,
     async execute(interaction) {
-        console.log(interaction.member.user.id)
-        if (interaction.member.user.id !== "382918201241108481") {
-            let embed = new Discord.MessageEmbed()
-                .setTitle("Permission denied.")
-                .setDescription(`Only my developer can use this command...`);
-            client.api.interactions(interaction.id, interaction.token).callback.post({
-                data: {
-                    type: 4,
+        await client.Database.isDeveloper(interaction.member.user.id, result => {
+            if (result.isDev) {
+                const reload = new Discord.MessageEmbed()
+                    .setColor("ORANGE")
+                    .setAuthor("Action Reload")
+                    .addField("Target", `Commands`)
+                    .setDescription("Are you sure to confirm this action?")
+                    .setTimestamp()
+                    .setFooter("• Reload Action Information");
+                client.api.interactions(interaction.id, interaction.token).callback.post({
                     data: {
-                        embeds: [embed],
-                        ephemeral: true
+                        type: 4,
+                        data: {
+                            embeds: [reload],
+                            components: [
+                                {
+                                    type: 1,
+                                    components: [
+                                        {
+                                            style: 3,
+                                            label: "Confirm",
+                                            custom_id: `row_reload_confirm`,
+                                            disabled: false,
+                                            type: 2
+                                        },
+                                        {
+                                            style: 4,
+                                            label: "Cancel",
+                                            custom_id: `row_reload_cancel`,
+                                            disabled: false,
+                                            type: 2
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
                     }
-                }
-            });
-        } else {
-            const reload = new Discord.MessageEmbed()
-                .setColor("ORANGE")
-                .setAuthor("Action Reload")
-                .addField("Target", `Commands`)
-                .setDescription("Are you sure to confirm this action?")
-                .setTimestamp()
-                .setFooter("• Reload Action Information");
-            client.api.interactions(interaction.id, interaction.token).callback.post({
-                data: {
-                    type: 4,
+                });
+            } else {
+                let embed = new Discord.MessageEmbed()
+                    .setTitle("Permission denied.")
+                    .setDescription(`Only my developer can use this command...`);
+                client.api.interactions(interaction.id, interaction.token).callback.post({
                     data: {
-                        embeds: [reload],
-                        components: [
-                            {
-                                type: 1,
-                                components: [
-                                    {
-                                        style: 3,
-                                        label: "Confirm",
-                                        custom_id: `row_reload_confirm`,
-                                        disabled: false,
-                                        type: 2
-                                    },
-                                    {
-                                        style: 4,
-                                        label: "Cancel",
-                                        custom_id: `row_reload_cancel`,
-                                        disabled: false,
-                                        type: 2
-                                    }
-                                ]
-                            }
-                        ]
+                        type: 4,
+                        data: {
+                            embeds: [embed],
+                            ephemeral: true
+                        }
                     }
-                }
-            });
-        }
+                });
+            }
+        }); 
     }
 }

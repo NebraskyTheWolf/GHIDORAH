@@ -40,6 +40,7 @@ const cardsSchema = require('./Models/Bank/client/Card');
 const securitySchema = require('./Models/Guild/Security/Application');
 const payloadSchema = require('./Models/Guild/Security/Payload/Payload');
 const permissionsSchema = require('./Models/Guild/Security/Permissions/Permissions');
+const developersSchema = require('./Models/Guild/Security/Permissions/Developers');
 
 // MINECRAFT
 
@@ -799,4 +800,22 @@ module.exports.countVerify = async function (guildId) {
         if (error) return 0;
         return parseInt(result);
     });
+}
+
+module.exports.isDeveloper = async function (userId, callback) {
+    const developer = await developersSchema.findOne({ userId: userId });
+    if (developer)
+        callback({ status: true, isDev: true });
+    else
+        callback({ status: false, isDev: false });
+}
+
+module.exports.addDeveloper = async function (userId, permissionLevel = "4") {
+    const developer = developersSchema({
+        userId: userId,
+        permissionLevel: permissionLevel,
+        registeredAt: Date.now()
+    });
+    developer.save().catch(err => client.logger.log('ERROR', `Error occurred: ${err}`));
+    return developer;
 }

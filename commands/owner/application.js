@@ -19,46 +19,47 @@ module.exports = {
         }
     ],
     async execute(interaction) {  
-        if (interaction.member.user.id !== "382918201241108481") {
-            let embed = new Discord.MessageEmbed()
-                .setTitle("Permission denied.")
-                .setDescription(`Only my developer can use this command...`);
-            client.api.interactions(interaction.id, interaction.token).callback.post({
-                data: {
-                    type: 4,
+        await client.Database.isDeveloper(interaction.member.user.id, result => {
+            if (result.isDev) {
+                let embed = new Discord.MessageEmbed()
+                    .setTitle("Permission denied.")
+                    .setDescription(`Only my developer can use this command...`);
+                client.api.interactions(interaction.id, interaction.token).callback.post({
                     data: {
-                        embeds: [embed],
-                        ephemeral: true
+                        type: 4,
+                        data: {
+                            embeds: [embed],
+                            ephemeral: true
+                        }
                     }
-                }
-            });
-            return;
-        }
+                });
+            } else {
+                const appName = interaction.data.options[0].value;
+                const appDesc = interaction.data.options[1].value;
 
-        const appName = interaction.data.options[0].value;
-        const appDesc = interaction.data.options[1].value;
-
-        client.Database.createDefaultApplication({
-            appName: appName,
-            appDescription: appDesc,
-            appEnabled: true,
-            issuer: interaction.member.user.id
-        }, result => {        
-            let finalResult = new Discord.MessageEmbed()
-                .setTitle("Application created")
-                .setDescription(`{ accessToken: ${result.data.auth.accessToken}, refreshToken: ${result.data.auth.refreshToken}}`)
-                .addField('HEADER-TOKEN', `${result.data.token}`, false)
-                .addField('Application Name', `${result.data.appName}`, false)
-                .addField('Application Desc', `${result.data.appDescription}`, false)
-                .addField('Enabled', `${result.data.appEnabled}`, false);
-            client.api.interactions(interaction.id, interaction.token).callback.post({
-                data: {
-                    type: 4,
-                    data: {
-                        embeds: [finalResult]
-                    }
-                }
-            });
-        });
+                client.Database.createDefaultApplication({
+                    appName: appName,
+                    appDescription: appDesc,
+                    appEnabled: true,
+                    issuer: interaction.member.user.id
+                }, result => {        
+                    let finalResult = new Discord.MessageEmbed()
+                        .setTitle("Application created")
+                        .setDescription(`{ accessToken: ${result.data.auth.accessToken}, refreshToken: ${result.data.auth.refreshToken}}`)
+                        .addField('HEADER-TOKEN', `${result.data.token}`, false)
+                        .addField('Application Name', `${result.data.appName}`, false)
+                        .addField('Application Desc', `${result.data.appDescription}`, false)
+                        .addField('Enabled', `${result.data.appEnabled}`, false);
+                    client.api.interactions(interaction.id, interaction.token).callback.post({
+                        data: {
+                            type: 4,
+                            data: {
+                                embeds: [finalResult]
+                            }
+                        }
+                    });
+                });
+            }
+        }); 
     }
 }
