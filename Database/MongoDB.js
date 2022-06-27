@@ -426,6 +426,10 @@ module.exports.fetchMessage = async function (messageId) {
     return await messagesSchema.findOne({ messageId: messageId });
 }
 
+module.exports.fetchMessageByUser = async function (userId) {
+    return await messagesSchema.findOne({ id: userId });
+}
+
 // LEVELS
 
 module.exports.addEXP = async function (id, amounts = 0) {

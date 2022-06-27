@@ -9,6 +9,7 @@ module.exports = {
 
     'get /users/messages': {'function': 'UserController.getTotalMessages', protected: false},
     'get /users/messages/:guildId': {'function': 'UserController.getTotalMessagesById', protected: false},
+    'get /users/messages/by-user/:userId': {'function': 'UserController.getTotalMessagesByUser', protected: false},
 
     'get /users/:id/:guild/sanctions': {'function': 'UserController.getUserSanction', protected: false},
     'post /users/:id/:guild/:sanctionId/update': {'function': 'UserController.updateSanction', protected: false},

@@ -127,6 +127,18 @@ module.exports = {
                error: 'No messages found.'
            });
        });
+    },
+    getTotalMessagesByUser: function (req, res) {
+        if (req.params.userId === undefined)
+            return res.status(400).json({status: false, error: 'Missing user id.'});
+        client.Database.fetchMessageByUser(req.params.userId).then(data => {
+            return res.status(200).json(data);
+       }).catch(err => {
+           return res.status(404).json({
+               status: false,
+               error: 'No messages found.'
+           });
+       });
     }
 }
 
