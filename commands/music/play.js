@@ -31,7 +31,7 @@ module.exports = {
         try {
             if (!interaction.guild.me.voice.channelId) await queue.connect(interaction.member.voice.channel)
         } catch {
-            await client.player.deleteQueue(interaction.guild.id);
+            await client.player.deleteQueue(interaction.guild_id);
             return;
         }
         
