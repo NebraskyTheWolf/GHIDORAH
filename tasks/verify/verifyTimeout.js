@@ -4,11 +4,12 @@ const ALIVE_ENTRY = 60 * 60 * 1000;
 module.exports = {
     task: {
         name: 'verifytimeout',
-        cronTime: 30000
+        cronTime: 15000
     },
     async execute() {
         await client.Database.getAllEntries().then(async result => {
-            if ((date - new Date(result.registeredAt) > ALIVE_ENTRY)) {
+            console.log((date - new Date(result.registeredAt)) > ALIVE_ENTRY)
+            if ((date - new Date(result.registeredAt)) > ALIVE_ENTRY) {
                 await client.Database.deleteEntry(result.id).then(async request => {
                     if (result.id === 'DEFAULT') return;
                     
