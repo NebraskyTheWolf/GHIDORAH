@@ -784,11 +784,11 @@ module.exports.createEntry = async function (guildId, userId) {
 }
 
 module.exports.checkEntry = async function (guildId, userId) {
-    return await entrySchema.findOne({ id: userId });
+    return await entrySchema.findOne({ guildId: guildId, id: userId });
 }
 
 module.exports.deleteEntry = async function (guildId, userId) {
-    await entrySchema.deleteOne({ id: userId });
+    await entrySchema.deleteOne({ guildId: guildId, id: userId });
 }
 
 module.exports.getAllEntries = async function () {
