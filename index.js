@@ -27,6 +27,7 @@ const func = require('./utils/function');
 
 const LevelCalculator = require('./utils/LevelCalculator');
 const PayloadHandler = require('./utils/PayloadHandler');
+const MusicController = require('./utils/MusicController');
 
 const IsLoaded = false;
 const IsDebug = process.env.DEBUG;
@@ -140,6 +141,8 @@ client.player = new Player(client, {
         highWaterMark: 1 << 25
     }
 });
+
+client.MusicController = MusicController;
 
 function createOrSet(array, key, value) {
     if (array[key] !== undefined)
