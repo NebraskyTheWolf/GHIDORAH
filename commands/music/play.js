@@ -15,9 +15,12 @@ module.exports = {
     async execute(interaction) {
         const name = interaction.data.options[0].value;
 
+        const guild = await client.guilds.fetch(guildId);
+        const guildMember = await guild.members.fetch(interaction.member.user.id);
+
         if (client.MusicController.isInChannel(interaction)) {
             const res = await client.player.search(name, {
-                requestedBy: interaction.member,
+                requestedBy: guildMember,
                 searchEngine: QueryType.AUTO
             });
 
@@ -54,9 +57,6 @@ module.exports = {
                 return;
             }
 
-            const guild = client.guilds.cache.get(interaction.guild_id);
-            console.log(guild)
-
             const queue = await client.player.createQueue(guild, {
                     leaveOnEnd: true,
                     autoSelfDeaf: true,
@@ -66,9 +66,9 @@ module.exports = {
             console.log(queue);
         
             try {
-                console.log(interaction.guild.me.voice.channelId)
-                console.log(interaction.guild.me.voice.channel)
-                if (!interaction.guild.me.voice.channelId) await queue.connect(interaction.member.voice.channel)
+                console.log(guildMember.voice.channel)
+                console.log(guildMember.voice.channelId)
+                if (!guildMember.voice.channelId) await queue.connect(guildMember.voice.channel)
             } catch {
                 await client.player.deleteQueue(guild.id);
                 return;
