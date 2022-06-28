@@ -69,7 +69,10 @@ module.exports = {
             try {
                 console.log(guildMember)
                 console.log(guildMember.voice.channelId)
-                if (!guildMember.voice.channelId) await queue.connect(guildMember.voice.channel)
+
+                const voiceStates = guild.voiceStates.cache.get(guildMember.id);
+
+                if (!guildMember.voice.channelId) await queue.connect(voiceStates)
             } catch {
                 await client.player.deleteQueue(guild.id);
                 return;
@@ -77,7 +80,6 @@ module.exports = {
             
             res.playlist ? queue.addTracks(res.tracks) : queue.addTrack(res.tracks[0]);
             if (!queue.playing) {
-                await queue.connect();
                 await queue.play();
             }
         } else {
