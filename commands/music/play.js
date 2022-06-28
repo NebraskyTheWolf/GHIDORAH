@@ -67,7 +67,7 @@ module.exports = {
             console.log(queue);
         
             try {
-                console.log(guildMember.voice.channel)
+                console.log(guildMember)
                 console.log(guildMember.voice.channelId)
                 if (!guildMember.voice.channelId) await queue.connect(guildMember.voice.channel)
             } catch {
