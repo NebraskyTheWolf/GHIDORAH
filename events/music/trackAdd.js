@@ -24,7 +24,7 @@ module.exports = function (client, queue, track) {
                   "components": [
                     {
                       "style": 2,
-                      "label": `Requested by <@${queue.requestedBy.id}>`,
+                      "label": `Requested by <@${track.requestedBy.id}>`,
                       "custom_id": `row_0_button_0`,
                       "disabled": true,
                       "emoji": {
