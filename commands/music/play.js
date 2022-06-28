@@ -15,7 +15,7 @@ module.exports = {
     async execute(interaction) {
         const name = interaction.data.options[0].value;
 
-        const guild = await client.guilds.fetch(guildId);
+        const guild = await client.guilds.fetch(interaction.guild_id);
         const guildMember = await guild.members.fetch(interaction.member.user.id);
 
         if (client.MusicController.isInChannel(guildMember)) {
