@@ -18,7 +18,7 @@ module.exports = {
         const guild = await client.guilds.fetch(guildId);
         const guildMember = await guild.members.fetch(interaction.member.user.id);
 
-        if (client.MusicController.isInChannel(interaction)) {
+        if (client.MusicController.isInChannel(guildMember)) {
             const res = await client.player.search(name, {
                 requestedBy: guildMember,
                 searchEngine: QueryType.AUTO

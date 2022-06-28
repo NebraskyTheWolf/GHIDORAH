@@ -1,5 +1,5 @@
-module.exports.isInChannel = async function (interaction) {
-    if (interaction.guild.me.voice.channelId) {
+module.exports.isInChannel = async function (guildMember) {
+    if (guildMember.voice.channelId) {
         return true;
     } else {
         client.api.interactions(interaction.id, interaction.token).callback.post({
