@@ -158,6 +158,7 @@ client.createOrSet = createOrSet;
 [
     "command",
     "event",
+    "music",
     "anticrash",
     "payload",
     "security"
