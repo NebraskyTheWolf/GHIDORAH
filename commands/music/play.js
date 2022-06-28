@@ -76,7 +76,10 @@ module.exports = {
             }
             
             res.playlist ? queue.addTracks(res.tracks) : queue.addTrack(res.tracks[0]);
-            if (!queue.playing) await queue.play()
+            if (!queue.playing) {
+                await queue.connect();
+                await queue.play();
+            }
         } else {
             client.api.interactions(interaction.id, interaction.token).callback.post({
                 "data": {
