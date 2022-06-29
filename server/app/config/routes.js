@@ -21,6 +21,9 @@ module.exports = {
     'get /user/:id/stats/:guild': {'function': 'UserController.fetchUser', protected: false},
     'get /users/staff': {'function': 'UserController.fetchStaff', protected: false},
 
+    'get /users/isDev/:userId': {'function': 'UserController.fetchDev', protected: false},
+    'post /users/developer/add': {'function': 'UserController.addDev', protected: true},
+
     'get /user/:id/level/:guild': {'function': 'UserController.getUserLevel', protected: false},
     'get /user/:id/presence/:guild': {'function': 'UserController.getUserPresence', protected: false},
 
@@ -180,5 +183,4 @@ module.exports = {
     'get /minecraft/server/sanctions/moderator/:uuid': {'function': 'MinecraftController.getAllModeratorSanctions', protected: true},
 
     'post /minecraft/server/permissions': {'function': 'MinecraftController.getPermissionsByType', protected: true},
-
 }

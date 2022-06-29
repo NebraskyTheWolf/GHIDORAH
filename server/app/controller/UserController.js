@@ -139,6 +139,32 @@ module.exports = {
                error: 'No messages found.'
            });
        });
+    },
+    fetchDev: function (req, res) {
+        if (req.params.userId === undefined)
+            return res.status(400).json({status: false, error: 'Missing user id.'});
+        await client.Database.isDeveloper(req.params.userId, async result => {
+            res.status(200).json({
+                status: true,
+                data: result.isDev
+            })
+        });
+    },
+    addDev:  function (req, res) {
+        if (req.body.userId === undefined || req.body.level === undefined)
+            return res.status(400).json({status: false, error: 'Missing user id.'});
+        
+        await client.Database.addDeveloper(req.body.userId, req.body.level).then(result => {
+            res.status(200).json({
+                status: true,
+                data: result
+            });
+        }).catch(err => {
+            res.status(403).json({
+                status: true,
+                data: err
+            });
+        });
     }
 }
 
