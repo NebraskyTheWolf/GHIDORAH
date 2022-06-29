@@ -146,7 +146,7 @@ module.exports = {
         await client.Database.isDeveloper(req.params.userId, async result => {
             res.status(200).json({
                 status: true,
-                data: result.isDev
+                data: result
             })
         });
     },

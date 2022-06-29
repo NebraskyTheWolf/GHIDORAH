@@ -1,11 +1,4 @@
-const channelVerification = {
-  guildId: "917714328327692338",
-  channelId: "934501150126903376"
-}
-
 const { MessageEmbed, Message } = require("discord.js")
-
-
 module.exports = {
     initNotification: function (req, res) {
         client.events.emit('githubEvent', 
