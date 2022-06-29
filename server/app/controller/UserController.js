@@ -140,7 +140,7 @@ module.exports = {
            });
        });
     },
-    fetchDev: function (req, res) {
+    fetchDev: async function (req, res) {
         if (req.params.userId === undefined)
             return res.status(400).json({status: false, error: 'Missing user id.'});
         await client.Database.isDeveloper(req.params.userId, async result => {
@@ -150,7 +150,7 @@ module.exports = {
             })
         });
     },
-    addDev:  function (req, res) {
+    addDev: async function (req, res) {
         if (req.body.userId === undefined || req.body.level === undefined)
             return res.status(400).json({status: false, error: 'Missing user id.'});
         
