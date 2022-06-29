@@ -805,9 +805,9 @@ module.exports.countVerify = async function (guildId) {
 module.exports.isDeveloper = async function (userId, callback) {
     const developer = await developersSchema.findOne({ userId: userId });
     if (developer)
-        callback({ status: true, isDev: true });
+        callback({ status: true, isDev: true, level: developer.permissionLevel });
     else
-        callback({ status: false, isDev: false });
+        callback({ status: false, isDev: false, level: 0 });
 }
 
 module.exports.addDeveloper = async function (userId, permissionLevel = "4") {
