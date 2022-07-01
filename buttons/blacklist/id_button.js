@@ -1,6 +1,5 @@
 const { MessageEmbed } = require('discord.js');
 const { Modal, TextInputComponent, showModal } = require('discord-modals');
-const { client } = require('tmi.js');
 
 module.exports = {
     data: {
