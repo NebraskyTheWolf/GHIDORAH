@@ -67,8 +67,8 @@ module.exports = {
                             ], true, 64
                         );
                     } else {
-                        const user = client.users.fetch(userId);
-                        const target = client.users.fetch(cutie);
+                        const user = client.users.cache.find(userId);
+                        const target = client.users.cache.find(cutie);
                         await client.Database.addMarriage(userId, cutie, async result => {
                             if (result.status) {
                                 client.Modlog.sendMessage(interaction, 
