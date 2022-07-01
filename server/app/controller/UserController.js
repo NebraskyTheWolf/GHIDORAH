@@ -167,7 +167,7 @@ module.exports = {
         });
     },
     getMarriageByUser: async function (req, res) {
-        if (req.body.userId === undefined || req.body.level === undefined)
+        if (req.body.userId === undefined)
             return res.status(400).json({status: false, error: 'Missing user id.'});
         
         await client.Database.isMarried(req.body.userId, async result => {
@@ -185,7 +185,7 @@ module.exports = {
         })
     },
     getMarriageById: async function (req, res) {
-        if (req.body.marryId === undefined || req.body.level === undefined)
+        if (req.body.marryId === undefined)
             return res.status(400).json({status: false, error: 'Missing user id.'});
         
         await client.Database.getMarriageByID(req.body.userId, async result => {
