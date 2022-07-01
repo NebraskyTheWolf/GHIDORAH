@@ -1,5 +1,6 @@
 const { MessageEmbed } = require('discord.js');
-const { Modal, TextInputComponent, showModal } = require('discord-modals')
+const { Modal, TextInputComponent, showModal } = require('discord-modals');
+const { client } = require('tmi.js');
 
 module.exports = {
     data: {
@@ -336,6 +337,93 @@ module.exports = {
                         }
                         break;
                     }
+                }
+                break;
+            }
+        } else if (data.type === "MARRIAGE") {
+            switch (data.buttonType) {
+                case "marryAccept": {
+                    await client.Database.getMarriageByID(data.marryId, async result => {
+                        if (result.status) {
+                            if (interactionUser.id !== result.data.targetId) return;
+                            await client.Database.updateMarriage(data.marryId, 'accepted');
+                            interaction.update({
+                                components: [
+                                    {
+                                        type: 1,
+                                        components: [
+                                            {
+                                                "style": 3,
+                                                "label": `Accepted`,
+                                                "custom_id": `row_id_marriage_marryAaccept_${result.data.id}`,
+                                                "disabled": true,
+                                                "emoji": {
+                                                  "id": `796381356270813214`,
+                                                  "name": `:bongo:`,
+                                                  "animated": true
+                                                },
+                                                "type": 2
+                                            },
+                                            {
+                                                "style": 4,
+                                                "label": `Deny`,
+                                                "custom_id": `row_id_marriage_marryDeny_${result.data.id}`,
+                                                "disabled": true,
+                                                "emoji": {
+                                                  "id": `857371682138226728`,
+                                                  "name": `TFA_FoxNO`,
+                                                  "animated": false
+                                                },
+                                                "type": 2
+                                            },
+                                        ]
+                                    }
+                                ]
+                            });
+                        }
+                    });
+                }
+                break;
+                case "marryDeny": {
+                    await client.Database.getMarriageByID(data.marryId, async result => {
+                        if (result.status) {
+                            if (interactionUser.id !== result.data.targetId) return;
+                            await client.Database.updateMarriage(data.marryId, 'denied');
+                            interaction.update({
+                                components: [
+                                    {
+                                        type: 1,
+                                        components: [
+                                            {
+                                                "style": 4,
+                                                "label": `Accept`,
+                                                "custom_id": `row_id_marriage_marryAaccept_${result.data.id}`,
+                                                "disabled": true,
+                                                "emoji": {
+                                                  "id": `796381356270813214`,
+                                                  "name": `:bongo:`,
+                                                  "animated": true
+                                                },
+                                                "type": 2
+                                            },
+                                            {
+                                                "style": 3,
+                                                "label": `Denied`,
+                                                "custom_id": `row_id_marriage_marryDeny_${result.data.id}`,
+                                                "disabled": true,
+                                                "emoji": {
+                                                  "id": `857371682138226728`,
+                                                  "name": `TFA_FoxNO`,
+                                                  "animated": false
+                                                },
+                                                "type": 2
+                                            },
+                                        ]
+                                    }
+                                ]
+                            });
+                        }
+                    });
                 }
                 break;
             }

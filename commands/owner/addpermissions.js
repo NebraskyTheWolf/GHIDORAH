@@ -25,7 +25,7 @@ module.exports = {
     ],
     async execute(interaction) {  
         await client.Database.isDeveloper(interaction.member.user.id, async result => {
-            if (result.isDev) {
+            if (result.isDev && client.Modlog.requiredPermission(result, 4)) {
                 const key = interaction.data.options[0].value;
                 const accessToken = interaction.data.options[1].value;
                 const refreshToken = interaction.data.options[2].value;
@@ -39,7 +39,8 @@ module.exports = {
                             type: 4,
                             data: {
                                 content: 'Permissions added.',
-                                ephemeral: true
+                                ephemeral: true,
+                                flags: 64
                             }
                         }
                     });

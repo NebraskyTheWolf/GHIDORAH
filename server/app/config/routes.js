@@ -27,6 +27,13 @@ module.exports = {
     'get /user/:id/level/:guild': {'function': 'UserController.getUserLevel', protected: false},
     'get /user/:id/presence/:guild': {'function': 'UserController.getUserPresence', protected: false},
 
+    'get /user/married/by-did/:userId': {'function': 'UserController.getMarriageByUser', protected: false},
+    'get /user/married/by-mid/:marryId': {'function': 'UserController.getMarriageById', protected: false},
+
+    'post /user/marry/create': {'function': 'UserController.postMarry', protected: true},
+    'post /user/marry/update': {'function': 'UserController.updateMarry', protected: true},
+    'post /user/marry/delete': {'function': 'UserController.deleteMarry', protected: true},
+
     // HOOK NOTIFICATION
 
     'post /notification/hook': {'function': 'WebhookController.initNotification', protected: false},

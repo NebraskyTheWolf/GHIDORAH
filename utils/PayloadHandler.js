@@ -13,7 +13,7 @@ module.exports.handle = async function(client, application, data, callback) {
                                 integrity: {
                                     keychains: {},
                                     fingerprints: client.fingerprint,
-                                 },
+                                },
                                 data: finalPayload, 
                             });
                         } else {

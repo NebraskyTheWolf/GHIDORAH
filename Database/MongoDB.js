@@ -14,6 +14,7 @@ const modulesSchema = require('./Models/Guild/Common/Modules');
 const oauthSchema = require("./Models/Guild/Common/Oauth");
 const socialSchema = require("./Models/Guild/Common/Social");
 const entrySchema = require('./Models/Guild/Common/VerificationEntry');
+const marrySchema = require('./Models/Guild/Common/Marry');
 
 
 //MODERATION
@@ -47,6 +48,7 @@ const developersSchema = require('./Models/Guild/Security/Permissions/Developers
 const playerSchema = require('./Models/Minecraft/Server/Player/Player');
 
 const { v4 } = require('uuid');
+const marry = require('../commands/info/marry');
 
 module.exports.fetchUser = async function(key) {
     let userDB = await userSchema.findOne({ id: key });
@@ -818,4 +820,59 @@ module.exports.addDeveloper = async function (userId, permissionLevel = "4") {
     });
     developer.save().catch(err => client.logger.log('ERROR', `Error occurred: ${err}`));
     return developer;
+}
+
+module.exports.isMarried = async function (userId, callback) {
+    const marrySelf = await marrySchema.findOne({ userId: userId });
+    const marry = await marrySchema.findOne({ targetId: userId });
+
+    if (marry) {
+        callback({
+            status: true,
+            data: marry
+        });
+    } else if (marrySelf) {
+        callback({
+            status: true,
+            data: marrySelf
+        });
+    } else {
+        callback({
+            status: false,
+            data: []
+        });
+    }
+}
+
+module.exports.addMarriage = function (userId, targetId, callback) {
+    const marry = marrySchema({
+        id: v4(),
+        
+        userId: userId,
+        targetId: targetId,
+
+        status: 'waiting',
+        registeredAt: Date.now()
+    });
+    marry.save()
+    .then(result => callback({status: true, data: marry}))
+    .catch(err => callback({status: false, data: {}}));
+}
+
+module.exports.updateMarriage = async function (marryId, status) {
+    if (status === 'accepted')
+        return await marrySchema.updateOne({ id: marryId }, { status: status, registeredAt: Date.now() }, { upsert: false });
+    else if (status === 'denied')
+        return await marrySchema.deleteOne({ id: marryId });
+    else
+        client.logger.log('WARN', `Marry status: ${status} invalid. ( UPDATE_CANCELLED )`);
+}
+
+module.exports.getMarriageByID = async function (marryId, callback) {
+    const marry = await marrySchema.findOne({ id: marryId });
+    if (marry) {
+        callback({ status: true, data: marry });
+    } else {
+        callback({ status: false, data: {} });
+    }
 }

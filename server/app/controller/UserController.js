@@ -165,6 +165,43 @@ module.exports = {
                 data: err
             });
         });
-    }
+    },
+    getMarriageByUser: async function (req, res) {
+        if (req.body.userId === undefined || req.body.level === undefined)
+            return res.status(400).json({status: false, error: 'Missing user id.'});
+        
+        await client.Database.isMarried(req.body.userId, async result => {
+            if (result.status) {
+                res.status(200).json({
+                    status: true,
+                    data: result
+                });
+            } else {
+                res.status(404).json({
+                    status: false,
+                    data: {}
+                });
+            }
+        })
+    },
+    getMarriageById: async function (req, res) {
+        if (req.body.marryId === undefined || req.body.level === undefined)
+            return res.status(400).json({status: false, error: 'Missing user id.'});
+        
+        await client.Database.getMarriageByID(req.body.userId, async result => {
+            if (result.status) {
+                res.status(200).json(result);
+            } else {
+                res.status(404).json({
+                    status: false,
+                    data: {}
+                });
+            }
+        });
+    },
+
+    postMarry: async function (req, res) {},
+    updateMarry: async function (req, res) {},
+    deleteMarry: async function (req, res) {},
 }
 

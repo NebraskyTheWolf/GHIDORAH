@@ -45,9 +45,7 @@ module.exports.addLog = async function (client, member, data, callback, interact
                 }
             ]
           });
-    }
-
-    
+  }
 }
 
 module.exports.addBlacklist = async function (client, userId, data, callback) {
@@ -145,14 +143,18 @@ module.exports.getChannel = function (interaction) {
     return member.voice.channel;
 }
 
-module.exports.sendMessage = function(content = "", embeds = [], components = [], ephemeral = false, flags = 0) {
+module.exports.sendMessage = function(interaction, embeds = [], components = [], ephemeral = false, flags = 128) {
     client.api.interactions(interaction.id, interaction.token).callback.post({
         "data": {
             "type": 4,
             "data": {
-                "content": content,
                 "embeds": embeds,
-                "components": components,
+                "components": [
+                  {
+                      "type": 1,
+                      "components": components,
+                  }
+                ],
                 "ephemeral": ephemeral,
                 "flags": flags
             }
@@ -239,4 +241,11 @@ module.exports.generateApplication = function () {
     }, result => {
         client.logger.log('WARN', `${result.data.appName} | LOGIN INFORMATIONS { accessToken: ${result.data.auth.accessToken}, refreshToken: ${result.data.auth.refreshToken}, token: ${result.data.token}}`);
     });
+}
+
+module.exports.requiredPermission = function (handler, level) {
+    if (handler.level >= level)
+      return true;
+    else
+      return false;
 }

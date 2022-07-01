@@ -50,6 +50,15 @@ module.exports = async (client, interaction) => {
                     });
                 }
                 break;
+                case "marriage": {
+                    button.execute(interaction, interactionUser, guild, {
+                        type: "MARRIAGE",
+                        buttonType: type.split('_')[1],
+                        marryId: type.split('_')[2],
+                        permissions: []
+                    });
+                }
+                break;
                 default:
                    client.logger.log('ERROR', `Unresolved action ID: ${types} for interaction ID: ${interaction.customId} executed by ${interaction.user.id}`)
                 break;
