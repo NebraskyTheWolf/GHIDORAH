@@ -113,7 +113,7 @@ client.movieRooms = new Collection();
 client.movieReservedVLAN = new Collection();
 client.ROOMManager = ROOMManager;
 
-client.mainGuild = client.guilds.cache.get('917714328327692338');
+client.mainGuild = client.guilds.cache.get('948698168651046932');
 
 client.func = func;
 
@@ -172,8 +172,12 @@ client.createOrSet = createOrSet;
 ].forEach(x => require(`./server/${x}.js`)(client));
 
 client.ws.on("INTERACTION_CREATE", async interaction => {
-    let guild = await client.Database.fetchGuild(interaction.guild_id);
+    if (!interaction.data.name) {
+        await client.logger.log('CRITICAL', `Error occurred during interaction execution: 'interaction.data.name' can't be null.`);
+        return;
+    }
 
+    let guild = await client.Database.fetchGuild(interaction.guild_id);
     if (guild.blacklisted) {
         client.api.interactions(interaction.id, interaction.token).callback.post({
             data: {
@@ -181,8 +185,8 @@ client.ws.on("INTERACTION_CREATE", async interaction => {
                 data: {
                     content: "Sorry but this server are blacklisted.",
                     flags: 64
-                },
-            },
+                }
+            }
         });
         return;
     }
@@ -195,14 +199,26 @@ client.ws.on("INTERACTION_CREATE", async interaction => {
                 data: {
                     content: "Sorry but my code is not loaded. Please wait a few seconds.",
                     flags: 64
-                },
-            },
+                }
+            }
         });
         return;
     }
 
     try {
-        await client.commands.get(interaction.data.name).execute(interaction);
+        if (guild.config.interaction.enabled) {
+            await client.commands.get(interaction.data.name).execute(interaction);
+        } else {
+            client.api.interactions(interaction.id, interaction.token).callback.post({
+                data: {
+                    type: 4,
+                    data: {
+                        content: "Sorry but the commands are disabled in this guild.",
+                        flags: 64
+                    },
+                },
+            });
+        }
     } catch (error) {
         client.logger.log('ERROR', `Error from command ${interaction.data.name} : ${error.message}`);
         client.logger.log('ERROR', `${error.stack}\n`);

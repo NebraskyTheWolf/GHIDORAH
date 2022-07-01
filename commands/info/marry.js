@@ -67,14 +67,16 @@ module.exports = {
                             ], true, 64
                         );
                     } else {
+                        const user = client.users.fetch(userId);
+                        const target = client.users.fetch(cutie);
                         await client.Database.addMarriage(userId, cutie, async result => {
                             if (result.status) {
                                 client.Modlog.sendMessage(interaction, 
                                     [
                                         {
                                             "type": "rich",
-                                            "title": `<@${userId}> has proposed to <@${cutie}>`,
-                                            "description": `** <@${cutie}>, Do you accept ?**`,
+                                            "title": `${user.username} has proposed to ${target.username}`,
+                                            "description": `**${target.username}, Do you accept ?**`,
                                             "color": 0xff0000
                                         }
                                     ], 
