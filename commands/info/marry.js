@@ -32,9 +32,9 @@ module.exports = {
                             "custom_id": `row_marry_deny_informations`,
                             "disabled": false,
                             "emoji": {
-                            "id": `876255422674243615`,
-                            "name": `5187denyxbox`,
-                            "animated": false
+                                "id": `876255422674243615`,
+                                "name": `5187denyxbox`,
+                                "animated": false
                             },
                             "type": 2
                         }
