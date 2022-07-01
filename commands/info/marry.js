@@ -1,5 +1,4 @@
 const Discord = require("discord.js");
-const { client } = require("tmi.js");
 module.exports = {
     name: "marry",
     description: "Marry someone",
