@@ -1,8 +1,8 @@
 const Discord = require("discord.js");
 const { client } = require("tmi.js");
 module.exports = {
-    name: "modmail",
-    description: "Modmail commands",
+    name: "marry",
+    description: "Marry someone",
     commandOptions: [
         {
             "type": 6,

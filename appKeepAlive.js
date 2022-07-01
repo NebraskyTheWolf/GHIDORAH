@@ -2,7 +2,6 @@ const { Webhook } = require('discord-webhook-node');
 const fetch = require('node-fetch');
 
 const hook = new Webhook("https://discord.com/api/webhooks/974203356123902022/HADklX6l0pZ08DAiDvUc-Qgj2Pv5t4tNoew4jGyOdVeCuIAuvLTRkpQkdT0retF3Ufkx");
-
 hook.setUsername('Monitor');
 
 setInterval(async () => {

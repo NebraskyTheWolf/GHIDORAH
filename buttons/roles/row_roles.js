@@ -29,7 +29,8 @@ module.exports = {
         } else {
             interaction.reply({
                 content: 'We\'re sorry but the self roles are disabled.',
-                ephemeral: true
+                ephemeral: true,
+                flags: 64
             });
         }
     }

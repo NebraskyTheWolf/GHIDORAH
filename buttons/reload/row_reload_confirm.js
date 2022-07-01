@@ -29,7 +29,7 @@ module.exports = {
                         components: [
                             {
                                 style: 3,
-                                label: "Confirm",
+                                label: "Confirmed",
                                 custom_id: `row_reload_confirm`,
                                 disabled: true,
                                 type: 2

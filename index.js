@@ -172,6 +172,7 @@ client.createOrSet = createOrSet;
 ].forEach(x => require(`./server/${x}.js`)(client));
 
 client.ws.on("INTERACTION_CREATE", async interaction => {
+    if (!interaction.guild) return;
     let guild = await client.Database.fetchGuild(interaction.guild_id);
 
     if (guild.blacklisted) {
