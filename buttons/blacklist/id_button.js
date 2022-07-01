@@ -344,7 +344,6 @@ module.exports = {
                 case "marryAccept": {
                     await client.Database.getMarriageByID(data.marryId, async result => {
                         if (result.status) {
-                            if (interactionUser.id !== result.data.targetId) return;
                             await client.Database.updateMarriage(data.marryId, 'accepted');
                             interaction.update({
                                 components: [
@@ -386,7 +385,6 @@ module.exports = {
                 case "marryDeny": {
                     await client.Database.getMarriageByID(data.marryId, async result => {
                         if (result.status) {
-                            if (interactionUser.id !== result.data.targetId) return;
                             await client.Database.updateMarriage(data.marryId, 'denied');
                             interaction.update({
                                 components: [
