@@ -1,0 +1,60 @@
+module.exports = {
+    task: {
+        name: 'youtubecheck',
+        cronTime: 30000
+    },
+    async execute() {
+        await client.Database.getAllYoutubers().forEach(async result => {
+            await client.Database.fetchGuild(result.guildId).then(guild => {
+                client.request.parseXML(`https://www.youtube.com/feeds/videos.xml?channel_id=${result.channelURL}`)
+                .then(async data => {
+                    await client.Database.checkYoutubeVideo(result.guildId, data.items[0].link)
+                    .catch(() => {
+                        await client.Database.createYoutubeVideo(result.guildId, data.items[0].link)
+                        .then(finalVideo => {
+                            if (guild.socials.youtubeChannel) {
+                                console.log(data);
+                                await client.guilds.cache.get(guild.id).channels.cache.get(guild.socials.youtubeChannel).send({
+                                    "components": [
+                                        {
+                                          "type": 1,
+                                          "components": [
+                                            {
+                                              "style": 5,
+                                              "label": `Watch now!`,
+                                              "url": data.items[0].link,
+                                              "disabled": false,
+                                              "emoji": {
+                                                "id": `723870438350127115`,
+                                                "name": `kmYoutube`,
+                                                "animated": false
+                                              },
+                                              "type": 2
+                                            }
+                                          ]
+                                        }
+                                    ],
+                                      "embeds": [
+                                        {
+                                          "type": "rich",
+                                          "title": data.items[0].title,
+                                          "description": data.items[0].media.description,
+                                          "color": 0xeb0606,
+                                          "image": {
+                                              "url": data.items[0].media.thumbnail.url,
+                                              "height": data.items[0].media.thumbnail.height,
+                                              "width": data.items[0].media.thumbnail.width
+                                          }
+                                        }
+                                    ]
+                                });
+                            } else {
+                               await client.logger.log('WARN', `Notification channel not set up for ${guild.id}`);
+                            }
+                        })
+                    });
+                });
+            });
+        });
+    }
+}

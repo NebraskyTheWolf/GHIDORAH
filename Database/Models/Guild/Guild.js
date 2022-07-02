@@ -86,5 +86,11 @@ module.exports = mongoose.model("Guild", new mongoose.Schema({
         },
         active: false
     }},
-    blacklisted: { type: Boolean, default: false }
+    blacklisted: { type: Boolean, default: false },
+
+    socials: { type: Object, default: {
+        youtubeChannel: null,
+        tiktokChannel: null,
+        twitchChannel: null
+    }}
 }));

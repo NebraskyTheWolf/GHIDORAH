@@ -43,6 +43,11 @@ const payloadSchema = require('./Models/Guild/Security/Payload/Payload');
 const permissionsSchema = require('./Models/Guild/Security/Permissions/Permissions');
 const developersSchema = require('./Models/Guild/Security/Permissions/Developers');
 
+// SOCIALS
+
+const youtuberSchema = require('./Models/Guild/Socials/Youtube/Youtubers');
+const videosSchema = require('./Models/Guild/Socials/Youtube/VideoCheck');
+
 // MINECRAFT
 
 const playerSchema = require('./Models/Minecraft/Server/Player/Player');
@@ -875,4 +880,47 @@ module.exports.getMarriageByID = async function (marryId, callback) {
     } else {
         callback({ status: false, data: {} });
     }
+}
+
+module.exports.checkYoutubeVideo = async function (guildId, url) {
+    return await videosSchema.findOne({ guildId: guildId, videoURL: url });
+}
+
+module.exports.createYoutubeVideo = async function (guildId, url) {
+    const video = videosSchema({
+        videoId: v4(),
+        guildId: guildId,
+        videoURL: url,
+        registeredAt: Date.now()
+    });
+    video.save()
+    .catch(error => client.logger.log('ERROR', `Error occurred: ${error}`));
+    return video;
+}
+
+module.exports.getAllYoutubers = async function () {
+    return await youtuberSchema.find({ });
+}
+
+module.exports.getGuildYoutubers = async function (guildId) {
+    return await youtuberSchema.find({ guildId: guildId });
+}
+
+module.exports.getYoutuberByID = async function (guildId, youtuberId) {
+    return await youtuberSchema.findOne({ guildId: guildId, youtuberId: youtuberId });
+}
+
+module.exports.createYoutuber = async function (guildId, data) {
+    const youtuber = youtuberSchema({
+        youtuberId: v4(),
+        userId: data.userId,
+        guildId: guildId,
+
+        channelURL: data.url,
+        registeredAt: Date.now()
+    });
+    youtuber
+    .save()
+    .catch(error => client.logger.log('ERROR', `Error occurred: ${error}`));
+    return youtuber;
 }
