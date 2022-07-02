@@ -4,7 +4,7 @@ module.exports = {
         cronTime: 30000
     },
     async execute() {
-        await client.Database.getAllYoutubers().then(youtubers => {
+        await client.Database.getAllYoutubers().then(async youtubers => {
             for (i = 0; i < youtubers.length; i++) {
                 await client.Database.fetchGuild(youtubers[i].guildId).then(async guild => {
                     client.request.parseXML(`https://www.youtube.com/feeds/videos.xml?channel_id=${youtubers[i].channelURL}`)
