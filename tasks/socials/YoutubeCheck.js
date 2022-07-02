@@ -5,13 +5,13 @@ module.exports = {
     },
     async execute() {
         await client.Database.getAllYoutubers().forEach(async result => {
-            await client.Database.fetchGuild(result.guildId).then(guild => {
+            await client.Database.fetchGuild(result.guildId).then(async guild => {
                 client.request.parseXML(`https://www.youtube.com/feeds/videos.xml?channel_id=${result.channelURL}`)
                 .then(async data => {
                     await client.Database.checkYoutubeVideo(result.guildId, data.items[0].link)
-                    .catch(() => {
+                    .catch(async () => {
                         await client.Database.createYoutubeVideo(result.guildId, data.items[0].link)
-                        .then(finalVideo => {
+                        .then(async finalVideo => {
                             if (guild.socials.youtubeChannel) {
                                 console.log(data);
                                 await client.guilds.cache.get(guild.id).channels.cache.get(guild.socials.youtubeChannel).send({
