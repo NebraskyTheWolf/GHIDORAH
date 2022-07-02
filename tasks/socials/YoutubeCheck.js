@@ -10,17 +10,18 @@ module.exports = {
         await client.Database.getAllYoutubers().then(async youtubers => {
             console.log(youtubers[0])
             for (i = 0; i < youtubers.length; i++) {
-                console.log(`ID: ${i}`);
-                await client.Database.fetchGuild(youtubers[i - 1].guildId).then(async guild => {
+                console.log(`Data: ${youtubers[i]}`);
+                console.log(`DataServer: ${youtubers[i].guildId}`);
+                await client.Database.fetchGuild(youtubers[i].guildId).then(async guild => {
                     parser.parseURL(`https://www.youtube.com/feeds/videos.xml?channel_id=${youtubers[i].channelURL}`)
                     .then(async data => {
-                        await client.Database.checkYoutubeVideo(youtubers[i].guildId, data.items[0].link)
+                        await client.Database.checkYoutubeVideo(guild.id, data.items[0].link)
                         .catch(async () => {
-                            await client.Database.createYoutubeVideo(youtubers[i].guildId, data.items[0].link)
+                            await client.Database.createYoutubeVideo(guild.id, data.items[0].link)
                             .then(async finalVideo => {
                                 if (guild.socials.youtubeChannel) {
                                     console.log(data);
-                                    await client.guilds.cache.get(guild.id).channels.cache.get(guild.socials.youtubeChannel).send({
+                                    await client.guilds.cache.get().channels.cache.get(guild.socials.youtubeChannel).send({
                                         "components": [
                                             {
                                               "type": 1,
