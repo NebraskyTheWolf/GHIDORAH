@@ -13,6 +13,7 @@ module.exports = {
     async execute(interaction) {
         const userId = interaction.member.user.id;
         const cutie = interaction.data.options[0].value;
+
         await client.Database.isMarried(userId, async result => {
             if (result.status) {
                 client.Modlog.sendMessage(interaction, 
@@ -69,6 +70,7 @@ module.exports = {
                     } else {
                         const user = client.users.cache.find(userId);
                         const target = client.users.cache.find(cutie);
+                        
                         await client.Database.addMarriage(userId, cutie, async result => {
                             if (result.status) {
                                 client.Modlog.sendMessage(interaction, 
