@@ -1,4 +1,5 @@
-const { parseURL } = require("rss-parser");
+Parser = require("rss-parser"),
+parser = new Parser(),
 
 module.exports = {
     task: {
@@ -9,7 +10,7 @@ module.exports = {
         await client.Database.getAllYoutubers().then(async youtubers => {
             for (i = 0; i < youtubers.length; i++) {
                 await client.Database.fetchGuild(youtubers[i].guildId).then(async guild => {
-                    parseURL(`https://www.youtube.com/feeds/videos.xml?channel_id=${youtubers[i].channelURL}`)
+                    parser.parseURL(`https://www.youtube.com/feeds/videos.xml?channel_id=${youtubers[i].channelURL}`)
                     .then(async data => {
                         await client.Database.checkYoutubeVideo(youtubers[i].guildId, data.items[0].link)
                         .catch(async () => {
