@@ -15,7 +15,7 @@ module.exports = {
             userId: interaction.member.user.id,
             url: youtuberId
         }).then(result => {
-            client.Modlog.sendMessage(interaction, 
+            client.Modlog.sendMessageC(interaction, 
                 [
                     {
                         "type": "rich",
@@ -23,12 +23,11 @@ module.exports = {
                         "description": `Now you will receive notifications in your youtube channel.`,
                         "color": 0xeb0606
                     }
-                ],
-                [], true, 64
+                ], true, 64
             );
         })
         .catch(error => {
-            client.Modlog.sendMessage(interaction, 
+            client.Modlog.sendMessageC(interaction, 
                 [
                     {
                         "type": "rich",
@@ -36,8 +35,7 @@ module.exports = {
                         "description": `Impossible to add this youtuber.`,
                         "color": 0xeb0606
                     }
-                ],
-                [], true, 64
+                ], true, 64
             );
         });
     }

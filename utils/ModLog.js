@@ -162,6 +162,19 @@ module.exports.sendMessage = function(interaction, embeds = [], components = [],
     });
 }
 
+module.exports.sendMessageC = function(interaction, embeds = [], ephemeral = false, flags = 128) {
+  client.api.interactions(interaction.id, interaction.token).callback.post({
+      "data": {
+          "type": 4,
+          "data": {
+              "embeds": embeds,
+              "ephemeral": ephemeral,
+              "flags": flags
+          }
+      }
+  });
+}
+
 module.exports.fetchRankData = function (amounts = 0) {
     const multiplier = process.env.RANK_MULTIPLIER;
 

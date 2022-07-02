@@ -144,8 +144,6 @@ client.player = new Player(client, {
 
 client.MusicController = MusicController;
 
-client.request = new (require("rss-parser"))();
-
 function createOrSet(array, key, value) {
     if (array[key] !== undefined)
         array[key].push(value);
