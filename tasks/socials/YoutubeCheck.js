@@ -10,6 +10,7 @@ module.exports = {
         await client.Database.getAllYoutubers().then(async youtubers => {
             console.log(youtubers[0])
             for (i = 0; i < youtubers.length; i++) {
+                console.log(`ID: ${i}`);
                 await client.Database.fetchGuild(youtubers[i - 1].guildId).then(async guild => {
                     parser.parseURL(`https://www.youtube.com/feeds/videos.xml?channel_id=${youtubers[i].channelURL}`)
                     .then(async data => {
