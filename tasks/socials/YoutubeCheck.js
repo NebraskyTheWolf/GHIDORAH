@@ -1,4 +1,4 @@
-const request = new (require("rss-parser"))();
+const request = require("rss-parser");
 
 module.exports = {
     task: {
