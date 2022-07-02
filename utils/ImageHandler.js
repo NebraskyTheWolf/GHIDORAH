@@ -13,7 +13,11 @@ const nodeHtmlToImage = require('node-html-to-image');
 module.exports.generate = async function (html, content, callback) {
     await nodeHtmlToImage({
         html: html,
-        content: content
+        transparent: true,
+        type: 'png',
+        quality: 100,
+        content: content,
+        output: 'rankcard.png'
     })
     .then(result => callback({ status: true, data: result }))
     .catch(result => callback({ status: false, data: result }));

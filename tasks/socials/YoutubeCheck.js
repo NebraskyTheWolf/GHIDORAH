@@ -15,8 +15,10 @@ module.exports = {
                 await client.Database.fetchGuild(youtubers[i].guildId).then(async guild => {
                     parser.parseURL(`https://www.youtube.com/feeds/videos.xml?channel_id=${youtubers[i].channelURL}`)
                     .then(async data => {
+                        console.log(data)
                         await client.Database.checkYoutubeVideo(guild.id, data.items[0].link)
                         .catch(async () => {
+                            console.log('')
                             await client.Database.createYoutubeVideo(guild.id, data.items[0].link)
                             .then(async finalVideo => {
                                 if (guild.socials.youtubeChannel) {
