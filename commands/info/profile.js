@@ -66,24 +66,9 @@ const rankCard = `<div class="ui container page-content">
                 <div class="sub header">All the badges of {{ username }}</div>
             </h2>
             </br>
-            <a class="ui yellow label">
-              Lurky cat
-              <div class="detail">Official lurker</div>
-            </a>
-            </br>
-            <a class="ui orange label">
-              Expert Stimky cat
-              <div class="detail">Good smell :3</div>
-            </a>
-            </br>
-            <a class="ui yellow label">
-              Expert chimken murder
-              <div class="detail">Official murder of chimkens</div>
-            </a>
-            </br>
-            <a class="ui purple label">
-               Expert arson cat
-              <div class="detail">Official arson</div>
+            <a class="ui pink label">
+              Cutie
+              <div class="detail">Ghidorah user</div>
             </a>
         </div>
 </div>
@@ -105,8 +90,7 @@ module.exports = {
                   requiredXp: client.levels.xpFor(user.level + 1),
                   rankname: client.Modlog.fetchRankData(user.xp).name,
                   position: user.position,
-
-                  percent: convertor.rangePercentage(user.xp, 0, client.levels.xpFor(user.level + 1))
+                  percent: client.Convertor.rangePercentage(user.xp, 0, client.levels.xpFor(user.level + 1))
             }, result => {
                 const attachment = new MessageAttachment(result.data, `${id}.png`);
                 const embed = new MessageEmbed().setImage(`attachment://${id}.png`);
