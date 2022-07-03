@@ -52,9 +52,9 @@ const rankCard = `<div class="ui container page-content">
                 </div>
             </div>
             <br>
-            <div class="ui indicating progress" id="levels" data-percent="89">
-                <div class="bar" style="transition-duration: 300ms; width: 89%;">
-                    <div class="progress">350/400</div>
+            <div class="ui indicating progress" id="levels" data-percent="{{ percent }}">
+                <div class="bar" style="transition-duration: 300ms; width: {{ percent }}%;">
+                    <div class="progress">{{ xp }}/{{ requiredXp }}</div>
                 </div>
                 <div class="label">Level</div>
             </div>
@@ -105,13 +105,11 @@ module.exports = {
                   requiredXp: client.levels.xpFor(user.level + 1),
                   rankname: client.Modlog.fetchRankData(user.xp).name,
                   position: user.position,
+
+                  percent: convertor.rangePercentage(user.xp, 0, client.levels.xpFor(user.level + 1))
             }, result => {
                 const attachment = new MessageAttachment(result.data, `${id}.png`);
                 const embed = new MessageEmbed().setImage(`attachment://${id}.png`);
-
-                console.log(result);
-                console.log(embed);
-                console.log(attachment);
 
                 client.guilds.cache.get(interaction.guild_id).channels.cache.get(interaction.channel_id).send({
                     "components": [

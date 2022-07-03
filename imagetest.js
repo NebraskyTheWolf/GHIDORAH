@@ -98,4 +98,6 @@ convertor.generate(rankCard, {
 }, result => {
     console.log('Test result -> \n');
     console.log(result);
+
+    console.log(convertor.rangePercentage(250, 0, 500) + '%');
 });

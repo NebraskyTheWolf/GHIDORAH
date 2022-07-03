@@ -70,3 +70,8 @@ module.exports.generate = async function (html, content, callback) {
     .then(result => callback({ status: true, data: result, path: `./assets/build/${id}.png` }))
     .catch(result => callback({ status: false, data: result }));
 }
+
+
+module.exports.rangePercentage = function (input, range_min, range_max) {
+    return ((input - range_min) * 100) / (range_max - range_min);
+}
