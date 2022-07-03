@@ -64,8 +64,7 @@ module.exports.generate = async function (html, content, callback) {
         content: content,
         puppeteerArgs: {
             args: ['--no-sandbox'],
-        },
-        output: `./assets/build/${id}.png`
+        }
     })
     .then(result => callback({ status: true, data: result, path: `./assets/build/${id}.png` }))
     .catch(result => callback({ status: false, data: result }));
