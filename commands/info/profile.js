@@ -108,9 +108,8 @@ module.exports = {
               rankname: client.Modlog.fetchRankData(user.xp).name,
               position: user.position,
         }, result => {
-            const embed = new MessageEmbed()
-            .setTitle('Profile')
-            .setImage(`attachment://${id}.png`);
+            const attachment = new Discord.MessageAttachment(result.data, `${id}.png`);
+            const embed = new MessageEmbed().setImage(`attachment://${id}.png`);
 
             client.api.interactions(interaction.id, interaction.token).callback.post({
               "data": {
@@ -131,12 +130,7 @@ module.exports = {
                           }
                       ],
                       "embeds": [embed],
-                      "files": [
-                        {
-                          "attachment": result.data,
-                          "file": `${id}.png`
-                        }
-                      ]
+                      "files": [attachment]
                   }
               }
           });
