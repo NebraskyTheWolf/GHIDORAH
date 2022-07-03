@@ -110,6 +110,8 @@ module.exports = {
                 const embed = new MessageEmbed().setImage(`attachment://${id}.png`);
 
                 console.log(result);
+                console.log(embed);
+                console.log(attachment);
 
                 client.api.interactions(interaction.id, interaction.token).callback.post({
                   "data": {
