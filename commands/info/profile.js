@@ -118,7 +118,7 @@ module.exports = {
                             "files": [attachment],
                             "ephemeral": true,
                             "flags": 64
-                        }
+                        }, attachment
                     }
                 });
             });
