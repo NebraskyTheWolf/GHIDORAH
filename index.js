@@ -29,6 +29,8 @@ const LevelCalculator = require('./utils/LevelCalculator');
 const PayloadHandler = require('./utils/PayloadHandler');
 const MusicController = require('./utils/MusicController');
 
+const convertor = require('./utils/ImageHandler');
+
 const IsLoaded = false;
 const IsDebug = process.env.DEBUG;
 
@@ -143,6 +145,7 @@ client.player = new Player(client, {
 });
 
 client.MusicController = MusicController;
+client.Convertor = convertor;
 
 function createOrSet(array, key, value) {
     if (array[key] !== undefined)

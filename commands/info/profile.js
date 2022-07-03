@@ -1,5 +1,4 @@
 const {Collection} = require("discord.js");
-const convertor = require('./utils/ImageHandler');
 const { v4 } = require('uuid');
 const { MessageEmbed } = require("discord.js");
 
@@ -99,7 +98,7 @@ module.exports = {
         const user = await client.levels.fetch(interaction.member.user.id, interaction.guild_id, true);
         const id = v4();
 
-        convertor.generate(rankCard, { 
+        client.Convertor.generate(rankCard, { 
               usericon: didUser.avatarURL(),
               username: didUser.tag,
               level: user.level,
