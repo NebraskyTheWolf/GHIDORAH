@@ -95,31 +95,36 @@ module.exports = {
                   percent: client.Convertor.rangePercentage(user.xp, 0, client.levels.xpFor(user.level + 1))
             }, async result => {
                 let attachment = new MessageAttachment(result.data, `${id}.png`);
-                let embed = new MessageEmbed().setImage(`attachment://${id}.png`);
+                let embed = new MessageEmbed()
+                    .setColor("#36393F")
+                    .setImage(`attachment://${id}.png`);
+
+                await client.guilds.cache.get(interaction.guild_id).channels.cache.get(interaction.channel_id).send({
+                    embeds: [embed],
+                    "components": [
+                        {
+                            "type": 1,
+                            "components": [
+                                  {
+                                      "style": 5,
+                                      "label": `Profile`,
+                                      "url": `${process.env.DEFAULT_DOMAIN}/server/${interaction.guild_id}/${interaction.member.user.id}/profile`,
+                                      "disabled": false,
+                                      "type": 2
+                                  }
+                              ]
+                        }
+                      ],
+                      "files": [attachment],
+                      "flags": 64
+                })
 
                 client.api.interactions(interaction.id, interaction.token).callback.post({
                     "data": {
                         "type": 4,
                         "data": {
-                            "embeds": [embed],
-                            "components": [
-                              {
-                                  "type": 1,
-                                  "components": [
-                                        {
-                                            "style": 5,
-                                            "label": `Profile`,
-                                            "url": `${process.env.DEFAULT_DOMAIN}/server/${interaction.guild_id}/${interaction.member.user.id}/profile`,
-                                            "disabled": false,
-                                            "type": 2
-                                        }
-                                    ]
-                              }
-                            ],
-                            "attachments": [attachment],
-                            "ephemeral": true,
-                            "flags": 64
-                        }, attachment
+                            content: '',
+                        }
                     }
                 });
             });
