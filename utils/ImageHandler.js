@@ -64,7 +64,7 @@ module.exports.generate = async function (html, content, callback) {
         content: content,
         puppeteerArgs: {
             args: ['--no-sandbox'],
-            defaultViewport: { width: 785, height: 425},
+            defaultViewport: { width: 785, height: 520},
             timeout: 3000
         }
     })
