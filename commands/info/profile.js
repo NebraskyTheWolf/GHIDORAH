@@ -82,8 +82,8 @@ module.exports = {
         const user = await client.levels.fetch(interaction.member.user.id, interaction.guild_id, true);
         const id = v4();
 
-        const attachment = new MessageAttachment(result.data, `${id}.png`);
-        const embed = new MessageEmbed().setImage(`attachment://${id}.png`);
+        let attachment;
+        let embed;
 
         client.users.fetch(interaction.member.user.id).then((didUser) => {
           client.Convertor.generate(rankCard, { 
