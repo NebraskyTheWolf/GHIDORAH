@@ -1,6 +1,6 @@
 const {Collection} = require("discord.js");
 const { v4 } = require('uuid');
-const { MessageEmbed } = require("discord.js");
+const { MessageEmbed, MessageAttachment } = require("discord.js");
 
 const rankCard = `<div class="ui container page-content">
 <h1 class="ui center aligned header">
@@ -106,7 +106,7 @@ module.exports = {
                   rankname: client.Modlog.fetchRankData(user.xp).name,
                   position: user.position,
             }, result => {
-                const attachment = new Discord.MessageAttachment(result.data, `${id}.png`);
+                const attachment = new MessageAttachment(result.data, `${id}.png`);
                 const embed = new MessageEmbed().setImage(`attachment://${id}.png`);
 
                 client.api.interactions(interaction.id, interaction.token).callback.post({
