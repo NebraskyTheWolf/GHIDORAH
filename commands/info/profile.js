@@ -92,7 +92,7 @@ module.exports = {
                   rankname: client.Modlog.fetchRankData(user.xp).name,
                   position: user.position,
                   percent: client.Convertor.rangePercentage(user.xp, 0, client.levels.xpFor(user.level + 1))
-            }, result => {
+            }, async result => {
                 let attachment = new MessageAttachment(result.data, `${id}.png`);
                 let embed = new MessageEmbed().setImage(`attachment://${id}.png`);
 
