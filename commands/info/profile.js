@@ -120,7 +120,7 @@ module.exports = {
                                   {
                                     "style": 5,
                                     "label": `Profile`,
-                                    "url": `${process.env.DEFAULT_DOMAIN}/server/${interaction.guild_id}/${uwu.id}/profile`,
+                                    "url": `${process.env.DEFAULT_DOMAIN}/server/${interaction.guild_id}/${user.id}/profile`,
                                     "disabled": false,
                                     "type": 2
                                   }
