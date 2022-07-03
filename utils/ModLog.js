@@ -162,6 +162,39 @@ module.exports.sendMessage = function(interaction, embeds = [], components = [],
     });
 }
 
+module.exports.sendMessage = function(interaction, embeds = [], components = [], attachment = [], ephemeral = false, flags = 128) {
+  client.api.interactions(interaction.id, interaction.token).callback.post({
+      "data": {
+          "type": 4,
+          "data": {
+              "embeds": embeds,
+              "components": [
+                {
+                    "type": 1,
+                    "components": components,
+                }
+              ],
+              "files": attachment,
+              "ephemeral": ephemeral,
+              "flags": flags
+          }
+      }
+  });
+}
+
+module.exports.sendMessage = function(interaction, embeds = [], ephemeral = false, flags = 128) {
+  client.api.interactions(interaction.id, interaction.token).callback.post({
+      "data": {
+          "type": 4,
+          "data": {
+              "embeds": embeds,
+              "ephemeral": ephemeral,
+              "flags": flags
+          }
+      }
+  });
+}
+
 module.exports.sendMessageC = function(interaction, embeds = [], ephemeral = false, flags = 128) {
   client.api.interactions(interaction.id, interaction.token).callback.post({
       "data": {
