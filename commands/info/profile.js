@@ -82,9 +82,6 @@ module.exports = {
         const user = await client.levels.fetch(interaction.member.user.id, interaction.guild_id, true);
         const id = v4();
 
-        let attachment;
-        let embed;
-
         client.users.fetch(interaction.member.user.id).then((didUser) => {
           client.Convertor.generate(rankCard, { 
                   usericon: didUser.avatarURL(),
@@ -96,23 +93,25 @@ module.exports = {
                   position: user.position,
                   percent: client.Convertor.rangePercentage(user.xp, 0, client.levels.xpFor(user.level + 1))
             }, result => {
-                attachment = new MessageAttachment(result.data, `${id}.png`);
-                embed = new MessageEmbed().setImage(`attachment://${id}.png`);
+                let attachment = new MessageAttachment(result.data, `${id}.png`);
+                let embed = new MessageEmbed().setImage(`attachment://${id}.png`);
+
+                await client.Modlog.sendMessage(
+                    [embed],
+                    [
+                        {
+                            "style": 5,
+                            "label": `Profile`,
+                            "url": `${process.env.DEFAULT_DOMAIN}/server/${interaction.guild_id}/${interaction.member.user.id}/profile`,
+                            "disabled": false,
+                            "type": 2
+                        }
+                    ],
+                    [attachment], true, 64
+                );
             });
         });
 
-        await client.Modlog.sendMessage(
-            [embed],
-            [
-                {
-                    "style": 5,
-                    "label": `Profile`,
-                    "url": `${process.env.DEFAULT_DOMAIN}/server/${interaction.guild_id}/${interaction.member.user.id}/profile`,
-                    "disabled": false,
-                    "type": 2
-                }
-            ],
-            [attachment], true, 64
-        );
+       
     }
 }
