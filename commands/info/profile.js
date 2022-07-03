@@ -113,29 +113,24 @@ module.exports = {
                 console.log(embed);
                 console.log(attachment);
 
-                client.api.interactions(interaction.id, interaction.token).callback.post({
-                  "data": {
-                      "type": 4,
-                      "data": {
-                          "components": [
-                              {
-                                "type": 1,
-                                "components": [
-                                  {
-                                    "style": 5,
-                                    "label": `Profile`,
-                                    "url": `${process.env.DEFAULT_DOMAIN}/server/${interaction.guild_id}/${user.id}/profile`,
-                                    "disabled": false,
-                                    "type": 2
-                                  }
-                                ]
-                              }
-                          ],
-                          "embeds": [embed],
-                          "files": [attachment]
+                client.guilds.cache.get(interaction.guild_id).channels.cache.get(interaction.channel_id).send({
+                    "components": [
+                      {
+                        "type": 1,
+                        "components": [
+                          {
+                            "style": 5,
+                            "label": `Profile`,
+                            "url": `${process.env.DEFAULT_DOMAIN}/server/${interaction.guild_id}/${user.id}/profile`,
+                            "disabled": false,
+                            "type": 2
+                          }
+                        ]
                       }
-                  }
-              });
+                  ],
+                  "embeds": [embed],
+                  "files": [attachment]
+                });
             });
         });
     }
