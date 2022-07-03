@@ -94,45 +94,45 @@ module.exports = {
     description: "See your game profile.",
     commandOptions: null,
     async execute(interaction) {
-        const didUser = interaction.member.user;
         const user = await client.levels.fetch(interaction.member.user.id, interaction.guild_id, true);
         const id = v4();
+        client.users.fetch(interaction.member.user.id).then((didUser) => {
+          client.Convertor.generate(rankCard, { 
+                  usericon: didUser.avatarURL(),
+                  username: didUser.tag,
+                  level: user.level,
+                  xp: user.xp,
+                  requiredXp: client.levels.xpFor(user.level + 1),
+                  rankname: client.Modlog.fetchRankData(user.xp).name,
+                  position: user.position,
+            }, result => {
+                const attachment = new Discord.MessageAttachment(result.data, `${id}.png`);
+                const embed = new MessageEmbed().setImage(`attachment://${id}.png`);
 
-        client.Convertor.generate(rankCard, { 
-              usericon: didUser.avatarURL(),
-              username: didUser.tag,
-              level: user.level,
-              xp: user.xp,
-              requiredXp: client.levels.xpFor(user.level + 1),
-              rankname: client.Modlog.fetchRankData(user.xp).name,
-              position: user.position,
-        }, result => {
-            const attachment = new Discord.MessageAttachment(result.data, `${id}.png`);
-            const embed = new MessageEmbed().setImage(`attachment://${id}.png`);
-
-            client.api.interactions(interaction.id, interaction.token).callback.post({
-              "data": {
-                  "type": 4,
+                client.api.interactions(interaction.id, interaction.token).callback.post({
                   "data": {
-                      "components": [
-                          {
-                            "type": 1,
-                            "components": [
+                      "type": 4,
+                      "data": {
+                          "components": [
                               {
-                                "style": 5,
-                                "label": `Profile`,
-                                "url": `${process.env.DEFAULT_DOMAIN}/server/${interaction.guild_id}/${uwu.id}/profile`,
-                                "disabled": false,
-                                "type": 2
+                                "type": 1,
+                                "components": [
+                                  {
+                                    "style": 5,
+                                    "label": `Profile`,
+                                    "url": `${process.env.DEFAULT_DOMAIN}/server/${interaction.guild_id}/${uwu.id}/profile`,
+                                    "disabled": false,
+                                    "type": 2
+                                  }
+                                ]
                               }
-                            ]
-                          }
-                      ],
-                      "embeds": [embed],
-                      "files": [attachment]
+                          ],
+                          "embeds": [embed],
+                          "files": [attachment]
+                      }
                   }
-              }
-          });
+              });
+            });
         });
     }
 }
