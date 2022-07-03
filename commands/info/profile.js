@@ -97,6 +97,7 @@ module.exports = {
                 let attachment = new MessageAttachment(result.data, `${id}.png`);
                 let embed = new MessageEmbed()
                     .setColor("#36393F")
+                    .setTitle(`${user.tag} | Server profile.`)
                     .setImage(`attachment://${id}.png`);
 
                 await client.guilds.cache.get(interaction.guild_id).channels.cache.get(interaction.channel_id).send({
