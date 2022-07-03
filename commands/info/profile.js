@@ -1,6 +1,7 @@
 const {Collection} = require("discord.js");
 const { v4 } = require('uuid');
 const { MessageEmbed, MessageAttachment } = require("discord.js");
+const { CommandInteraction } = require("discord.js");
 
 const rankCard = `<div class="ui container page-content">
 <h1 class="ui center aligned header">
@@ -115,7 +116,7 @@ module.exports = {
                                     ]
                               }
                             ],
-                            "files": [attachment],
+                            "attachments": [attachment],
                             "ephemeral": true,
                             "flags": 64
                         }, attachment
