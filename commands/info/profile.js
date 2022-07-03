@@ -117,8 +117,9 @@ module.exports = {
                         }
                       ],
                       "files": [attachment],
-                      "flags": 64
-                })
+                      "flags": 64,
+                      "ephemeral": true
+                });
 
                 client.api.interactions(interaction.id, interaction.token).callback.post({
                     "data": {
