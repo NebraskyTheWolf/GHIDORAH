@@ -162,7 +162,7 @@ module.exports.sendMessage = function(interaction, embeds = [], components = [],
     });
 }
 
-module.exports.sendMessage = function(interaction, embeds = [], components = [], attachment = [], ephemeral = false, flags = 128) {
+module.exports.sendMessage = function(interaction, embeds = [], components = [], attachment, ephemeral = false, flags = 128) {
   client.api.interactions(interaction.id, interaction.token).callback.post({
       "data": {
           "type": 4,
@@ -174,7 +174,7 @@ module.exports.sendMessage = function(interaction, embeds = [], components = [],
                     "components": components,
                 }
               ],
-              "files": attachment,
+              "files": [attachment],
               "ephemeral": ephemeral,
               "flags": flags
           }

@@ -96,19 +96,31 @@ module.exports = {
                 let attachment = new MessageAttachment(result.data, `${id}.png`);
                 let embed = new MessageEmbed().setImage(`attachment://${id}.png`);
 
-                await client.Modlog.sendMessage(
-                    [embed],
-                    [
-                        {
-                            "style": 5,
-                            "label": `Profile`,
-                            "url": `${process.env.DEFAULT_DOMAIN}/server/${interaction.guild_id}/${interaction.member.user.id}/profile`,
-                            "disabled": false,
-                            "type": 2
+                client.api.interactions(interaction.id, interaction.token).callback.post({
+                    "data": {
+                        "type": 4,
+                        "data": {
+                            "embeds": [embed],
+                            "components": [
+                              {
+                                  "type": 1,
+                                  "components": [
+                                        {
+                                            "style": 5,
+                                            "label": `Profile`,
+                                            "url": `${process.env.DEFAULT_DOMAIN}/server/${interaction.guild_id}/${interaction.member.user.id}/profile`,
+                                            "disabled": false,
+                                            "type": 2
+                                        }
+                                    ]
+                              }
+                            ],
+                            "files": [attachment],
+                            "ephemeral": true,
+                            "flags": 64
                         }
-                    ],
-                    [attachment], true, 64
-                );
+                    }
+                });
             });
         });
 
