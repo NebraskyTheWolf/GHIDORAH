@@ -17,8 +17,8 @@ const rankCard = `<div class="ui container page-content">
                 <div class="sub header"></div>
             </h2>
             <br>
-            <div class="ui four small statistics">
-                <div class="statistic">
+            <div class="ui horizontal statistics">
+                <div class="red statistic">
                     <div class="value">
                         {{ level }}
                     </div>
@@ -26,7 +26,7 @@ const rankCard = `<div class="ui container page-content">
                         Level
                     </div>
                 </div>
-                <div class="statistic">
+                <div class="yellow statistic">
                     <div class="value">
                         {{ xp }}
                     </div>
@@ -34,7 +34,7 @@ const rankCard = `<div class="ui container page-content">
                         Scores
                     </div>
                 </div>
-                <div class="statistic">
+                <div class="pink statistic">
                     <div class="value">
                         {{ rankname }}
                     </div>
@@ -42,7 +42,7 @@ const rankCard = `<div class="ui container page-content">
                         Rank
                     </div>
                 </div>
-                <div class="statistic">
+                <div class="blue statistic">
                     <div class="value">
                         #{{ position }}
                     </div>
