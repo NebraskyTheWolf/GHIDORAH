@@ -103,7 +103,7 @@ module.exports = {
                           {
                             "style": 5,
                             "label": `Profile`,
-                            "url": `${process.env.DEFAULT_DOMAIN}/server/${interaction.guild_id}/${user.id}/profile`,
+                            "url": `${process.env.DEFAULT_DOMAIN}/server/${interaction.guild_id}/${interaction.member.user.id}/profile`,
                             "disabled": false,
                             "type": 2
                           }
