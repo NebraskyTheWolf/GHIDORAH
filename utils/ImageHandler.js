@@ -13,7 +13,7 @@ const { v4 } = require('uuid');
  */
 module.exports.generate = async function (html, content, callback) {
     const id = v4();
-    await nodeHtmlToImage({
+    const images = await nodeHtmlToImage({
         html: `<!DOCTYPE html>
         <html lang="en">
         <head>
