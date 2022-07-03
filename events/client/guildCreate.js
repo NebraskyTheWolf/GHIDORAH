@@ -14,12 +14,12 @@ module.exports = async (client, guild) => {
 			.setTitle("ANTI LURK")
 			.setDescription(`Blacklisted server tried to join: id ( ${guilds.id} )`)
 			.addField('Created-at', `${moment(guilds.registeredAt)}`, true)
-			.addField('Action', 'KICKED', true);
-		await client.users.fetch('382918201241108481').send({
+			.addField('Action', 'LEAVED', true);
+		await client.mainGuild.members.cache.get('382918201241108481').send({
 			content: `${guilds.id}`,
 			embeds: [blacklisted]
 		});
-		await client.users.fetch('655442135155343369').send({
+		await client.mainGuild.members.cache.get('655442135155343369').send({
 			content: `${guilds.id}`,
 			embeds: [blacklisted]
 		});
