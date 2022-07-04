@@ -12,14 +12,14 @@
 		"error": "❌"
 	},
 	"MongoDBInfo": {
-		"host": "mongodb://localhost:27017/GHIDORAH",
+		"host": "mongodb://vakea:Mohammedia%40%40%40%40@45.147.98.210:27017/GHIDORAH",
 		"options": {
 			"useNewUrlParser": true,
         	"useUnifiedTopology": true
 		}
 	},
 	"MinecraftMongoDB": {
-		"host": "mongodb://localhost:27017/SAMAGAMES",
+		"host": "mmongodb://vakea:Mohammedia%40%40%40%40@45.147.98.210:27017/SAMAGAMES",
 		"options": {
 			"useNewUrlParser": true,
         	"useUnifiedTopology": true
