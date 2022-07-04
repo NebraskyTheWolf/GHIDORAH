@@ -4,7 +4,7 @@ require("discord-banner")(process.env.TOKEN, {
 const { getUserBanner } = require("discord-banner");
 
 module.exports = new class{
-    getServerByID (req, res) {
+    async getServerByID (req, res) {
         if (req.params.guildId === undefined)
             res.status(403).json({status: false, error: 'Invalid guildId or undefined.'});
 
@@ -14,7 +14,7 @@ module.exports = new class{
             res.status(404).json({status: false, data: {}});
         });
     }
-    getServerMembers (req, res) {
+    async getServerMembers (req, res) {
         if (req.params.guildId === undefined)
             res.status(403).json({status: false, error: 'Invalid guildId or undefined.'});
 
@@ -24,7 +24,7 @@ module.exports = new class{
             res.status(404).json({status: false, data: {}});
         })
     }
-    getServerConfig (req, res) {
+    async getServerConfig (req, res) {
         if (req.params.guildId === undefined)
             res.status(403).json({status: false, error: 'Invalid guildId or undefined.'});
         const guild = client.guilds.cache.get(req.params.guildId);
@@ -33,7 +33,7 @@ module.exports = new class{
         else
             res.status(404).json({status: false, data: {}});
     }
-    fetchServers (req, res) {
+    async fetchServers (req, res) {
         const array = [];
         client.guilds.cache.forEach((guild) => {
             array.push(guild);
@@ -50,7 +50,7 @@ module.exports = new class{
                 data: []
             });
     }
-    fetchLeaderboard (req, res) {
+    async fetchLeaderboard (req, res) {
         if (req.params.guildId === undefined)
             res.status(403).json({status: false, error: 'Invalid guildId or undefined.'});
         client.levels.fetchLeaderboard(req.params.guildId, 100).then((data) => {
@@ -61,7 +61,7 @@ module.exports = new class{
             res.status(404).json({status: false, error: 'Unable to get server data.'});
         });
     }
-    fetchLevel (req, res) {
+    async fetchLevel (req, res) {
         if (req.params.guildId === undefined || req.params.userid === undefined)
             res.status(403).json({status: false, error: 'Invalid guildId or userid.'});
         
@@ -83,7 +83,7 @@ module.exports = new class{
             }});
         }
     }
-    getUsernameByID (req, res) {
+    async getUsernameByID (req, res) {
         if (req.params.userid === undefined || req.params.guildId === undefined)
             res.status(403).json({status: false, error: 'Invalid userid or undefined.'});
         const uwu = await client.Database.fetchMember(req.params.userid, req.params.guildId);
@@ -92,7 +92,7 @@ module.exports = new class{
         else
             res.status(404).json({status: false, data: {}});
     }
-    fetchRules (req, res) {
+    async fetchRules (req, res) {
         if (req.params.guildId === undefined)
             res.status(403).json({status: false, error: 'Invalid guildId.'});
         await client.Database.fetchRules(req.params.guildId).then(result => {
@@ -101,7 +101,7 @@ module.exports = new class{
             res.status(404).json({status: false, data: {}});
         });
     }
-    createRules (req, res) {
+    async createRules (req, res) {
         if (req.body.guildId === undefined || req.body.data === undefined)
             res.status(403).json({status: false, error: 'Invalid guildId.'});
         await client.Database.createRules(req.body.guildId, req.body.data).then(result => {
@@ -116,7 +116,7 @@ module.exports = new class{
             });
         });
     }
-    fetchServerByOwner (req, res) {
+    async fetchServerByOwner (req, res) {
         if (req.params.ownerId === undefined)
             res.status(403).json({status: false, error: 'Invalid ownerId.'});
         
@@ -137,7 +137,7 @@ module.exports = new class{
                 data: []
             });
     }
-    checkVerify (req, res) {
+    async checkVerify (req, res) {
         if (req.params.guildId === undefined || req.params.userId === undefined)
             res.status(403).json({status: false, error: 'Invalid guildId or userId.'});
         
@@ -153,7 +153,7 @@ module.exports = new class{
                 data: {}
             });
     }
-    fetchAllVerify (req, res) {
+    async fetchAllVerify (req, res) {
         if (req.params.guildId === undefined)
             res.status(403).json({status: false, error: 'Invalid guildId.'});
 
@@ -169,7 +169,7 @@ module.exports = new class{
                 data: {}
             });
     }
-    countVerify (req, res) {
+    async countVerify (req, res) {
         if (req.params.guildId === undefined)
             res.status(403).json({status: false, error: 'Invalid guildId.'});
 
