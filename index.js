@@ -1,4 +1,3 @@
-const { Player } = require('discord-player');
 const { Collection, Client, Intents } = require("discord.js");
 const discordModals = require('discord-modals')
 
@@ -136,15 +135,6 @@ client.PayloadHandler = PayloadHandler;
 client.payload = new Collection();
 
 client.fingerprint = prints;
-
-client.player = new Player(client, {
-    ytdlOptions: {
-        quality: 'highestaudio',
-        highWaterMark: 1 << 25
-    }
-});
-
-client.MusicController = MusicController;
 client.Convertor = convertor;
 
 function createOrSet(array, key, value) {
@@ -164,7 +154,6 @@ client.createOrSet = createOrSet;
 [
     "command",
     "event",
-    "music",
     "anticrash",
     "payload",
     "security"
