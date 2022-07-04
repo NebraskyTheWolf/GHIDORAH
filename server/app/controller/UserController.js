@@ -1,7 +1,7 @@
 const bitfield = require('discord-bitfield-calculator');
 
-module.exports = {
-    getUserById: function (req, res) {
+module.exports = new class{
+    async getUserById (req, res) {
         if (req.params.id === undefined)
             return res.status(400).json({status: false, error: 'Missing user id.'});
         client.Database.fetchOauth(req.params.id).then((user) => {
@@ -9,8 +9,8 @@ module.exports = {
         }).catch(() => {
             res.status(404).json({status: false, error: 'User not found.'});
         });
-    },
-    getUserByName: function (req, res) {
+    }
+    async getUserByName (req, res) {
         if (req.params.username === undefined)
             return res.status(400).json({status: false, error: 'Missing username.'});
         client.Database.fetchOauthByName(req.params.username).then((user) => {
@@ -18,8 +18,8 @@ module.exports = {
         }).catch(() => {
             res.status(404).json({status: false, error: 'User not found.'});
         });
-    },
-    getRoleById: function (req, res) {
+    }
+    async getRoleById (req, res) {
         if (req.params.id === undefined)
             return res.status(400).json({status: false, error: 'Missing role id.'});
         let role = client.guilds.cache.get(req.params.guild).roles.cache.get(req.params.id);
@@ -27,8 +27,8 @@ module.exports = {
             res.status(200).json(role);
         else
             res.status(404).json({status: false, error: 'Role not found.'});
-    },
-    activateUser: function (req, res) {
+    }
+    async activateUser (req, res) {
         if (req.params.id === undefined)
             return res.status(400).json({status: false, error: 'Missing user id.'});
         let result = client.Database.activateOauth(req.params.id);
@@ -36,8 +36,8 @@ module.exports = {
             res.status(200).json({status: true, data: result});
         else
             res.status(404).json({status: false, data: {}});
-    },
-    getUserByToken: function (req, res) {
+    }
+    async getUserByToken (req, res) {
         if (req.params.token === undefined)
             return res.status(400).json({status: false, error: 'Missing user token.'});
         client.Database.getUserByToken(req.params.token).then((user) => {
@@ -45,14 +45,14 @@ module.exports = {
         }).catch(() => {
             res.status(404).json({status: false, error: 'User not found.'});
         });
-    },
-    getOnlineUsers: function (req, res) {
+    }
+    async getOnlineUsers (req, res) {
         res.status(200).json({
             status: true,
             data: client.guilds.cache.reduce((a, b) => a + b.memberCount, 0)
         });
-    },
-    getUserSanction: function (req, res) {
+    }
+    async getUserSanction (req, res) {
         if (req.params.id === undefined)
             return res.status(400).json({status: false, error: 'Missing user id.'});
         client.Database.fetchSanction(req.params.id, req.params.guild, true).then((sanction) => {
@@ -60,8 +60,8 @@ module.exports = {
         }).catch(() => {
             res.status(404).json({status: false, error: 'User not found.'});
         });
-    },
-    updateSanction: function (req, res) {
+    }
+    async updateSanction (req, res) {
         if (req.params.id === undefined)
             return res.status(400).json({status: false, error: 'Missing user id.'});
         if (req.params.sanctionId === undefined)
@@ -71,9 +71,9 @@ module.exports = {
         }).catch(() => {
             res.status(404).json({status: false, error: 'User not found.'});
         });
-    },
-    addSanction: function (req, res) {},
-    fetchUser: function (req, res) {
+    }
+    async addSanction (req, res) {}
+    async fetchUser (req, res) {
         if (req.params.id === undefined)
             return res.status(400).json({status: false, error: 'Missing user id.'});
         client.Database.fetchUser(req.params.id).then((user) => {
@@ -81,27 +81,27 @@ module.exports = {
         }).catch(() => {
             res.status(404).json({status: false, error: 'User not found.'});
         });
-    },
-    fetchStaff: function (req, res) {},
-    getSanctionById: function (req, res) {
+    }
+    async fetchStaff (req, res) {}
+    async getSanctionById (req, res) {
         if (req.params.id === undefined)
             return res.status(400).json({status: false, error: 'Missing sanction id.'});
-    },
-    isBlacklisted: function (req, res) {
+    }
+    async isBlacklisted (req, res) {
         if (req.params.id === undefined)
             return res.status(400).json({status: false, error: 'Missing user id.'});
         const data = client.Database.isBlacklisted(req.params.id);
         return res.status(200).json({status: true, data: data});
-    },
-    getUserLevel: function (req, res) {
+    }
+    async getUserLevel (req, res) {
         if (req.params.id === undefined)
             return res.status(400).json({status: false, error: 'Missing user id.'});
-    },
-    getUserPresence: function (req, res) {
+    }
+    async getUserPresence (req, res) {
         if (req.params.id === undefined)
             return res.status(400).json({status: false, error: 'Missing user id.'});
-    },
-    getTotalMessages: function (req, res) {
+    }
+    async getTotalMessages (req, res) {
         client.Database.countMessages().then(data => {
              return res.status(200).json({
                  status: true,
@@ -113,8 +113,8 @@ module.exports = {
                 error: 'No messages found.'
             });
         })
-    },
-    getTotalMessagesById: function (req, res) {
+    }
+    async getTotalMessagesById (req, res) {
         if (req.params.guildId === undefined)
             return res.status(400).json({status: false, error: 'Missing user id.'});
         client.Database.countMessages({
@@ -127,8 +127,8 @@ module.exports = {
                error: 'No messages found.'
            });
        });
-    },
-    getTotalMessagesByUser: function (req, res) {
+    }
+    async getTotalMessagesByUser (req, res) {
         if (req.params.userId === undefined)
             return res.status(400).json({status: false, error: 'Missing user id.'});
         client.Database.fetchMessageByUser(req.params.userId).then(data => {
@@ -139,8 +139,8 @@ module.exports = {
                error: 'No messages found.'
            });
        });
-    },
-    fetchDev: async function (req, res) {
+    }
+    async fetchDev (req, res) {
         if (req.params.userId === undefined)
             return res.status(400).json({status: false, error: 'Missing user id.'});
         await client.Database.isDeveloper(req.params.userId, async result => {
@@ -149,8 +149,8 @@ module.exports = {
                 data: result
             })
         });
-    },
-    addDev: async function (req, res) {
+    }
+    async addDev (req, res) {
         if (req.body.userId === undefined || req.body.level === undefined)
             return res.status(400).json({status: false, error: 'Missing user id.'});
         
@@ -165,8 +165,8 @@ module.exports = {
                 data: err
             });
         });
-    },
-    getMarriageByUser: async function (req, res) {
+    }
+    async getMarriageByUser (req, res) {
         if (req.body.userId === undefined)
             return res.status(400).json({status: false, error: 'Missing user id.'});
         
@@ -183,8 +183,8 @@ module.exports = {
                 });
             }
         })
-    },
-    getMarriageById: async function (req, res) {
+    }
+    async getMarriageById (req, res) {
         if (req.body.marryId === undefined)
             return res.status(400).json({status: false, error: 'Missing user id.'});
         
@@ -198,10 +198,10 @@ module.exports = {
                 });
             }
         });
-    },
+    }
 
-    postMarry: async function (req, res) {},
-    updateMarry: async function (req, res) {},
-    deleteMarry: async function (req, res) {},
+    async postMarry (req, res) {}
+    async updateMarry (req, res) {}
+    async deleteMarry (req, res) {}
 }
 

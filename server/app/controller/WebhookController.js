@@ -1,12 +1,13 @@
-const { MessageEmbed, Message } = require("discord.js")
-module.exports = {
-    initNotification: function (req, res) {
+const { MessageEmbed } = require("discord.js")
+module.exports = new class {
+  async initNotification (req, res) {
         client.events.emit('githubEvent', 
           {status: true, data: req.body}
         );
         res.status(200).end();
-    },
-    verifyNotification: async function (req, res) {
+  }
+
+  async verifyNotification (req, res) {
       const guild = await client.Database.fetchGuild(req.body.guildId);
 
       if (guild.verification.online) {

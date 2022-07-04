@@ -1,4 +1,4 @@
-module.exports = function (req, res, next) {
+module.exports = async (req, res, next) => {
     const token = req.get('Authorisation');
     if (token) {
         client.Database.fetchApplication(token).then(result => {

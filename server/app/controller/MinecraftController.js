@@ -1,5 +1,5 @@
-module.exports = {
-    getPlayerByUUID: function (req, res) {
+module.exports = new class {
+    async getPlayerByUUID (req, res) {
         if (req.params.uuid === undefined)
             res.status(404).json({
                 status: false,
@@ -15,8 +15,8 @@ module.exports = {
                 code: 'REJECTED',
                 error: 'Player not found.'
             });
-    },
-    createPlayer: function (req, res) {
+    }
+    async createPlayer (req, res) {
         if (req.body.uuid === undefined)
             return res.status(404).json({
                 status: false,
@@ -39,177 +39,176 @@ module.exports = {
                 error: 'Error occurred during database writes.'
             });
         }
-    },
-    updatePlayer: function (req, res) {
+    }
+    async updatePlayer (req, res) {
         if (req.body.uuid === undefined)
             return res.status(404).json({
                 status: false,
                 code: 'REJECTED',
                 error: 'Segment \'UUID\' can\'t be null.'
             });
-    },
-
-    getPlayerSettingsByUUID: function (req, res) {
+    }
+    async getPlayerSettingsByUUID (req, res) {
         if (req.params.uuid === undefined)
             return res.status(404).json({
                 status: false,
                 code: 'REJECTED',
                 error: 'Segment \'UUID\' can\'t be null.'
             });
-    },
-    createSettingsPlayer: function (req, res) {
+    }
+    async createSettingsPlayer (req, res) {
         if (req.body.uuid === undefined)
             return res.status(404).json({
                 status: false,
                 code: 'REJECTED',
                 error: 'Segment \'UUID\' can\'t be null.'
             });
-    },
-    updateSettingsPlayer: function (req, res) {
+    }
+    async updateSettingsPlayer (req, res) {
         if (req.body.uuid === undefined)
             return res.status(404).json({
                 status: false,
                 code: 'REJECTED',
                 error: 'Segment \'UUID\' can\'t be null.'
             });
-    },
+    }
 
-    getAllActivePromotions: function (req, res) {},
-    getPromotionByID: function (req, res) {},
-    createPromotions: function (req, res) {},
-    deletePromotions: function (req, res) {},
+    async getAllActivePromotions (req, res) {}
+    async getPromotionByID (req, res) {}
+    async createPromotions (req, res) {}
+    async deletePromotions (req, res) {}
 
-    getTransactions: function (req, res) {},
-    getTransactionsByGame: function (req, res) {},
-    createTransactions: function (req, res) {},
-    updateTransactions: function (req, res) {},
+    async getTransactions (req, res) {}
+    async getTransactionsByGame (req, res) {}
+    async createTransactions (req, res) {}
+    async updateTransactions (req, res) {}
 
-    getRandomNickname: function (req, res) {},
-    isNicknameBlacklisted: function (req, res) {},
-    reserveNickname: function (req, res) {},
-    freeNickname: function (req, res) {},
+    async getRandomNickname (req, res) {}
+    async isNicknameBlacklisted (req, res) {}
+    async reserveNickname (req, res) {}
+    async freeNickname (req, res) {}
 
-    getScheduledMessages: function (req, res) {},
-    getScheduledMessage: function (req, res) {},
-    updateScheduledMessage: function (req, res) {},
-    createScheduledMessage: function (req, res) {},
+    async getScheduledMessages (req, res) {}
+    async getScheduledMessage (req, res) {}
+    async updateScheduledMessage (req, res) {}
+    async createScheduledMessage (req, res) {}
 
-    getAllItemDescription: function (req, res) {},
-    getItemDescription: function (req, res) {},
-    updateItemDescription: function (req, res) {},
-    createItemDescription: function (req, res) {},
+    async getAllItemDescription (req, res) {}
+    async getItemDescription (req, res) {}
+    async updateItemDescription (req, res) {}
+    async createItemDescription (req, res) {}
 
-    getAllHostRecord: function (req, res) {},
-    getHostRecord: function (req, res) {},
-    updateHostRecord: function (req, res) {},
-    createHostRecord: function (req, res) {},
+    async getAllHostRecord (req, res) {}
+    async getHostRecord (req, res) {}
+    async updateHostRecord (req, res) {}
+    async createHostRecord (req, res) {}
 
-    getAllPlayerGroups: function (req, res) {},
-    getPlayerGroup: function (req, res) {},
-    updatePlayerGroup: function (req, res) {},
-    createPlayerGroup: function (req, res) {},
+    async getAllPlayerGroups (req, res) {}
+    async getPlayerGroup (req, res) {}
+    async updatePlayerGroup (req, res) {}
+    async createPlayerGroup (req, res) {}
 
-    getFriendshipDemandList: function (req, res) {},
-    getFriendshipList: function (req, res) {},
-    postFriendshipDemand: function (req, res) {},
-    acceptFriendshipDemand: function (req, res) {},
-    refuseFriendshipDemand: function (req, res) {},
+    async getFriendshipDemandList (req, res) {}
+    async getFriendshipList (req, res) {}
+    async postFriendshipDemand (req, res) {}
+    async acceptFriendshipDemand (req, res) {}
+    async refuseFriendshipDemand (req, res) {}
 
-    getEvents: function (req, res) {},
-    getEvent: function (req, res) {},
-    getEventTime: function (req, res) {},
-    getEventWinners: function (req, res) {},
-    updateEvent: function (req, res) {},
-    updateEventWinner: function (req, res) {},
-    createEvent: function (req, res) {},
-    createWinnerEvent: function (req, res) {},
+    async getEvents (req, res) {}
+    async getEvent (req, res) {}
+    async getEventTime (req, res) {}
+    async getEventWinners (req, res) {}
+    async updateEvent (req, res) {}
+    async updateEventWinner (req, res) {}
+    async createEvent (req, res) {}
+    async createWinnerEvent (req, res) {}
 
-    getConfig: function (req, res) {},
-    updateConfig: function (req, res) {},
+    async getConfig (req, res) {}
+    async updateConfig (req, res) {}
 
-    getDenounces: function (req, res) {},
-    denouncePlayer: function (req, res) {},
+    async getDenounces (req, res) {}
+    async denouncePlayer (req, res) {}
 
-    getAchievementCategories: function (req, res) {},
-    getAchievementCategory: function (req, res) {},
-    getAchievements: function (req, res) {},
-    getAchievement: function (req, res) {},
-    getAchievementProgresses: function (req, res) {},
-    getAchievementProgress: function (req, res) {},
-    updateAchievementProgress: function (req, res) {},
-    createAchievementProgress: function (req, res) {},
+    async getAchievementCategories (req, res) {}
+    async getAchievementCategory (req, res) {}
+    async getAchievements (req, res) {}
+    async getAchievement (req, res) {}
+    async getAchievementProgresses (req, res) {}
+    async getAchievementProgress (req, res) {}
+    async updateAchievementProgress (req, res) {}
+    async createAchievementProgress (req, res) {}
 
-    applySanction: function (req, res) {
+    async applySanction (req, res) {
         if (req.body.uuid === undefined)
             return res.status(404).json({
                 status: false,
                 code: 'REJECTED',
                 error: 'Segment \'UUID\' can\'t be null.'
             });
-    },
-    removeSanction: function (req, res) {
+    }
+    async removeSanction (req, res) {
         if (req.body.uuid === undefined)
             return res.status(404).json({
                 status: false,
                 code: 'REJECTED',
                 error: 'Segment \'UUID\' can\'t be null.'
             });
-    },
-    updateSanctionStatus: function (req, res) {
+    }
+    async updateSanctionStatus (req, res) {
         if (req.body.uuid === undefined)
             return res.status(404).json({
                 status: false,
                 code: 'REJECTED',
                 error: 'Segment \'UUID\' can\'t be null.'
             });
-    },
-    getPlayerBanned: function (req, res) {
+    }
+    async getPlayerBanned (req, res) {
         if (req.body.uuid === undefined)
             return res.status(404).json({
                 status: false,
                 code: 'REJECTED',
                 error: 'Segment \'UUID\' can\'t be null.'
             });
-    },
-    getPlayerMuted: function (req, res) {
+    }
+    async getPlayerMuted (req, res) {
         if (req.body.uuid === undefined)
             return res.status(404).json({
                 status: false,
                 code: 'REJECTED',
                 error: 'Segment \'UUID\' can\'t be null.'
             });
-    },
-    getAllSanctions: function (req, res) {
+    }
+    async getAllSanctions (req, res) {
         if (req.body.uuid === undefined)
             return res.status(404).json({
                 status: false,
                 code: 'REJECTED',
                 error: 'Segment \'UUID\' can\'t be null.'
             });
-    },
-    getAllActiveSanctions: function (req, res) {
+    }
+    async getAllActiveSanctions (req, res) {
         if (req.body.uuid === undefined)
             return res.status(404).json({
                 status: false,
                 code: 'REJECTED',
                 error: 'Segment \'UUID\' can\'t be null.'
             });
-    },
-    getAllPassiveSanctions: function (req, res) {
+    }
+    async getAllPassiveSanctions (req, res) {
         if (req.body.uuid === undefined)
             return res.status(404).json({
                 status: false,
                 code: 'REJECTED',
                 error: 'Segment \'UUID\' can\'t be null.'
             });
-    },
-    getAllModeratorSanctions: function (req, res) {
+    }
+    async getAllModeratorSanctions (req, res) {
         if (req.body.uuid === undefined)
             return res.status(404).json({
                 status: false,
                 code: 'REJECTED',
                 error: 'Segment \'UUID\' can\'t be null.'
             });
-    },
-    getPermissionsByType: function (req, res) {}
+    }
+    async getPermissionsByType (req, res) {}
 }

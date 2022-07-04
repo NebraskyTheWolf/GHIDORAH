@@ -60,8 +60,8 @@ passport.use('twitch', new OAuth2Strategy({
   }
 ));
 
-module.exports = {
-    login: function (req, res) {
+module.exports = new class {
+  async login (req, res) {
         passport.authenticate('twitch', { scope: 'user_read', discord_id: req.params.userId});
     }
 }

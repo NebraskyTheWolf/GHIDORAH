@@ -1,8 +1,6 @@
-module.exports = {
-    discordInteractions: function (req, res) {
-
+module.exports = new class {
+    async discordInteractions (req, res) {
         console.log(req.body);
-
         res.status(200).end();
     }
 };

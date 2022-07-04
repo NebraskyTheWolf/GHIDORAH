@@ -1,5 +1,5 @@
-module.exports = {
-    payload: function (req, res) {
+module.exports = new class {
+    async payload (req, res) {
         const data = req.body;
         const token = req.get('Authorisation');
         if (token) {
@@ -64,6 +64,6 @@ module.exports = {
                 }
             });
         }
-    },
-    callback: function (req, res) {  }
+    }
+    async callback (req, res) {}
 }

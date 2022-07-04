@@ -1,16 +1,19 @@
 /**
  * @description BETA CLOUDFLARE WORKER FOR GHIDORAH.
  */
-const server = require('@tsndr/cloudflare-worker-router'); 
+const Router = require('@tsndr/cloudflare-worker-router')
+const router = new Router();
 const session = require("express-session");
 const bodyParser = require("body-parser");
 const passport = require('passport');
+
+router.cors();
 
 // MIDDLEWAR
 const rateLimiter = require('./app/middleware/RateLimit');
 
 module.exports = client => {
-	server.get("/", (_, res) => res.status(200).json({
+	router.get("/", (_, res) => res.status(200).json({
 		apiVersion: "5.3.2",
 		apiAuthor: 'Mitsui Hoshiko',
 		apiName: 'GHIDORAH DATA SERVER',
@@ -23,12 +26,12 @@ module.exports = client => {
 		}
 	}));
 
-	server.use(session({secret: `${client.fingerprint}`, resave: false, saveUninitialized: false}));
-	server.use(bodyParser.json());
-	server.use(passport.initialize());
-	server.use(passport.session());
+	router.use(session({secret: `${client.fingerprint}`, resave: false, saveUninitialized: false}));
+	router.use(bodyParser.json());
+	router.use(passport.initialize());
+	router.use(passport.session());
 
-	server.use(function (req, res, next) {
+	router.use(function (req, res, next) {
 		res.headers.set('Access-Control-Allow-Origin', '*');
 		res.headers.set('Access-Control-Allow-Methods', 'GET,POST');
 		res.headers.set('Access-Control-Allow-Headers', 'Content-Type');
@@ -57,26 +60,24 @@ module.exports = client => {
 	
 		if (routes[route].protected) {
 		  // init protected route
-		  server[method](url, rateLimiter, require('./app/controller/' + controller)[action])
+		  router[method](url, rateLimiter, require('./app/controller/' + controller)[action])
 		  continue
 		}
 	  }
 	  // init route
-	  server[method](url, require('./app/controller/' + controller)[action])
+	  router[method](url, require('./app/controller/' + controller)[action])
 	}
 	
-	server.use(function (req, res, next) {
+	router.use(function (req, res, next) {
 		res.status(404)
 		// respond with json
 		res.json({status: false, error: 'Method not found.'})
 	});
 	
-	server.use(function (err, req, res, next) {
+	router.use(function (err, req, res, next) {
 		console.error(err)
 		res.status(500).json({status: false, error: 'An error has occured.'})
 	});
 };
 
-module.exports.fetch = async function (request, env, ctx) {
-	return server.handle(env, request);
-}
+addEventListener('fetch', event => event.respondWith(router.handle(event)));

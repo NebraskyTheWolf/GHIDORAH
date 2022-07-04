@@ -1,14 +1,6 @@
-module.exports = {
-    registerEvent: function (req, red) {
-        
-    },
-    getManifest: function (req, res) {
-
-    },
-    checkEntry: function (req, res) {
-
-    },
-    checkEntryManifest: function (req, res) {
-
-    }
+module.exports = new class {
+    async registerEvent (req, red) {}
+    async getManifest (req, res) {}
+    async checkEntry (req, res) {}
+    async checkEntryManifest (req, res) {}
 };

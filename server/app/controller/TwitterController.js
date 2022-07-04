@@ -15,8 +15,8 @@ var crypto = require('crypto');
 var request = require('request');
 
 
-module.exports = {
-    requestAuthorization: function (req, res) {
+module.exports = new class {
+  async requestAuthorization (req, res) {
         if (!req.query || !req.query.userId || req.query.userId.length <= 0 || !req.query.callback || req.query.callback.length <= 0 || !req.query.notification || req.query.notification.length <= 0 || !req.query.authKey || req.query.authKey.length <= 0)
             return res.status(400).json({status: false, error: 'Invalid request.'})
 
