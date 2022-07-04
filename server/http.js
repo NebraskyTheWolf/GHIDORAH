@@ -1,7 +1,7 @@
 /**
  * @description BETA CLOUDFLARE WORKER FOR GHIDORAH.
  */
-import Router from '@tsndr/cloudflare-worker-router'
+const Router = require('@tsndr/cloudflare-worker-router'); 
 const server = new Router();
 const session = require("express-session");
 const bodyParser = require("body-parser");
