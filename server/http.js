@@ -1,17 +1,10 @@
-const express = require("express");
+/**
+ * @description BETA CLOUDFLARE WORKER FOR GHIDORAH.
+ */
+const server = require('@tsndr/cloudflare-worker-router');
 const session = require("express-session");
-const server = express();
 const bodyParser = require("body-parser");
 const passport = require('passport');
-
-const fs = require("fs");
-const https = require('https');
-
-var privateKey  = fs.readFileSync('sslcert/server.key', 'utf8');
-var certificate = fs.readFileSync('sslcert/server.crt', 'utf8');
-var credentials = {key: privateKey, cert: certificate};
-
-var httpsServer = https.createServer(credentials, server);
 
 // MIDDLEWAR
 const rateLimiter = require('./app/middleware/RateLimit');
@@ -37,9 +30,9 @@ module.exports = client => {
 	server.use(passport.session());
 
 	server.use(function (req, res, next) {
-		res.header('Access-Control-Allow-Origin', '*');
-		res.header('Access-Control-Allow-Methods', 'GET,POST');
-		res.header('Access-Control-Allow-Headers', 'Content-Type');
+		res.headers.set('Access-Control-Allow-Origin', '*');
+		res.headers.set('Access-Control-Allow-Methods', 'GET,POST');
+		res.headers.set('Access-Control-Allow-Headers', 'Content-Type');
 
 		next();
 	});
@@ -83,6 +76,10 @@ module.exports = client => {
 		console.error(err)
 		res.status(500).json({status: false, error: 'An error has occured.'})
 	});
-
-	httpsServer.listen(443);
 };
+
+export default {
+	async fetch (request, env) {
+		return server.handle(env, request);
+	}
+}
