@@ -17,6 +17,7 @@ module.exports = {
     'get /users/sanction/:id/:guild': {'function': 'UserController.getSanctionById', protected: false},
 
     'get /users/isBlacklisted/:id': {'function': 'UserController.isBlacklisted', protected: false},
+    'get /users/blacklist/all': {'function': 'UserController.fetchAllBlacklists', protected: false},
 
     'get /user/:id/stats/:guild': {'function': 'UserController.fetchUser', protected: false},
     'get /users/staff': {'function': 'UserController.fetchStaff', protected: false},

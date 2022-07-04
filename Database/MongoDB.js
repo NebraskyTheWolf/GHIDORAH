@@ -290,6 +290,10 @@ module.exports.disableBlacklist = async function(userID) {
     return await blacklistSchema.updateOne({ id: userID, guildId: guildId }, { data: { active: false } }, {  });
 }
 
+module.exports.getAllBlacklist = async function () {
+    return await blacklistSchema.find({  });
+}
+
 module.exports.createBlacklist = async function(userID, guildId, data) {
     let blacklist = new blacklistSchema({
         id: userID,
