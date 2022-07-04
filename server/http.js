@@ -10,7 +10,6 @@ const passport = require('passport');
 const rateLimiter = require('./app/middleware/RateLimit');
 
 module.exports = client => {
-	server.use(express.static('public'))
 	server.get("/", (_, res) => res.status(200).json({
 		apiVersion: "5.3.2",
 		apiAuthor: 'Mitsui Hoshiko',
