@@ -1,8 +1,7 @@
 /**
  * @description BETA CLOUDFLARE WORKER FOR GHIDORAH.
  */
-const Router = require('@tsndr/cloudflare-worker-router'); 
-const server = new Router();
+const server = require('@tsndr/cloudflare-worker-router'); 
 const session = require("express-session");
 const bodyParser = require("body-parser");
 const passport = require('passport');
