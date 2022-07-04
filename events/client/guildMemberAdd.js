@@ -6,7 +6,7 @@ module.exports = async function (client, member) {
     await client.Database.fetchMember(member.user.id, guild.id);
 
     const blacklist = await client.Database.isBlacklisted(member.user.id);
-    if (blacklist.data.active) {
+    if (blacklist !== null && blacklist.data.active) {
         client.logger.log('WARN', `User blacklisted: ${blacklist.id} got kicked in ${guild.id} at ${Date.now()}`);
         member.kick(`GHIDORAH Blacklisted: ${blacklist.data.reason}`);
     }

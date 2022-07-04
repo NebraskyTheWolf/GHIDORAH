@@ -73,6 +73,7 @@
 	"devDependencies": {
 		"@tsndr/cloudflare-worker-router": "^2.0.1",
 		"prettier": "2.6.2",
-		"wrangler": "^2.0.15"
+		"wrangler": "^2.0.15",
+		"husky": "^8.0.1"
 	}
 }
