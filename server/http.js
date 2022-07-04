@@ -80,4 +80,9 @@ module.exports = client => {
 	});
 };
 
-addEventListener('fetch', event => event.respondWith(router.handle(event)));
+// BULLSHIT THINGS GRRRR
+// addEventListener('fetch', event => event.respondWith()); 
+
+module.exports.fetch = async function (request, env, ctx) {
+	return router.handle(env, request);
+}
