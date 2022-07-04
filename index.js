@@ -26,8 +26,6 @@ const func = require('./utils/function');
 
 const LevelCalculator = require('./utils/LevelCalculator');
 const PayloadHandler = require('./utils/PayloadHandler');
-const MusicController = require('./utils/MusicController');
-
 const convertor = require('./utils/ImageHandler');
 
 const IsLoaded = false;
