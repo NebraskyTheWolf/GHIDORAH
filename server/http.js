@@ -1,7 +1,8 @@
 /**
  * @description BETA CLOUDFLARE WORKER FOR GHIDORAH.
  */
-const server = require('@tsndr/cloudflare-worker-router');
+import Router from '@tsndr/cloudflare-worker-router'
+const server = new Router();
 const session = require("express-session");
 const bodyParser = require("body-parser");
 const passport = require('passport');
@@ -79,7 +80,7 @@ module.exports = client => {
 };
 
 export default {
-	async fetch (request, env) {
-		return server.handle(env, request);
-	}
+    async fetch(request, env, ctx) {
+        return router.handle(env, request)
+    }
 }
