@@ -79,8 +79,6 @@ module.exports = client => {
 	});
 };
 
-export default {
-    async fetch(request, env, ctx) {
-        return server.handle(env, request)
-    }
+module.exports.fetch = async function (request, env, ctx) {
+	return server.handle(env, request);
 }
