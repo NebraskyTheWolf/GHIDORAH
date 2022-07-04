@@ -81,6 +81,6 @@ module.exports = client => {
 
 export default {
     async fetch(request, env, ctx) {
-        return router.handle(env, request)
+        return server.handle(env, request)
     }
 }
