@@ -237,7 +237,6 @@ module.exports = {
                     error: 'Not found.'
                 }).end();
             } else {
-                res.setHeader('Content-Length', buffer.size);
                 res.setHeader('Content-Type', 'application/pdf');
                 res.setHeader('Content-Disposition', `attachment; filename=${req.params.certId}.pdf`);
                 res.status(200).send(buffer);
