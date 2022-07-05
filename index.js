@@ -237,6 +237,4 @@ client.ws.on("INTERACTION_CREATE", async interaction => {
     }
 });
 
-client.Database.createCase();
-
 client.login(process.env.TOKEN);
