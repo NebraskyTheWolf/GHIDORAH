@@ -1,4 +1,5 @@
 const bitfield = require('discord-bitfield-calculator');
+const request = require('request');
 
 module.exports = {
     getUserById: function (req, res) {
@@ -227,8 +228,21 @@ module.exports = {
     getCertificate: async function (req, res) {
         if (req.params.id === undefined || req.params.certId === undefined)
             return res.status(404).json({status: false, error: 'Missing case id or certificate id.'});
+
+        request({url: `https://maven.skf-studios.com/download/cases/${req.params.id}/certifications/${req.params.certId}.pdf`, encoding: null}, (err, resp, buffer) => {
             
-        res.status(200).download(`https://maven.skf-studios.com/download/cases/${req.params.id}/certifications/${req.params.certId}.pdf`);
+            if (err) {
+                res.status(403).json({
+                    status: false,
+                    error: 'Not found.'
+                }).end();
+            } else {
+                res.setHeader('Content-Length', buffer.size);
+                res.setHeader('Content-Type', 'application/pdf');
+                res.setHeader('Content-Disposition', `attachment; filename=${req.params.certId}.pdf`);
+                res.status(200).send(buffer);
+            }
+        });
     }
 }
 
