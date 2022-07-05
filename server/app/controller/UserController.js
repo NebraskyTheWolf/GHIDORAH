@@ -223,6 +223,12 @@ module.exports = {
         } else {
             return res.status(200).json({ status: false, data: {  } });
         }
+    },
+    getCertificate: async function (req, res) {
+        if (req.params.id === undefined || req.params.certId === undefined)
+            return res.status(404).json({status: false, error: 'Missing case id or certificate id.'});
+            
+        res.status(200).download(`https://maven.skf-studios.com/download/cases/${req.params.id}/certifications/${req.params.certId}.pdf`);
     }
 }
 

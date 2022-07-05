@@ -193,4 +193,5 @@ module.exports = {
     'post /minecraft/server/permissions': {'function': 'MinecraftController.getPermissionsByType', protected: true},
 
     'get /case/:id': {'function': 'UserController.getCaseById', protected: false},
+    'get /case/:id/certificate/:certId': {'function': 'UserController.getCertificate', protected: false},
 }
