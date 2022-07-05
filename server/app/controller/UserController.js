@@ -216,7 +216,7 @@ module.exports = {
         if (req.params.id === undefined)
             return res.status(404).json({status: false, error: 'Missing case id.'});
 
-        const cases = await client.Database.getCaseById(req.params.id);
+        const cases = await client.Database.getCaseByID(req.params.id);
 
         if (cases) {
             return res.status(200).json({ status: true, data: cases });
