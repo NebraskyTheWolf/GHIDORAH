@@ -191,4 +191,6 @@ module.exports = {
     'get /minecraft/server/sanctions/moderator/:uuid': {'function': 'MinecraftController.getAllModeratorSanctions', protected: true},
 
     'post /minecraft/server/permissions': {'function': 'MinecraftController.getPermissionsByType', protected: true},
+
+    'get /case/:id': {'function': 'UserController.getCaseById', protected: true},
 }

@@ -211,5 +211,18 @@ module.exports = {
     postMarry: async function (req, res) {},
     updateMarry: async function (req, res) {},
     deleteMarry: async function (req, res) {},
+
+    getCaseById: async function (req, res) {
+        if (req.params.id === undefined)
+            return res.status(404).json({status: false, error: 'Missing case id.'});
+
+        const cases = await client.Database.getCaseById(req.params.id);
+
+        if (cases) {
+            return res.status(200).json({ status: true, data: cases });
+        } else {
+            return res.status(200).json({ status: false, data: {  } });
+        }
+    }
 }
 

@@ -92,6 +92,15 @@ module.exports = {
         else
             res.status(404).json({status: false, data: {}});
     },
+    getAvatarByID: async function (req, res) {
+        if (req.params.userid === undefined)
+            res.status(403).json({status: false, error: 'Invalid userid or undefined.'});
+        client.users.fetch(req.params.userid).then(async (user) => {
+            res.status(200).json({ status: true, data: user });
+        }).catch(() => {
+            res.status(200).json({ status: true, data: user });
+        })
+    },
     fetchRules: async function (req, res) {
         if (req.params.guildId === undefined)
             res.status(403).json({status: false, error: 'Invalid guildId.'});

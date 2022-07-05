@@ -47,6 +47,7 @@ const developersSchema = require('./Models/Guild/Security/Permissions/Developers
 
 const youtuberSchema = require('./Models/Guild/Socials/Youtube/Youtubers');
 const videosSchema = require('./Models/Guild/Socials/Youtube/VideoCheck');
+const casesSchema = require('./Models/Guild/Socials/Case');
 
 // MINECRAFT
 
@@ -927,4 +928,117 @@ module.exports.createYoutuber = async function (guildId, data) {
     .save()
     .catch(error => client.logger.log('ERROR', `Error occurred: ${error}`));
     return youtuber;
+}
+
+module.exports.getCaseByID = async function (id) {
+    return await casesSchema.findOne({ _id: id });
+}
+
+module.exports.createCase = async function () {
+    const cases = casesSchema({
+        arget: {
+            firstName: "Cameron",
+            middleName: "Tomas",
+            lastName: "Flores",
+            faceURL: "https://media.discordapp.net/attachments/944427759424397342/989287899663040612/IMG_0694.jpg",
+            age: 23,
+    
+            locations: {
+                lat: "41.7075",
+                long: "-86.8950",
+                country: "United States of America",
+                city: "Michigan City",
+                state: "Indiana",
+                postalCode: 46360,
+                ISP: "AT&T Corp."
+            },
+    
+            descriptions: [],
+            cases: [
+                {
+                    color: 'red',
+                    label: 'Pedophilia'
+                },
+                {
+                    color: 'red',
+                    label: 'Zoophilia'
+                }
+            ]
+        }, 
+    
+        accounts: {
+            discord: [
+                {
+                    name: 'Flare Antonio Rodriguez',
+                    discriminator: 0523,
+                    id: '883275584384434186'
+                },
+                {
+                    name: 'DamienLion',
+                    discriminator: 2835,
+                    id: '948442401817632798'
+                },
+                {
+                    name: 'Razorvixen',
+                    discriminator: 8107,
+                    id: '819923201425539103'
+                },
+                {
+                    name: 'Dakota_Falsebark',
+                    discriminator: 7544,
+                    id: '504392920300781591'
+                },
+                {
+                    name: 'Dakota/kota',
+                    discriminator: 0000,
+                    id: 'UNRECOGNISED'
+                }
+            ],
+            twitter: [
+                {
+                    tag: 'EvilFlareFox', 
+                    name: '',
+                    url: ''
+                }
+            ],
+            tiktok: [],
+            steam: [
+                {
+                    id: '',
+                    name: 'Dakota_Sergal',
+                    url: ''
+                }
+            ],
+            facebook: [],
+            spotify: [
+                {
+                    id: '',
+                    name: 'meepmedia#2'
+                }
+            ],
+            xbox: [
+                {
+                    id: '',
+                    name: 'DakotaSergal'
+                }
+            ],
+            psn: [
+                {
+                    id: '',
+                    name: 'furry_dakota'
+                }
+            ]
+        },
+    
+        files: [
+            {
+                id: 0,
+                downloadURL: 'https://cdn.discordapp.com/attachments/938559366582370314/993696233241726986/FLARE_REPORT_ARCHIVES.zip'
+            }
+        ],
+        registeredAt:  Date.now(),
+        updatedAt: Date.now()
+    });
+    cases.save().catch(err => client.logger.log('ERROR', `${err}`));
+    client.logger.log('DEBUG', cases);
 }
