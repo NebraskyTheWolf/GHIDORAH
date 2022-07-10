@@ -147,10 +147,9 @@ module.exports.fetchAllMember = async function(guildID) {
     return await memberSchema.find({ guildID: guildID});
 }
 
-module.exports.deleteMember = async function(guildID, userid) {
-    return await memberSchema.deleteOne({ guildID: guildID, id: userid});
+module.exports.deleteMember = async function(userid) {
+    return await memberSchema.deleteOne({ id: userid });
 }
-
 
 module.exports.createOauth = async function(userID, data) {
     let oauth = await oauthSchema.findOne({ id: userID });

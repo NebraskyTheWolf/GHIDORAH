@@ -79,8 +79,10 @@ module.exports = {
     createPromotions: function (req, res) {},
     deletePromotions: function (req, res) {},
 
-    getTransactions: function (req, res) {},
+    getPlayerTransactions: function (req, res) {},
     getTransactionsByGame: function (req, res) {},
+    getPlayerSelectedTransactions: function (req, res) {},
+    getPlayerGameSelectedTransactions: function (req, res) {},
     createTransactions: function (req, res) {},
     updateTransactions: function (req, res) {},
 

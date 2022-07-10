@@ -106,8 +106,12 @@ module.exports = {
     'post /minecraft/server/promotions/delete': {'function': 'MinecraftController.deletePromotions', protected: true},
     
     // # TRANSACTIONS
-    'get /minecraft/server/transactions/:uuid/:selected': {'function': 'MinecraftController.getTransactions', protected: true},
+    'get /minecraft/server/transactions/:uuid': {'function': 'MinecraftController.getPlayerTransactions', protected: true},
     'get /minecraft/server/transactions/:uuid/:gameId/:selected': {'function': 'MinecraftController.getTransactionsByGame', protected: true},
+    
+    'get /minecraft/server/transactions/selected/:uuid': {'function': 'MinecraftController.getPlayerSelectedTransactions', protected: true},
+    'get /minecraft/server/transactions/ig-selected/:uuid/:gameId': {'function': 'MinecraftController.getPlayerGameSelectedTransactions', protected: true},
+
     'post /minecraft/server/transactions/create': {'function': 'MinecraftController.createTransactions', protected: true},
     'post /minecraft/server/transactions/update': {'function': 'MinecraftController.updateTransactions', protected: true},
 
