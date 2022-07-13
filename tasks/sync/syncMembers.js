@@ -1,7 +1,7 @@
 module.exports = {
     task: {
         name: 'syncmembers',
-        cronTime: 700000
+        cronTime: 300000
     },
     execute() {
         client.guilds.cache.forEach(guild => {
@@ -10,5 +10,6 @@ module.exports = {
                 await client.Database.fetchMember(member.id, guild.id);
             });
         });
+        client.logger.log('INFO', 'Sync members tasks jobs executed.')
     }
 }

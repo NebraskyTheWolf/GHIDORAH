@@ -11,7 +11,7 @@ module.exports = {
                 client.guilds.cache.forEach(guild => {
                     guild.members.cache.forEach(member => {
                         if (!member.user.bot) {
-                            client.Database.deleteMember(guild.id, member.id);
+                            client.Database.deleteMember(member.id);
                             client.Database.fetchMember(member.id, guild.id).then((result) => {
                                 if (result.iconURL === undefined)
                                     client.logger.loger('WARN', `${result.id}/${result.username} invalid iconURL constant.`);
