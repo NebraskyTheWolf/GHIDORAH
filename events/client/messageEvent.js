@@ -212,7 +212,7 @@ module.exports = async (client, message) => {
                     "default": false
                   },
                   {
-                    "label": `Formule 4 heures Ranked`,
+                    "label": `Formule 3 heures Ranked`,
                     "value": `row_neyaz_ranked`,
                     "description": `Clique ici pour validé`,
                     "emoji": {

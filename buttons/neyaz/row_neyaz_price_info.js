@@ -53,15 +53,91 @@ module.exports = {
             break;
             case 'row_neyaz_comp': {
                 interaction.reply({
-                    content: 'Not implemented yet',
-                    flags: 64
+                    "components": [
+                        {
+                          "type": 1,
+                          "components": [
+                            {
+                              "style": 3,
+                              "label": `Je réserve une place!`,
+                              "custom_id": `row_neyaz_reservation`,
+                              "disabled": true,
+                              "type": 2
+                            }
+                          ]
+                        }
+                      ],
+                      "embeds": [
+                        {
+                          "type": "rich",
+                          "title": `Formule Complémentaire`,
+                          "description": `Comment ce déroule la session de coaching? \`\`\`\nJ'analyse vos Game, vous m'envoyer des clips Youtube ou en Stream.\n\`\`\``,
+                          "color": 0xe1902d,
+                          "fields": [
+                            {
+                              "name": `Temps`,
+                              "value": `**30 â 45 minutes**`,
+                              "inline": true
+                            },
+                            {
+                              "name": `Prix`,
+                              "value": `**10€**`,
+                              "inline": true
+                            },
+                            {
+                              "name": `Type`,
+                              "value": `**Jugement des game et donnée des conseille pour amélioration**`,
+                              "inline": true
+                            }
+                          ]
+                        }
+                    ],
+                    "flags": 64
                 });
             }
             break;
             case 'row_neyaz_ranked': {
                 interaction.reply({
-                    content: 'Not implemented yet',
-                    flags: 64
+                    "components": [
+                        {
+                          "type": 1,
+                          "components": [
+                            {
+                              "style": 3,
+                              "label": `Je réserve une place!`,
+                              "custom_id": `row_neyaz_reservation`,
+                              "disabled": true,
+                              "type": 2
+                            }
+                          ]
+                        }
+                      ],
+                      "embeds": [
+                        {
+                          "type": "rich",
+                          "title": `Formule Ranked`,
+                          "description": `Comment ce déroule la session de coaching? \`\`\`\nVous jouer avec moi en ranked et une autre personne â coacher ( sur un compte smurf )\n\`\`\``,
+                          "color": 0xe1902d,
+                          "fields": [
+                            {
+                              "name": `Temps`,
+                              "value": `**3 heure**`,
+                              "inline": true
+                            },
+                            {
+                              "name": `Prix`,
+                              "value": `**34.99€ et +10€ supplémentaire chaque heure de dépassage**`,
+                              "inline": true
+                            },
+                            {
+                              "name": `Type`,
+                              "value": `**Jouer en mode réel en ranked.**`,
+                              "inline": true
+                            }
+                          ]
+                        }
+                    ],
+                    "flags": 64
                 });
             }
             break;
