@@ -179,6 +179,67 @@ module.exports = async (client, message) => {
           }
         ]
        });
-    }
+    } else if (message.content.startsWith('+coaching')) {
+      message.channel.send({
+        "components": [
+          {
+            "type": 1,
+            "components": [
+              {
+                "custom_id": `row_neyaz_price_info`,
+                "placeholder": `Clique ici afin de sélectionner une formule.`,
+                "options": [
+                  {
+                    "label": `Formule Solo`,
+                    "value": `row_id_neyaz_solo`,
+                    "description": `Clique ici pour validé`,
+                    "emoji": {
+                      "id": `796381356270813214`,
+                      "name": `bongo`,
+                      "animated": false
+                    },
+                    "default": false
+                  },
+                  {
+                    "label": `Formule Complémentaire`,
+                    "value": `row_id_neyaz_comp`,
+                    "description": `Clique ici pour validé`,
+                    "emoji": {
+                      "id": `796381356270813214`,
+                      "name": `bongo`,
+                      "animated": false
+                    },
+                    "default": false
+                  },
+                  {
+                    "label": `Formule 4 heures Ranked`,
+                    "value": `row_id_neyaz_ranked`,
+                    "description": `Clique ici pour validé`,
+                    "emoji": {
+                      "id": `796381356270813214`,
+                      "name": `bongo`,
+                      "animated": false
+                    },
+                    "default": false
+                  }
+                ],
+                "min_values": 1,
+                "max_values": 1,
+                "type": 3
+              }
+            ]
+          }
+        ],
+        "embeds": [
+          {
+            "type": "rich",
+            "title": `NeyazR1 - COACHING INFO`,
+            "description": `Merci de sélectionner la formule ci-dessous afin de pouvoir voir les informations.`,
+            "color": 0xe1902d
+          }
+        ]
+      });
+  }
+  
 };
 
