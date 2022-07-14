@@ -126,7 +126,7 @@ module.exports = {
                             },
                             {
                               "name": `Prix`,
-                              "value": `**34.99€ et +10€ supplémentaire chaque heure de dépassage**`,
+                              "value": `**34.99€ et +10€ supplémentaire par heure**`,
                               "inline": true
                             },
                             {
