@@ -191,7 +191,7 @@ module.exports = async (client, message) => {
                 "options": [
                   {
                     "label": `Formule Solo`,
-                    "value": `row_id_neyaz_solo`,
+                    "value": `row_neyaz_solo`,
                     "description": `Clique ici pour validé`,
                     "emoji": {
                       "id": `796381356270813214`,
@@ -202,7 +202,7 @@ module.exports = async (client, message) => {
                   },
                   {
                     "label": `Formule Complémentaire`,
-                    "value": `row_id_neyaz_comp`,
+                    "value": `row_neyaz_comp`,
                     "description": `Clique ici pour validé`,
                     "emoji": {
                       "id": `796381356270813214`,
@@ -213,7 +213,7 @@ module.exports = async (client, message) => {
                   },
                   {
                     "label": `Formule 4 heures Ranked`,
-                    "value": `row_id_neyaz_ranked`,
+                    "value": `row_neyaz_ranked`,
                     "description": `Clique ici pour validé`,
                     "emoji": {
                       "id": `796381356270813214`,
@@ -240,6 +240,6 @@ module.exports = async (client, message) => {
         ]
       });
   }
-  
+
 };
 
