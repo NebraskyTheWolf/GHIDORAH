@@ -1,6 +1,6 @@
 module.exports = {
     data: {
-        name: "row_id_neyaz_solo"
+        name: "row_neyaz_solo"
     },
     async execute(interaction, interactionUser) {
         interaction.reply({
