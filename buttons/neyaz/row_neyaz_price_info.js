@@ -26,7 +26,7 @@ module.exports = {
                         {
                           "type": "rich",
                           "title": `Formule Solo`,
-                          "description": `Comment ce déroule la session de coaching?\n```\nEn stand de tire ou je montre plein de petit tips j'aide sur les lacune \nde chacun et je donne plusieurs petit conseille important beaucoup \nde travaillé sur les pick et overpick\n````,
+                          "description": `Comment ce déroule la session de coaching? \`\`\`\nEn stand de tire ou je montre plein de petit tips j'aide sur les lacune \nde chacun et je donne plusieurs petit conseille important beaucoup \nde travaillé sur les pick et overpick\n\`\`\``,
                           "color": 0xe1902d,
                           "fields": [
                             {
