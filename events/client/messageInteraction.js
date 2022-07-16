@@ -15,12 +15,12 @@ module.exports = async (client, message) => {
                 flags: 64
             });
         }
-    } else if (message.content.contains('cute')   || 
-               message.content.contains('cuter')  ||
-               message.content.contains('cut3r')  ||
-               message.content.contains('cwute')  ||
-               message.content.contains('cuwute') ||
-               message.content.contains('cyoot')) {
+    } else if (message.content.includes('cute')   || 
+               message.content.includes('cuter')  ||
+               message.content.includes('cut3r')  ||
+               message.content.includes('cwute')  ||
+               message.content.includes('cuwute') ||
+               message.content.includes('cyoot')) {
         if (vip) {
             message.channel.reply({
                 content: 'You\'re not a cutie!'
