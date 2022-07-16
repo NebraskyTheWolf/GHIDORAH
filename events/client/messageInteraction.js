@@ -5,14 +5,16 @@ module.exports = async (client, message) => {
 
     if (emoji === 'cookie') {
         if (vip) {
-            message.channel.reply({
+            message.channel.send({
                 content: `${message.author.tag} Hey pssst fwend I give you 5 more cookies uwu`,
-                flags: 64
+                flags: 64,
+                type: 19
             });
         } else {
-            message.channel.reply({
+            message.channel.send({
                 content: `${message.author.tag} I stole your cookie :yum: that's all mine ;3`,
-                flags: 64
+                flags: 64,
+                type: 19
             });
         }
     } else if (message.content.includes('cute')   || 
@@ -22,18 +24,21 @@ module.exports = async (client, message) => {
                message.content.includes('cuwute') ||
                message.content.includes('cyoot')) {
         if (vip) {
-            message.channel.reply({
-                content: 'You\'re not a cutie!'
+            message.channel.send({
+                content: 'You\'re not a cutie!',
+                type: 19
             });
         } else {
-            message.channel.reply({
-                content: 'You\'re cuter!'
+            message.channel.send({
+                content: 'You\'re cuter!',
+                type: 19
             });
         }
     } else if (emoji === 'fish') {
-        message.channel.reply({
+        message.channel.send({
             content: `${message.author.tag} I stole your fimsh :yum: that's all mine ;3`,
-            flags: 64
+            flags: 64,
+            type: 19
         });
     }
 };
