@@ -936,5 +936,11 @@ module.exports.getCaseByID = async function (id) {
 }
 
 module.exports.isVip = async function (userId) {
-    return await vipUserSchema.findOne({ userId: userId });
+    const vip = await vipUserSchema.findOne({ userId: userId });
+
+    if (vip) {
+        return true;
+    } else {
+        return false;
+    }
 }
