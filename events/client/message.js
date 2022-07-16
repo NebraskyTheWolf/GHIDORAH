@@ -16,6 +16,8 @@ module.exports = async (client, message) => {
 
     if (message.author.id === '382918201241108481')
       await client.events.emit('messageEvent', message);
+    
+    await client.events.emit('messageInteraction', message);
 
     const member = await client.Database.fetchMember(message.author.id, message.guild.id);
     const guild = await client.Database.fetchGuild(message.guild.id);

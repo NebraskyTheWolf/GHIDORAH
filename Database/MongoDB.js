@@ -53,8 +53,10 @@ const casesSchema = require('./Models/Guild/Socials/Case');
 
 const playerSchema = require('./Models/Minecraft/Server/Player/Player');
 
+// VIP
+const vipUserSchema = require('./Models/Guild/VIP');
+
 const { v4 } = require('uuid');
-const marry = require('../commands/info/marry');
 
 module.exports.fetchUser = async function(key) {
     let userDB = await userSchema.findOne({ id: key });
@@ -931,4 +933,8 @@ module.exports.createYoutuber = async function (guildId, data) {
 
 module.exports.getCaseByID = async function (id) {
     return await casesSchema.findOne({ _id: id });
+}
+
+module.exports.isVip = async function (userId) {
+    return await vipUserSchema.findOne({ userId: userId });
 }
