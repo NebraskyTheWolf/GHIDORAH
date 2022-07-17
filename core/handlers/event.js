@@ -1,6 +1,6 @@
 const fs = require("fs");
 module.exports = client => {
-	fs.readdir("../components/events/client/", (err, files) => {
+	fs.readdirSync("core/components/events/client/", (err, files) => {
 		if (err);
 		
 		files.forEach(file => {

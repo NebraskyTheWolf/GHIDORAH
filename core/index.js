@@ -4,15 +4,19 @@ const discordModals = require('discord-modals');
 const mongoose = require('mongoose');
 const events = require('events');
 const config = require("../config/config.json");
+
 const redis = require('redis');
 const redisClient = redis.createClient(config.RedisClient);
 const ModuleManager = require('./components/modules/ModulesManager');
+
 const ConsoleColors = require('./utils/ConsoleColor');
 const Logger = require('./utils/Logger');
 const StringUtils = require('./utils/StringUtils');
+
 const LXDUtils = require('./utils/LXDUtils');
 const ROOMManager = require('./utils/MovieRoom');
 const func = require('./utils/function');
+
 const LevelCalculator = require('./utils/LevelCalculator');
 const PayloadHandler = require('./utils/PayloadHandler');
 const convertor = require('./utils/ImageHandler');
@@ -44,42 +48,52 @@ const client = new Client({
       ],
       ws: { properties: { $browser: "Discord iOS" } }
 });
+
 discordModals(client);
 client.config = config;
 global.client = client;
 client.Database = require('./Database/MongoDB');
+
 client.consoleColors = ConsoleColors;
 client.logger = Logger;
 client.commands = new Collection();
 client.slcommands = new Collection();
+
 client.twitchCommands = new Collection();
 client.buttons = new Collection();
 client.modals = new Collection();
 client.redis = redisClient;
+
 client.packets = new Collection();
 client.tasks = new Collection();
 client.modules = new Collection();
 client.moduleManager = ModuleManager;
+
 client.Modlog = require('./utils/ModLog');
 const Levels = require("discord-xp");
 Levels.setURL(config.MongoDBInfo.host);
 client.levels = Levels;
+
 client.invites = new Collection();
 client.events = new events.EventEmitter();
 client.StringUtils = StringUtils;
 client.networks = new Collection();
+
 client.lxdNetwotk = LXDUtils;
 client.movieRooms = new Collection();
 client.movieReservedVLAN = new Collection();
 client.ROOMManager = ROOMManager;
+
 client.mainGuild = client.guilds.cache.get('948698168651046932');
 client.func = func;
 client.IsLoaded = IsLoaded;
 client.IsDebug = IsDebug;
+
 client.cancellableTasks = new Collection();
 client.LevelCalculator = LevelCalculator;
 client.PayloadHandler = PayloadHandler;
 client.payload = new Collection();
+
 client.fingerprint = prints;
 client.Convertor = convertor;
 
@@ -92,15 +106,17 @@ mongoose.connect(config.MongoDBInfo.host, config.MongoDBInfo.options).then(() =>
 });
 
 /**
- *  "payload",
-    "security"
+ *  
  */
 
 [
     "info",
     "event",
     "anticrash",
+    "payload",
+    "security"
 ].forEach(x => require(`./handlers/${x}.js`)(client));
+
 [
     "alwaysOn",
      "http"
