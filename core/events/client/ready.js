@@ -30,47 +30,47 @@ module.exports = async client => {
 	
 	await client.api.applications(client.user.id).commands.get();
 
-	const buttonFolders = fs.readdirSync("./core/components/buttons");
+	const buttonFolders = fs.readdirSync("core/components/buttons");
     for (const files of buttonFolders) {
         const folder = fs
 			.readdirSync(`./buttons/${files}/`)
 			.filter(file => file.endsWith(".js"));
             for (const commands of folder) {
-                const command = require(`../../buttons/${files}/${commands}`);
+                const command = require(`../../components/buttons/${files}/${commands}`);
 				client.buttons.set(command.data.name, command);
             }
     }
 
-	const modalsFolders = fs.readdirSync("./core/components/modals");
+	const modalsFolders = fs.readdirSync("core/components/modals");
     for (const files of modalsFolders) {
         const folder = fs
 			.readdirSync(`./modals/${files}/`)
 			.filter(file => file.endsWith(".js"));
             for (const commands of folder) {
-                const command = require(`../../modals/${files}/${commands}`);
+                const command = require(`../../components/modals/${files}/${commands}`);
 				client.modals.set(command.data.name, command);
             }
     }
 
-	const packetsFolder = fs.readdirSync("./core/components/packets");
+	const packetsFolder = fs.readdirSync("core/components/packets");
     for (const files of packetsFolder) {
         const folder = fs
 			.readdirSync(`./packets/${files}/`)
 			.filter(file => file.endsWith(".js"));
             for (const commands of folder) {
-                const command = require(`../../packets/${files}/${commands}`);
+                const command = require(`../../components/packets/${files}/${commands}`);
 				client.packets.set(command.packet.name, command);
 				client.redis.subscribe(`${client.config.baseProtocol}/${command.packet.name}`);
             }
     }
 
-	const tasksFolder = fs.readdirSync("./core/components/tasks");
+	const tasksFolder = fs.readdirSync("core/components/tasks");
     for (const files of tasksFolder) {
         const folder = fs
 			.readdirSync(`./tasks/${files}/`)
 			.filter(file => file.endsWith(".js"));
             for (const commands of folder) {
-                const command = require(`../../tasks/${files}/${commands}`);
+                const command = require(`../../components/tasks/${files}/${commands}`);
 				client.tasks.set(command.task.name, command);
 				
 				setInterval(() => command.execute(), command.task.cronTime);
