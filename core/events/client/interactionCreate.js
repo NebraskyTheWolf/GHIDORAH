@@ -1,6 +1,5 @@
 const { Permissions } = require('discord.js');
 
-
 module.exports = async (client, interaction) => {
     if (interaction.customId === undefined) return; // AVOID BOT CRASHING
     if (!interaction.guild) return; // AVOID USING INTERACTION IN DMS
