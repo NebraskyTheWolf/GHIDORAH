@@ -9,7 +9,7 @@ module.exports = client => {
             for (const commands of folder) {
 				const payload = require(`../components/payloads/${files}/${commands}`);
 				client.payload.set(payload.payload.key, payload);
-				client.logger.log('INFO', `Loading ${eventName}...`);
+				client.logger.log('INFO', `Loading ${payload.payload.key}...`);
             }
     }
 };

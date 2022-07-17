@@ -9,7 +9,7 @@ module.exports = client => {
             for (const commands of folder) {
 				const middleware = require(`../components/security/${files}/${commands}`);
 				client.payload.set(middleware.middleware.key, middleware);
-				client.logger.log('INFO', `Loading ${eventName}...`);
+				client.logger.log('INFO', `Loading ${middleware.middleware.key}...`);
             }
     }
 };
