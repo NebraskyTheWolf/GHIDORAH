@@ -2,8 +2,10 @@ const fs = require("fs");
 module.exports = client => {
 	const folders = fs.readdirSync("core/events");
     for (const files of folders) {
+		console.log(files)
+		console.log(folders)
         const folder = fs
-			.readdirSync(`core/events/client/${files}/`)
+			.readdirSync(`./events/${files}/`)
 			.filter(file => file.endsWith(".js")); 
             for (const commands of folder) {
 
