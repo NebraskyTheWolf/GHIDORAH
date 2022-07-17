@@ -5,7 +5,7 @@ module.exports = client => {
 		console.log(files)
 		console.log(folders)
         const folder = fs
-			.readdirSync(`./events/${files}/`)
+			.readdirSync(`./${files}/`)
 			.filter(file => file.endsWith(".js")); 
             for (const commands of folder) {
 
