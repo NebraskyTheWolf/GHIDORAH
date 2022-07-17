@@ -33,7 +33,7 @@ module.exports = async client => {
 	const buttonFolders = fs.readdirSync("core/components/buttons");
     for (const files of buttonFolders) {
         const folder = fs
-			.readdirSync(`./buttons/${files}/`)
+			.readdirSync(`core/components/buttons/${files}/`)
 			.filter(file => file.endsWith(".js"));
             for (const commands of folder) {
                 const command = require(`../../components/buttons/${files}/${commands}`);
@@ -44,7 +44,7 @@ module.exports = async client => {
 	const modalsFolders = fs.readdirSync("core/components/modals");
     for (const files of modalsFolders) {
         const folder = fs
-			.readdirSync(`./modals/${files}/`)
+			.readdirSync(`core/components/modals/${files}/`)
 			.filter(file => file.endsWith(".js"));
             for (const commands of folder) {
                 const command = require(`../../components/modals/${files}/${commands}`);
@@ -55,7 +55,7 @@ module.exports = async client => {
 	const packetsFolder = fs.readdirSync("core/components/packets");
     for (const files of packetsFolder) {
         const folder = fs
-			.readdirSync(`./packets/${files}/`)
+			.readdirSync(`core/components/packets/${files}/`)
 			.filter(file => file.endsWith(".js"));
             for (const commands of folder) {
                 const command = require(`../../components/packets/${files}/${commands}`);
@@ -67,7 +67,7 @@ module.exports = async client => {
 	const tasksFolder = fs.readdirSync("core/components/tasks");
     for (const files of tasksFolder) {
         const folder = fs
-			.readdirSync(`./tasks/${files}/`)
+			.readdirSync(`core/components/tasks/${files}/`)
 			.filter(file => file.endsWith(".js"));
             for (const commands of folder) {
                 const command = require(`../../components/tasks/${files}/${commands}`);
