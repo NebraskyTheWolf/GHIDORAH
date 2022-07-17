@@ -12,10 +12,10 @@ module.exports = async client => {
     const folders = fs.readdirSync("core/components/commands");
     for (const files of folders) {
         const folder = fs
-			.readdirSync(`./commands/${files}/`)
+			.readdirSync(`core/components/commands/${files}/`)
 			.filter(file => file.endsWith(".js")); 
             for (const commands of folder) {
-                const command = require(`../../commands/${files}/${commands}`);
+                const command = require(`../../components/commands/${files}/${commands}`);
                 client.api.applications(client.user.id).commands.post({
                     data: {
                         name: command.name,

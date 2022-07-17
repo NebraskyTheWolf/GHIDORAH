@@ -1,11 +1,15 @@
 const fs = require("fs");
 
 module.exports = client => {
-	fs.readdirSync("core/components/payloads/client/", (err, files) => {
-		if (err) console.log(err);
-		files.forEach(file => {
-			const payload = require(`./payloads/client/${file}`);
-			client.payload.set(payload.payload.key, payload);
-		});
-	});
+	const folders = fs.readdirSync("core/components/payloads");
+    for (const files of folders) {
+        const folder = fs
+			.readdirSync(`core/components/payloads/${files}/`)
+			.filter(file => file.endsWith(".js")); 
+            for (const commands of folder) {
+				const payload = require(`../components/payloads/${files}/${commands}`);
+				client.payload.set(payload.payload.key, payload);
+				client.logger.log('INFO', `Loading ${eventName}...`);
+            }
+    }
 };
