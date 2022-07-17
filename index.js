@@ -162,6 +162,7 @@ mongoose.connect(config.MongoDBInfo.host, config.MongoDBInfo.options).then(() =>
 
 client.createOrSet = createOrSet;
 [
+    "info",
     "command",
     "event",
     "music",

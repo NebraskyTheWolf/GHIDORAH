@@ -5,7 +5,6 @@ module.exports = client => {
 		if (err) console.log(err);
 		files.forEach(file => {
 			const event = require(`../events/music/${file}`);
-			client.logger.log('INFO', ` > Loaded Event: ${file}`);
 			const eventName = file.split(".")[0];
 			client.player.on(eventName, event.bind(null, client));
 		});
