@@ -12,12 +12,10 @@ module.exports = function (req, res, next) {
                 }).end();
             }
         }).catch(err => {
-            client.logger.log('ERROR', `Error handled: ${err}`);
             res.status(403).json({
                 status: false,
                 code: 403254,
-                error: 'INVALID_PROVIDED_TOKEN',
-                message: 'Invalid token provided.'
+                error: 'INVALID_PROVIDED_TOKEN'
             }).end();
         });
     } else {
