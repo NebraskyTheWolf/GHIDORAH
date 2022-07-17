@@ -147,6 +147,8 @@ client.player = new Player(client, {
 client.MusicController = MusicController;
 client.Convertor = convertor;
 
+client.version = '3.5.3';
+
 function createOrSet(array, key, value) {
     if (array[key] !== undefined)
         array[key].push(value);
