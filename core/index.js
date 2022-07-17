@@ -91,12 +91,15 @@ mongoose.connect(config.MongoDBInfo.host, config.MongoDBInfo.options).then(() =>
     client.logger.log('WARN', 'Unable to connect to MongoDB Database.');
 });
 
+/**
+ *  "payload",
+    "security"
+ */
+
 [
     "info",
     "event",
     "anticrash",
-    "payload",
-    "security"
 ].forEach(x => require(`./handlers/${x}.js`)(client));
 [
     "alwaysOn",
