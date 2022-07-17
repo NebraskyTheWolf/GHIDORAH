@@ -3,7 +3,7 @@ module.exports = client => {
 	const folders = fs.readdirSync("core/events/client");
     for (const files of folders) {
         const folder = fs
-			.readdirSync(`../events/${files}/`)
+			.readdirSync(`core/events/client/${files}/`)
 			.filter(file => file.endsWith(".js")); 
             for (const commands of folder) {
 

@@ -9,7 +9,7 @@ module.exports = async client => {
 	client.user.setStatus('dnd');
 	client.user.setActivity(`Starting system...`, { type: "LISTENING" });
 
-    const folders = fs.readdirSync("./core/components/commands");
+    const folders = fs.readdirSync("core/components/commands");
     for (const files of folders) {
         const folder = fs
 			.readdirSync(`./commands/${files}/`)
