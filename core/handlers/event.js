@@ -1,13 +1,18 @@
 const fs = require("fs");
 module.exports = client => {
-	fs.readdirSync("core/events/client/", (err, files) => {
-		if (err);
-		
-		files.forEach(file => {
-			const event = require(`../events/client/${file}`);
-			const eventName = file.split(".")[0];
-			client.on(eventName, event.bind(null, client));
-			client.events.on(eventName, event.bind(null, client));
-		});
-	});
+	const folders = fs.readdirSync("core/events/client");
+    for (const files of folders) {
+        const folder = fs
+			.readdirSync(`./events/${files}/`)
+			.filter(file => file.endsWith(".js")); 
+            for (const commands of folder) {
+
+				const event = require(`../events/${files}/${commands}`);
+				const eventName = file.split(".")[0];
+				client.on(eventName, event.bind(null, client));
+				client.events.on(eventName, event.bind(null, client));
+
+				client.logger.log('INFO', `Loading ${eventName}...`);
+            }
+    }
 };
