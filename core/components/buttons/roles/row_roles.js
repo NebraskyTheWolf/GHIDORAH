@@ -1,32 +1,21 @@
-const { MessageActionRow, MessageSelectMenu } = require('discord.js');
-
 module.exports = {
     data: {
         name: "row_roles"
     },
     async execute(interaction, interactionUser, guild) {
         if (guild.selfroles.active) {
-            const categories = guild.selfroles.config.categories;           
-
-            let i = 0;
+            const cate = guild.selfroles.config.categories;           
             const rows = [];
+            const formattedRows = [];
 
-            categories.forEach(async (result) => {
-                rows[i++].push(
-                    new MessageActionRow()
-                    .setCustomId(`row_roles_${result.label}`)
-                    .setPlaceholder(result.placeholder)
-                    .addOptions(result.options)
-                );
-            });
+            cate.forEach(category => rows.push(category));
+            rows.forEach(cat => formattedRows.push({
+                type: 1,
+                components: [ cat ]
+            }));
 
             interaction.reply({
-                components: [
-                    {
-                        "type": 1,
-                        "components": [ rows ]
-                    }
-                ],
+                components: [ formattedRows ],
                 flags: 64
             });
         } else {
