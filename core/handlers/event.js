@@ -8,7 +8,7 @@ module.exports = client => {
             for (const commands of folder) {
 
 				const event = require(`../events/${files}/${commands}`);
-				const eventName = file.split(".")[0];
+				const eventName = commands.split(".")[0];
 				client.on(eventName, event.bind(null, client));
 				client.events.on(eventName, event.bind(null, client));
 
