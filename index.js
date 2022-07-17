@@ -14,7 +14,7 @@ const keepAlive = require("./server/http");
 const redis = require('redis');
 const redisClient = redis.createClient(config.RedisClient);
 
-const ModuleManager = require('./modules/ModulesManager');
+const ModuleManager = require('./components/modules/ModulesManager');
 const ConsoleColors = require('./utils/ConsoleColor');
 const Logger = require('./utils/Logger');
 
