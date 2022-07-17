@@ -21,9 +21,7 @@ module.exports = async client => {
 	client.user.setStatus('dnd');
 	client.user.setActivity(`Starting system...`, { type: "LISTENING" });
 
-	const rest = new REST({version: '10'}).setToken(process.env.TOKEN);
-
-	loading.spinner.text = '[1/8] Loading commands...';
+	loading.text = '[1/8] Loading commands...';
 
     const folders = fs.readdirSync("./commands");
     for (const files of folders) {
@@ -45,11 +43,11 @@ module.exports = async client => {
             }
     }
 	
-	loading.spinner.text = '[2/8] Gathering commands...';
+	loading.text = '[2/8] Gathering commands...';
 
 	await client.api.applications(client.user.id).commands.get();
 
-	loading.spinner.text = '[3/8] Loading Buttons...';
+	loading.text = '[3/8] Loading Buttons...';
 
 	const buttonFolders = fs.readdirSync("./buttons");
     for (const files of buttonFolders) {
@@ -62,7 +60,7 @@ module.exports = async client => {
             }
     }
 
-	loading.spinner.text = '[4/8] Loading Modals...';
+	loading.text = '[4/8] Loading Modals...';
 
 	const modalsFolders = fs.readdirSync("./modals");
     for (const files of modalsFolders) {
@@ -75,7 +73,7 @@ module.exports = async client => {
             }
     }
 
-	loading.spinner.text = '[5/8] Loading Packets...';
+	loading.text = '[5/8] Loading Packets...';
 
 	const packetsFolder = fs.readdirSync("./packets");
     for (const files of packetsFolder) {
@@ -89,7 +87,7 @@ module.exports = async client => {
             }
     }
 
-	loading.spinner.text = '[6/8] Loading Tasks...';
+	loading.text = '[6/8] Loading Tasks...';
 
 	const tasksFolder = fs.readdirSync("./tasks");
     for (const files of tasksFolder) {
@@ -104,14 +102,14 @@ module.exports = async client => {
             }
     }
 
-	loading.spinner.text = '[7/8] Creating guilds cache...';
+	loading.text = '[7/8] Creating guilds cache...';
 
 	client.guilds.cache.forEach(async (guild) => {
 		const firstInvites = await guild.invites.fetch();
 		client.invites.set(guild.id, new Discord.Collection(firstInvites.map((invite) => [invite.code, invite.uses])));
 	});
 
-	loading.spinner.text = '[8/8] Subscribing redis networ...';
+	loading.text = '[8/8] Subscribing redis networ...';
 
 	client.redis.subscribe(`room@${process.env.DEFAULT_DOMAIN}`);
 	client.redis.subscribe(`room@${process.env.DEFAULT_DOMAIN}/data`);
