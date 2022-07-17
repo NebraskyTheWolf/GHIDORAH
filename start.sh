@@ -46,4 +46,4 @@ echo "Pulling changes..."
 git stash
 git pull
 
-node index.js
+node core/index.js
