@@ -3,6 +3,7 @@ const fs = require("fs");
 const cron = require('node-cron');
 const Discord = require('discord.js')
 const { REST } = require('@discordjs/rest');
+const {Routes, ActivityType} = require('discord-api-types/v10');
 
 const ora = require('ora');
 
@@ -32,18 +33,13 @@ module.exports = async client => {
             for (const commands of folder) {
                 const command = require(`../../commands/${files}/${commands}`);
 				let cmd = ora(`Loading ${command.name}...`).start();
-                await rest.put(
-					Routes.applicationsCommands(client.user.id),
-					{
-						body: {
-							data: {
-								name: command.name,
-								description: command.description,
-								options: command.commandOptions,
-							}
-						}
-					}
-				)
+                client.api.applications(client.user.id).commands.post({
+                    data: {
+                        name: command.name,
+                        description: command.description,
+                        options: command.commandOptions,
+                    },
+                });
                 client.commands.set(command.name, command);
 				cmd.succeed(`Loading ${command.name} ┊ OK`);
             }
