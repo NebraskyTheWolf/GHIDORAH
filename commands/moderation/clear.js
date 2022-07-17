@@ -25,7 +25,7 @@ module.exports = {
                 }
             });
         } else {
-            if (member.hasPermission('MANAGE_MESSAGES')) {
+            if (member.permissions.has('MANAGE_MESSAGES')) {
                 await channel.bulkDelete(value, true).then((_message) => {
                     client.api.interactions(interaction.id, interaction.token).callback.post({
                         "data": {
