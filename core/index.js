@@ -97,11 +97,11 @@ mongoose.connect(config.MongoDBInfo.host, config.MongoDBInfo.options).then(() =>
     "anticrash",
     "payload",
     "security"
-].forEach(x => require(`./core/handlers/${x}.js`)(client));
+].forEach(x => require(`./handlers/${x}.js`)(client));
 [
     "alwaysOn",
      "http"
-].forEach(x => require(`./core/server/${x}.js`)(client));
+].forEach(x => require(`./server/${x}.js`)(client));
 
 client.ws.on("INTERACTION_CREATE", async interaction => {
     if (!interaction.data.name) {
