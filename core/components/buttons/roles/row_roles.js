@@ -7,7 +7,7 @@ module.exports = {
     async execute(interaction, interactionUser, guild) {
         if (guild.selfroles.active) {
             const cate = guild.selfroles.config.categories;
-            
+
             const list = [];
             cate.forEach(category => {
                 list.push(
@@ -15,6 +15,8 @@ module.exports = {
                         .addComponents([category])
                 );
             });
+
+            console.log(list)
 
             interaction.reply({
                 components: [ list ],
