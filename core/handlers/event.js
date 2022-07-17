@@ -1,6 +1,6 @@
 const fs = require("fs");
 module.exports = client => {
-	const folders = fs.readdirSync("core/events/client");
+	const folders = fs.readdirSync("core/events");
     for (const files of folders) {
         const folder = fs
 			.readdirSync(`core/events/client/${files}/`)
