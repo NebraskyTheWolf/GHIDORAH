@@ -11,6 +11,8 @@ module.exports = {
     ],
     async execute(interaction) {  
         const value = interaction.data.options[0].value;
+        const channel = client.guilds.cache.get(interaction.guild_id).channels.cache.get(interaction.channel_id);
+        const member = client.guilds.cache.get(interaction.guild_id).members.cache.get(interaction.member.id);
 
         if (value < 5 || value > 100) {
             client.api.interactions(interaction.id, interaction.token).callback.post({
@@ -23,19 +25,18 @@ module.exports = {
                 }
             });
         } else {
-            if (interaction.member.hasPermission('MANAGE_MESSAGES')) {
-                const channel = client.guilds.cache.get(interaction.guild_id).channels.cache.get(interaction.channel_id);
+            if (member.hasPermission('MANAGE_MESSAGES')) {
                 await channel.bulkDelete(value, true).then((_message) => {
                     client.api.interactions(interaction.id, interaction.token).callback.post({
                         "data": {
                             "type": 4,
                             "data": {
-                                "embeds": `${_message.size()} messages deleted.`,
+                                "embeds": `${_message.size} messages deleted.`,
                                 "flags": 64
                             }
                         }
                     });
-                })
+                });
             } else {
                 client.api.interactions(interaction.id, interaction.token).callback.post({
                     "data": {
