@@ -24,6 +24,7 @@ module.exports = async client => {
                     },
                 });
                 client.commands.set(command.name, command);
+				client.logger.log('INFO', `Loading ${command.name}...`);
             }
     }
 	

@@ -1,7 +1,7 @@
 const fs = require("fs");
 
 module.exports = client => {
-	fs.readdir("../components/security/api/", (err, files) => {
+	fs.readdirSync("../components/security/api", (err, files) => {
 		if (err) console.log(err);
 		files.forEach(file => {
 			const middleware = require(`./security/api/${file}`);
