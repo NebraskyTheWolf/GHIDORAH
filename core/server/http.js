@@ -23,22 +23,7 @@ module.exports = client => {
 		apiAuthor: 'Vakea <contact@skf-studios.com>',
 		apiName: 'GHIDORAH DATA SERVER',
 		apiSig: client.prints,
-		apiOptions: {
-			websocket: {
-				host: 'wss://api.skf-studios.com/v8',
-				status: 'ONLINE'
-			},
-			lxdserver: {
-				local: client.lxdNetwotk.local(),
-				info: client.lxdNetwotk.info(),
-				resources: client.lxdNetwotk.resources(),
-				remotes: client.lxdNetwotk.remotes(),
-				network: client.lxdNetwotk.listNetworks(),
-				containers: client.lxdNetwotk.getContainers(),
-				aliases: client.lxdNetwotk.getAllAliases()
-			},
-			maintenance: client.isDebug
-		}
+		maintenance: client.isDebug
 	}));
 
 	server.use(session({secret: `${client.fingerprint}`, resave: false, saveUninitialized: false}));
