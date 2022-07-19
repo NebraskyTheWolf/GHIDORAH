@@ -23,7 +23,7 @@ module.exports = client => {
 		apiAuthor: 'Vakea <contact@skf-studios.com>',
 		apiName: 'GHIDORAH DATA SERVER',
 		apiSig: client.prints,
-		maintenance: client.isDebug
+		maintenance: true
 	}));
 
 	server.use(session({secret: `${client.fingerprint}`, resave: false, saveUninitialized: false}));
