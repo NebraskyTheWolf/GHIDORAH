@@ -29,13 +29,13 @@ module.exports = client => {
 				status: 'ONLINE'
 			},
 			lxdserver: {
-				local: client.LXDUtils.local(),
-				info: client.LXDUtils.info(),
-				resources: client.LXDUtils.resources(),
-				remotes: client.LXDUtils.remotes(),
-				network: client.LXDUtils.listNetworks(),
-				containers: client.LXDUtils.getContainers(),
-				aliases: client.LXDUtils.getAllAliases()
+				local: client.lxdNetwotk.local(),
+				info: client.lxdNetwotk.info(),
+				resources: client.lxdNetwotk.resources(),
+				remotes: client.lxdNetwotk.remotes(),
+				network: client.lxdNetwotk.listNetworks(),
+				containers: client.lxdNetwotk.getContainers(),
+				aliases: client.lxdNetwotk.getAllAliases()
 			},
 			maintenance: client.isDebug
 		}
