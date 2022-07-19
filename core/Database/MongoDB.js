@@ -41,7 +41,9 @@ const cardsSchema = require('./Models/Bank/client/Card');
 const securitySchema = require('./Models/Guild/Security/Application');
 const payloadSchema = require('./Models/Guild/Security/Payload/Payload');
 const permissionsSchema = require('./Models/Guild/Security/Permissions/Permissions');
+const requestSchema = require('./Models/Guild/Security/Permissions/Request');
 const developersSchema = require('./Models/Guild/Security/Permissions/Developers');
+const authSchema = require('./Models/Guild/Security/Authentication');
 
 // SOCIALS
 
@@ -57,6 +59,7 @@ const playerSchema = require('./Models/Minecraft/Server/Player/Player');
 const vipUserSchema = require('./Models/Guild/VIP');
 
 const { v4 } = require('uuid');
+const { client } = require('tmi.js');
 
 module.exports.fetchUser = async function(key) {
     let userDB = await userSchema.findOne({ id: key });
@@ -943,4 +946,49 @@ module.exports.isVip = async function (userId) {
     } else {
         return false;
     }
+}
+
+// AUTHENTICATION
+
+module.exports.isAuthentified = async function (userId, accessToken) {
+    const authentication = await authSchema.findOne({ userId: userId, auth: { accessToken: accessToken } });
+    if (authentication)
+        return authentication.status === 'ALLOWED' ? true : false;
+}
+
+module.exports.getCurrentAuthStatus = async function (userId, accessToken) {
+    const authentication = await authSchema.findOne({ userId: userId, auth: { accessToken: accessToken } });
+    if (authentication)
+        return authentication.status;
+}
+
+module.exports.updateAuthentication = async function (userId, accessToken, status) {
+    return authSchema.updateOne({ userId: userId, auth: { accessToken: accessToken } }, {
+        status: status
+    });
+}
+
+module.exports.createAuthentication = async function (userId, data = {}) {
+    const authentication = authSchema({
+        userId: userId,
+        status: 'WAITING',
+        requestHash: v4(),
+
+        auth: {
+            accessToken: v4(),
+            refreshToken: v4()
+        },
+
+        registeredAt: Date.now()
+    });
+    authentication.save().catch(err => client.logger.log('ERROR', `Error occurred ${err}`));
+    return authentication;
+} 
+
+module.exports.removeAuthentication = async function (userId, accessToken) {
+    return await authSchema.deleteOne({ userId: userId, auth: { accessToken: accessToken } });
+}
+
+module.exports.isAllowed = async function (token) {
+    return await requestSchema.findOne({ appToken: token });
 }

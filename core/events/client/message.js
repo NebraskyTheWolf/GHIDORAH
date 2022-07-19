@@ -1,6 +1,5 @@
 const Discord = require("discord.js");
 const canvacord = require('canvacord');
-const progressbar = require('string-progressbar');
 
 module.exports = async (client, message) => {
 	  if (!message.guild) return;

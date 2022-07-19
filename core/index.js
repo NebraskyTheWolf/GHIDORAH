@@ -32,6 +32,7 @@ const client = new Client({
 	disableMentions: "everyone",
     intents: [
         Intents.FLAGS.GUILDS,
+        Intents.FLAGS.GUILDS,
         Intents.FLAGS.GUILD_MEMBERS,
         Intents.FLAGS.GUILD_EMOJIS_AND_STICKERS,
         Intents.FLAGS.GUILD_INTEGRATIONS,
@@ -97,7 +98,7 @@ client.payload = new Collection();
 client.fingerprint = prints;
 client.Convertor = convertor;
 
-client.version = '3.5.3';
+client.version = '3.5.5';
 
 mongoose.connect(config.MongoDBInfo.host, config.MongoDBInfo.options).then(() => {
     client.logger.log('INFO', 'Connected to MongoDB');

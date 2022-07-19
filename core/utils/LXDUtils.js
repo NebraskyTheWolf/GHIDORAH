@@ -5,10 +5,8 @@ const lxc = require('lxc-query');
  * @param {*} callback 
  */
 
-module.exports.getAllAliases = async function(callback) {
-    await lxc.images.aliases.list('local')
-        .then(response => callback({status: true, data: response}))
-        .catch(error => callback({status: false, data: error}));
+module.exports.getAllAliases = async function() {
+    return await lxc.images.aliases.list('local');
 }
 
 module.exports.getAliases = async function(alias, callback) {
@@ -89,10 +87,8 @@ module.exports.replaceCertificate = async function(fingerprint, callback) {
 
 /** CONTAINERS */
 
-module.exports.getContainers = async function (callback) {
-    await lxc.containers.list('local')
-        .then(response => callback({status: true, data: response}))
-        .catch(error => callback({status: false, data: error}));
+module.exports.getContainers = async function () {
+    return await lxc.containers.list('local');
 }
 
 module.exports.getContainer = async function (id, callback) {
@@ -272,9 +268,7 @@ module.exports.replaceMetadata = async function (id, data, callback) {
 /** NETWORK */
 
 module.exports.listNetworks = async function (callback) {
-    await lxc.networks.list('local')
-        .then(response => callback({status: true, data: response}))
-        .catch(error => callback({status: false, data: error}));
+    return await lxc.networks.list('local');
 }
 
 module.exports.infoNetwork = async function (id, callback) {
@@ -335,26 +329,18 @@ module.exports.deleteOperation = async function (id, callback) {
 
 /** SERVER */
 
-module.exports.info = async function (callback) {
-    await lxc.info('local')
-        .then(response => callback({status: true, data: response}))
-        .catch(error => callback({status: false, data: error}));
+module.exports.info = async function () {
+    return await lxc.info('local');
 }
 
-module.exports.resources = async function (callback) {
-    await lxc.server.resources('local')
-        .then(response => callback({status: true, data: response}))
-        .catch(error => callback({status: false, data: error}));
+module.exports.resources = async function () {
+    return await lxc.server.resources('local');
 }
 
-module.exports.remotes = async function (callback) {
-    await lxc.server.remotes()
-        .then(response => callback({status: true, data: response}))
-        .catch(error => callback({status: false, data: error}));
+module.exports.remotes = async function () {
+    return await lxc.server.remotes();
 }
 
-module.exports.local = async function (callback) {
-    await lxc.local('lxc list')
-        .then(response => callback({status: true, data: response}))
-        .catch(error => callback({status: false, data: error}));
+module.exports.local = async function () {
+    return await lxc.local('lxc list');
 }

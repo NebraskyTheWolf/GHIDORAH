@@ -2,6 +2,10 @@ const { Permissions } = require('discord.js');
 
 module.exports = async (client, interaction) => {
     if (interaction.customId === undefined) return; // AVOID BOT CRASHING
+    if (interaction.customId.startsWith('row_authentication')) {
+        await client.events.emit('authentication', message);
+        return;
+    }
     if (!interaction.guild) return; // AVOID USING INTERACTION IN DMS
     if (!client.IsLoaded) {
         await interaction.reply({ content: 'My code is loading... Please wait.', ephemeral: true});
@@ -59,7 +63,7 @@ module.exports = async (client, interaction) => {
                 }
                 break;
                 default:
-                   client.logger.log('ERROR', `Unresolved action ID: ${types} for interaction ID: ${interaction.customId} executed by ${interaction.user.id}`)
+                   client.logger.log('ERROR', `Unresolved action ID: ${finalType} for interaction ID: ${interaction.customId} executed by ${interaction.user.id}`)
                 break;
             }
         } else if(interaction.isButton() 

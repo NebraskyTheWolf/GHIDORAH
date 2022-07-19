@@ -20,14 +20,24 @@ module.exports = client => {
 	server.use(express.static('public'))
 	server.get("/", (_, res) => res.status(200).json({
 		apiVersion: client.version,
-		apiAuthor: 'Mitsui Hoshiko',
+		apiAuthor: 'Vakea <contact@skf-studios.com>',
 		apiName: 'GHIDORAH DATA SERVER',
-		apiSig: 'a7:b1:3e:3d:84:24:a2:5a:91:5f:6f:e9:cf:dd:2b:6a',
+		apiSig: client.prints,
 		apiOptions: {
-			storage: {},
-			websocket: {},
-			lxdserver: {},
-			maintenance: true
+			websocket: {
+				host: 'wss://api.skf-studios.com/v8',
+				status: 'ONLINE'
+			},
+			lxdserver: {
+				local: client.LXDUtils.local(),
+				info: client.LXDUtils.info(),
+				resources: client.LXDUtils.resources(),
+				remotes: client.LXDUtils.remotes(),
+				network: client.LXDUtils.listNetworks(),
+				containers: client.LXDUtils.getContainers(),
+				aliases: client.LXDUtils.getAllAliases()
+			},
+			maintenance: client.isDebug
 		}
 	}));
 

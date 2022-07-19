@@ -15,11 +15,17 @@ module.exports = {
                         .addComponents([category])
                 );
             });
+            const comps = [];
+            list.forEach(cmp => comps.push({
+                type: 1,
+                components: [ cmp ]
+            }));
 
             console.log(list)
+            console.log(comps)
 
             interaction.reply({
-                components: [ list ],
+                components: [ comps ],
                 flags: 64
             });
         } else {
