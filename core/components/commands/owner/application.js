@@ -21,20 +21,6 @@ module.exports = {
     async execute(interaction) {  
         await client.Database.isDeveloper(interaction.member.user.id, async result => {
             if (result.isDev) {
-                let embed = new Discord.MessageEmbed()
-                    .setTitle("Permission denied.")
-                    .setDescription(`Only my developer can use this command...`);
-                client.api.interactions(interaction.id, interaction.token).callback.post({
-                    data: {
-                        type: 4,
-                        data: {
-                            embeds: [embed],
-                            ephemeral: true,
-                            flags: 64
-                        }
-                    }
-                });
-            } else {
                 const appName = interaction.data.options[0].value;
                 const appDesc = interaction.data.options[1].value;
 
@@ -60,6 +46,20 @@ module.exports = {
                             }
                         }
                     });
+                });
+            } else {
+                let embed = new Discord.MessageEmbed()
+                    .setTitle("Permission denied.")
+                    .setDescription(`Only my developer can use this command...`);
+                client.api.interactions(interaction.id, interaction.token).callback.post({
+                    data: {
+                        type: 4,
+                        data: {
+                            embeds: [embed],
+                            ephemeral: true,
+                            flags: 64
+                        }
+                    }
                 });
             }
         }); 
