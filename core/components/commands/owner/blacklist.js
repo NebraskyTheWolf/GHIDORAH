@@ -34,7 +34,7 @@ module.exports = {
 
                 const blacklist = await client.Database.isBlacklisted(targetId);
 
-                if (blacklist.data.active) {
+                if (blacklist !== null && blacklist.data.active) {
                     client.api.interactions(interaction.id, interaction.token).callback.post({
                         data: {
                             type: 4,
