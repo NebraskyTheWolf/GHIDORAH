@@ -15,6 +15,7 @@ const oauthSchema = require("./Models/Guild/Common/Oauth");
 const socialSchema = require("./Models/Guild/Common/Social");
 const entrySchema = require('./Models/Guild/Common/VerificationEntry');
 const marrySchema = require('./Models/Guild/Common/Marry');
+const history = require('./Models/Guild/Common/History');
 
 
 //MODERATION
@@ -991,4 +992,20 @@ module.exports.removeAuthentication = async function (userId, accessToken) {
 
 module.exports.isAllowed = async function (token) {
     return await requestSchema.findOne({ appToken: token });
+}
+
+module.exports.createHistory = async function (data) {
+    const his = history({
+        requestId: v4(),
+
+        remoteIp: data.remoteIp,
+        route: data.route,
+        method: data.method,
+        headers: data.headers,
+        body: data.body,
+        session: data.session, 
+    
+        registeredAt: Date.now()
+    });
+    his.save();
 }
