@@ -28,19 +28,6 @@ module.exports = {
     async execute(interaction) {  
         await client.Database.isDeveloper(interaction.member.user.id, async result => {
             if (result.isDev) {
-                if (!(result.permissionLevel >= 3)) {
-                    client.api.interactions(interaction.id, interaction.token).callback.post({
-                        data: {
-                            type: 4,
-                            data: {
-                                content: 'Permission denied.',
-                                flags: 64
-                            }
-                        }
-                    });
-                    return;
-                }
-
                 const targetId = interaction.data.options[0].value;
                 const reason = interaction.data.options[1].value;
                 const action = interaction.data.options[2].value;
