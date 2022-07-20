@@ -117,7 +117,6 @@ mongoose.connect(config.MongoDBInfo.host, config.MongoDBInfo.options).then(() =>
 ].forEach(x => require(`./handlers/${x}.js`)(client));
 
 [
-    "alwaysOn",
      "http"
 ].forEach(x => require(`./server/${x}.js`)(client));
 
