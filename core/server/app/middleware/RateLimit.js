@@ -1,4 +1,4 @@
-module.exports = function (req, res, next) {
+module.exports = async function (req, res, next) {
     client.Database.fetchApplication(req.get('Authorisation')).then(result => {
         if (result.appEnabled) {
             const permission = await client.Database.isAllowed(result.token);
