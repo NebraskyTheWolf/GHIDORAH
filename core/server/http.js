@@ -18,7 +18,7 @@ const rateLimiter = require('./app/middleware/RateLimit');
 
 module.exports = async (client) => {
 	server.use(express.static('public'))
-	server.get("/", async (_, res) => {
+	server.get("/", async (req, res) => {
 		res.status(200).json({
 			apiVersion: client.version,
 			apiRevision: client.revision,
