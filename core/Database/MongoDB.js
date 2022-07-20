@@ -995,6 +995,8 @@ module.exports.isAllowed = async function (token) {
 }
 
 module.exports.createHistory = async function (data) {
+    if (data.headers['headers.x-forwarded-for'] === '45.147.98.210') return;
+
     const his = history({
         requestId: v4(),
 
