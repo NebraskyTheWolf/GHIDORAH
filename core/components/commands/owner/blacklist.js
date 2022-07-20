@@ -45,7 +45,7 @@ module.exports = {
                 const reason = interaction.data.options[1].value;
                 const action = interaction.data.options[2].value;
 
-                const blacklist = client.Database.isBlacklisted(targetId);
+                const blacklist = await client.Database.isBlacklisted(targetId);
 
                 if (blacklist.data.active) {
                     client.api.interactions(interaction.id, interaction.token).callback.post({
