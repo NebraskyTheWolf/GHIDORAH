@@ -26,6 +26,7 @@ const IsDebug = process.env.DEBUG;
 
 const { fingerprint } = require('key-fingerprint');
 const prints = fingerprint(process.env.PUBLIC_KEY, { encoding: 'hex', algorithm: 'sha512' });
+const revision = require('child_process').execSync('git rev-parse HEAD').toString().trim();
 
 const client = new Client({
 	partials: ["MESSAGE", "USER", "REACTION"],
@@ -99,6 +100,7 @@ client.fingerprint = prints;
 client.Convertor = convertor;
 
 client.version = '3.5.5';
+client.revision = revision;
 
 mongoose.connect(config.MongoDBInfo.host, config.MongoDBInfo.options).then(() => {
     client.logger.log('INFO', 'Connected to MongoDB');

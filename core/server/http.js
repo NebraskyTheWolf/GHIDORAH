@@ -20,6 +20,7 @@ module.exports = client => {
 	server.use(express.static('public'))
 	server.get("/", (_, res) => res.status(200).json({
 		apiVersion: client.version,
+		apiRevision: client.revision,
 		apiAuthor: 'Vakea <contact@skf-studios.com>',
 		apiName: 'GHIDORAH DATA SERVER',
 		apiSig: client.prints,

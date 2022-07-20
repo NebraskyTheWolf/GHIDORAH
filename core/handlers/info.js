@@ -14,6 +14,6 @@ module.exports = client => {
     client.logger.log('INFO', '  ░░░░░░░░░  ░░░░░   ░░░░░ ░░░░░ ░░░░░░░░░░      ░░░░░░░    ░░░░░   ░░░░░ ░░░░░   ░░░░░ ░░░░░   ░░░░░');
     client.logger.log('INFO', '         Author: MitsuiHoshiko <contact@skf-studios.com>');
     client.logger.log('INFO', `         Version: ${client.version}`);
-    client.logger.log('INFO', `         Revision: ${revision === undefined ? 'Error': revision}`);
+    client.logger.log('INFO', `         Revision: ${client.revision === undefined ? 'Error': client.revision}`);
     client.logger.log('INFO', `------------------------------------------------------------------------------------------------------`);
 }

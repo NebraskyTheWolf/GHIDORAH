@@ -17,3 +17,15 @@ module.exports.createEmbed = async function (data) {
         embed.setFooter(data.footer);
     return embed;
 }
+
+module.exports.sendMessage = function (interaction, content, flags = 1 << 6) {
+    client.api.interactions(interaction.id, interaction.token).callback.post({
+        data: {
+            type: 4,
+            data: {
+                content: content,
+                flags: flags
+            }
+        }
+    });
+}
