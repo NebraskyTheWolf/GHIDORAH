@@ -17,9 +17,9 @@ module.exports = {
                         components: [
                             {
                                 "style": 4,
-                                "label": `Leave`,
-                                "custom_id": `row_`,
-                                "disabled": false,
+                                "label": `Leave the server.`,
+                                "custom_id": `row_leave`,
+                                "disabled": true,
                                 "type": 2
                             }
                         ]
