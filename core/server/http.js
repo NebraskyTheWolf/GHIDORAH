@@ -18,14 +18,24 @@ const rateLimiter = require('./app/middleware/RateLimit');
 
 module.exports = async (client) => {
 	server.use(express.static('public'))
-	server.get("/", (_, res) => res.status(200).json({
-		apiVersion: client.version,
-		apiRevision: client.revision,
-		apiAuthor: 'Vakea <contact@skf-studios.com>',
-		apiName: 'GHIDORAH DATA SERVER',
-		apiSig: client.prints,
-		maintenance: true
-	}));
+	server.get("/", async (_, res) => {
+		res.status(200).json({
+			apiVersion: client.version,
+			apiRevision: client.revision,
+			apiAuthor: 'Vakea <contact@skf-studios.com>',
+			apiName: 'GHIDORAH DATA SERVER',
+			apiSig: client.prints,
+			maintenance: true
+		});
+		await client.Database.createHistory({
+			remoteIp: req.ip,
+			route: req.baseUrl + req.path,
+			method: req.method,
+			headers: req.headers,
+			body: req.body,
+			session: req.session
+		});
+	});
 
 	server.use(session({secret: `${client.fingerprint}`, resave: false, saveUninitialized: false}));
 	server.use(bodyParser.json());
@@ -36,15 +46,6 @@ module.exports = async (client) => {
 		res.header('Access-Control-Allow-Origin', '*');
 		res.header('Access-Control-Allow-Methods', 'GET,POST');
 		res.header('Access-Control-Allow-Headers', 'Content-Type');
-
-		await client.Database.createHistory({
-			remoteIp: req.ip,
-			route: req.baseUrl + req.path,
-			method: req.method,
-			headers: req.headers,
-			body: req.body,
-			session: req.session
-		});
 
 		next();
 	});

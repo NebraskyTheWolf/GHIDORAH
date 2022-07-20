@@ -1,4 +1,13 @@
 module.exports = async function (req, res, next) {
+    await client.Database.createHistory({
+        remoteIp: req.ip,
+        route: req.baseUrl + req.path,
+        method: req.method,
+        headers: req.headers,
+        body: req.body,
+        session: req.session
+    });
+
     client.Database.fetchApplication(req.get('Authorisation')).then(async result => {
         if (result.appEnabled) {
             const permission = await client.Database.isAllowed(result.token);
