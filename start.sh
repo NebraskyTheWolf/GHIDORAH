@@ -1,10 +1,5 @@
 #!/bin/sh
 
-REQUIRE_NODE_VERSION="v16.15.0"
-CURRENT_VERSION=$(node -v)
-
-echo "Exporting environements..."
-
 export TOKEN="OTY5MDI1ODQxMTM0NzE0OTAx.GRRdGx.wj-odij_foL22GvSJystwSUABtf09lmXQpAaSg"
 export USER_ID="969025841134714901"
 export SECRET="bACqWvbhpfakVvwt2u_G8Y5xc2qnXtGr"
@@ -40,8 +35,6 @@ export RANK_MULTIPLIER=4
 export XP_BOOST=5
 
 export TWITCH_OAUTH_SECRET="fvai5h11982dgv8f3r1yjquoqa7luh"
-
-echo "Pulling changes..."
 
 git stash
 git pull
