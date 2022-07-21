@@ -55,7 +55,6 @@ module.exports = {
                                         "color": 0xff8c00
                                         }
                                     ],
-                                    "ephemeral": "true",
                                     "flags": 64
                                 }
                             }
@@ -91,7 +90,6 @@ module.exports = {
                                         "color": 0xff8c00
                                         }
                                     ],
-                                    "ephemeral": "true",
                                     "flags": 64
                                 }
                             }

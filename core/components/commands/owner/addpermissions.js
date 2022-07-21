@@ -39,7 +39,6 @@ module.exports = {
                             type: 4,
                             data: {
                                 content: 'Permissions added.',
-                                ephemeral: true,
                                 flags: 64
                             }
                         }
@@ -54,7 +53,7 @@ module.exports = {
                         type: 4,
                         data: {
                             embeds: [embed],
-                            ephemeral: true
+                            flags: 64
                         }
                     }
                 });

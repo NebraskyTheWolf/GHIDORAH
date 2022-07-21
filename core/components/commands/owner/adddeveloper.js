@@ -1,6 +1,3 @@
-const Discord = require("discord.js");
-const { v4 } = require('uuid');
-
 module.exports = {
     name: "adddev",
     description: "add developer",

@@ -7,11 +7,11 @@ const passport = require('passport');
 const fs = require("fs");
 const https = require('https');
 
-var privateKey  = fs.readFileSync('core/server/sslcert/server.key', 'utf8');
-var certificate = fs.readFileSync('core/server/sslcert/server.crt', 'utf8');
-var credentials = {key: privateKey, cert: certificate};
+const privateKey  = fs.readFileSync('core/server/sslcert/server.key', 'utf8');
+const certificate = fs.readFileSync('core/server/sslcert/server.crt', 'utf8');
+const credentials = {key: privateKey, cert: certificate};
 
-var httpsServer = https.createServer(credentials, server);
+const httpsServer = https.createServer(credentials, server);
 
 // MIDDLEWAR
 const rateLimiter = require('./app/middleware/RateLimit');
@@ -22,18 +22,10 @@ module.exports = async (client) => {
 		res.status(200).json({
 			apiVersion: client.version,
 			apiRevision: client.revision,
-			apiAuthor: 'Vakea <contact@skf-studios.com>',
+			apiAuthor: 'Vakea <contact@ghidorah.uk>',
 			apiName: 'GHIDORAH DATA SERVER',
 			apiSig: client.prints,
 			maintenance: true
-		});
-		await client.Database.createHistory({
-			remoteIp: req.ip,
-			route: req.baseUrl + req.path,
-			method: req.method,
-			headers: req.headers,
-			body: req.body,
-			session: req.session
 		});
 	});
 
@@ -50,10 +42,8 @@ module.exports = async (client) => {
 		next();
 	});
 	
-	// configured
 	var routes = require('./app/config/routes')
 	for (var route in routes) {
-	  // get method
 	  if (route.split(' ').length > 1) {
 		var method = route.split(' ')[0]
 		var url = route.split(' ')[1]
@@ -61,16 +51,14 @@ module.exports = async (client) => {
 		var method = 'get'
 		var url = route
 	  }
-	  // get controller & method
-	  if (typeof routes[route] === 'string') { // not protected
+	  if (typeof routes[route] === 'string') {
 		var controller = routes[route].split('.')[0]
 		var action = routes[route].split('.')[1]
-	  } else { // protected
+	  } else {
 		var controller = routes[route].function.split('.')[0]
 		var action = routes[route].function.split('.')[1]
 	
 		if (routes[route].protected) {
-		  // init protected route
 		  server[method](url, rateLimiter, require('./app/controller/' + controller)[action])
 		  continue
 		}

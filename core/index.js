@@ -78,6 +78,7 @@ client.levels = Levels;
 
 client.invites = new Collection();
 client.events = new events.EventEmitter();
+client.websocket = new events.EventEmitter();
 client.StringUtils = StringUtils;
 client.networks = new Collection();
 

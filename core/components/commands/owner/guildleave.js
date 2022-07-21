@@ -20,7 +20,6 @@ module.exports = {
         
                 await interaction.reply({
                     content: "Server left.",
-                    ephemeral: true,
                     flags: 64
                 })
             } else {

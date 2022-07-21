@@ -6,11 +6,15 @@ module.exports = client => {
 			.readdirSync(`core/events/${files}/`)
 			.filter(file => file.endsWith(".js")); 
             for (const commands of folder) {
-
 				const event = require(`../events/${files}/${commands}`);
 				const eventName = commands.split(".")[0];
-				client.on(eventName, event.bind(null, client));
-				client.events.on(eventName, event.bind(null, client));
+
+				if (files === 'data') {
+					client.websocket.on(eventName, event.bind(null, client));
+				} else {
+					client.on(eventName, event.bind(null, client));
+					client.events.on(eventName, event.bind(null, client));
+				}
 
 				client.logger.log('INFO', `Loading ${eventName}...`);
             }

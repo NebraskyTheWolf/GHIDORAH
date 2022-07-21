@@ -83,12 +83,12 @@ module.exports = {
                             fields: [
                               {
                                 name: `User`,
-                                value: `${targetId}`,
+                                value: `<@${targetId}>`,
                                 inline: true
                               },
                               {
                                 name: `Author`,
-                                value: `${interaction.member.tag}`,
+                                value: `<@${interaction.member.user.id}>`,
                                 inline: true
                               },
                               {

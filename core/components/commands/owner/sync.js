@@ -30,7 +30,6 @@ module.exports = {
                         type: 4,
                         data: {
                             embeds: [embed],
-                            ephemeral: true,
                             flags: 64
                         }
                     }

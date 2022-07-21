@@ -23,7 +23,6 @@ module.exports = {
                         .setFooter("• Room information.");
                     client.func.sendInteraction(interaction, {
                         embeds: [movie],
-                        ephemeral: true,
                         flags: 64
                     });
                 });
@@ -36,7 +35,6 @@ module.exports = {
                         type: 4,
                         data: {
                             embeds: [embed],
-                            ephemeral: true,
                             flags: 64
                         }
                     }
