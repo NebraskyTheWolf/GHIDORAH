@@ -61,7 +61,6 @@ const playerSchema = require('./Models/Minecraft/Server/Player/Player');
 const vipUserSchema = require('./Models/Guild/VIP');
 
 const { v4 } = require('uuid');
-const { client } = require('tmi.js');
 
 module.exports.fetchUser = async function(key) {
     let userDB = await userSchema.findOne({ id: key });
