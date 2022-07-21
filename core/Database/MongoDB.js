@@ -6,6 +6,7 @@ const memberSchema = require("./Models/Guild/Member");
 const guildSchema = require("./Models/Guild/Guild");
 const userSchema = require("./Models/Guild/User");
 const rulesSchema = require("./Models/Guild/Rules");
+const commitSchema = require('./Models/Guild/Commit');
 
 // COMMONS
 const giveawaysSchema = require('./Models/Guild/Common/Giveaways');
@@ -1010,4 +1011,13 @@ module.exports.createHistory = async function (data) {
         registeredAt: Date.now()
     });
     his.save();
+}
+
+module.exports.createCommit = async function (data) {
+    const commit = commitSchema({
+        id: v4(),
+        data: data
+    });
+    commit.save();
+    return commit;
 }
