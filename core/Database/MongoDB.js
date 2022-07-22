@@ -188,6 +188,10 @@ module.exports.fetchOauth = async function(userID) {
     return await oauthSchema.findOne({ id: userID });
 }
 
+module.exports.fetchOauthByOID = async function(oid) {
+    return await oauthSchema.findOne({ _id: ObjectId(oid) });
+} 
+
 module.exports.fetchAllOauth = async function(callback) {
     return await oauthSchema.find({ }).then((results) => callback(results))
 }

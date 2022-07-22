@@ -89,4 +89,23 @@ module.exports = {
     'get /auth/twitch/:userId': {'function': 'TwitchController.login', protected: true},
     'get /case/:id': {'function': 'UserController.getCaseById', protected: true},
     'get /case/:id/certificate/:certId': {'function': 'UserController.getCertificate', protected: true},
+
+
+    // DASHBOARD
+
+    // LOGS CONTENT
+    // CONNECTION HISTORY
+    // MOD ACTIONS
+    // EDITED CONFIG / RESET
+    // OTHER MISC COMPONENTS
+    'get /dashboard/logs/:serverId': {'function': 'DashboardController.fetchLogs', protected: true},
+    'post /dashboard/logs/:serverId/push': {'function': 'DashboardController.pushLogs', protected: true},
+
+    // CONTAINS ALL DISCORD INFO + PERMISSION ACCESS LEVEL ( OWNER OR NO )
+    'get /dashboard/login/:serverId/:moderatorId/manifest': {'function': 'DashboardController.modInfo', protected: true},
+    'post /dashboard/login/connect': {'function': 'DashboardController.modLogin', protected: true},
+
+    // EDIT CONFIG / PROCESS ACTION
+    'post /dashboard/payload': {'function': 'DashboardController.payload', protected: true}
+
 }
