@@ -8,7 +8,7 @@ module.exports = {
 
         const blacklist = await client.Database.isBlacklisted(interactionUser.id);
 
-        if (blacklist && blacklist.data.active) {
+        if (blacklist !== null && blacklist.data.active) {
             await interaction.reply({
                 embeds: [embed], 
                 components: [
@@ -25,7 +25,7 @@ module.exports = {
                         ]
                     }
                 ],
-                ephemeral: true
+                flags: 64
             });
             return;
         }
