@@ -5,16 +5,7 @@ module.exports = async (client, guild) => {
 		await client.guilds.cache.get(guilds.id).leave();
 	}
 
-	let defaultChannel = "";
-	guild.channels.cache.forEach((channel) => {
-		if(channel.type == "text" && defaultChannel == "") {
-			if(channel.permissionsFor(guild.me).has("SEND_MESSAGES")) {
-				defaultChannel = channel;
-			}
-		}
-	});
-
-	defaultChannel.send({
+	guild.systemChannel.send({
 		"components": [
 			{
 			  "type": 1,
