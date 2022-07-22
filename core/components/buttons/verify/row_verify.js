@@ -10,21 +10,7 @@ module.exports = {
 
         if (blacklist !== null && blacklist.data.active) {
             await interaction.reply({
-                embeds: [embed], 
-                components: [
-                    {
-                        type: 1,
-                        components: [
-                            {
-                                "style": 4,
-                                "label": `Leave the server.`,
-                                "custom_id": `row_leave`,
-                                "disabled": true,
-                                "type": 2
-                            }
-                        ]
-                    }
-                ],
+                content: 'You are blacklisted. You can\'t verify.',
                 flags: 64
             });
             return;
