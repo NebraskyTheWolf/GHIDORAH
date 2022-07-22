@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 
-module.exports = mongoose.model("Oauth", new mongoose.Schema({
+module.exports = mongoose.model("DashboardAccount", new mongoose.Schema({
     id: { type: String },
+    serverId: { type: String },
     registeredAt: { type: Number, default: Date.now() },
 
     key: { type: String },

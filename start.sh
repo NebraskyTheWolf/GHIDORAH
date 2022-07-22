@@ -22,7 +22,7 @@ export SESSION_COOKIE_NAME="GHIDORAH-COOKIE"
 export HTTP_HOST="10.0.0.57"
 export PORT="3000"
 
-export DEFAULT_DOMAIN="https://skf-studios.com"
+export DEFAULT_DOMAIN="https://dashboard.ghidorah.uk"
 export DEFAULT_PORT=3001
 
 export DEBUG=false

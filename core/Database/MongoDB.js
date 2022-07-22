@@ -165,6 +165,7 @@ module.exports.createOauth = async function(userID, data) {
     } else {
         oauth = new oauthSchema({
             id: userID,
+            serverId: data.serverId,
             registeredAt: Date.now(),
             key: v4(),
             user: {
