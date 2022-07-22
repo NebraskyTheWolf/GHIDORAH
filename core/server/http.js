@@ -20,12 +20,14 @@ module.exports = async (client) => {
 	server.use(express.static('public'))
 	server.get("/", async (req, res) => {
 		res.status(200).json({
-			apiVersion: client.version,
-			apiRevision: client.revision,
-			apiAuthor: 'Vakea <contact@ghidorah.uk>',
-			apiName: 'GHIDORAH DATA SERVER',
-			apiSig: client.prints,
-			maintenance: true
+			data: {
+				apiVersion: client.version,
+				apiRevision: client.revision,
+				apiAuthor: 'Vakea <contact@ghidorah.uk>',
+				apiName: 'GHIDORAH DATA SERVER',
+				apiSig: client.prints,
+				maintenance: client.IsDebug
+			}
 		});
 	});
 

@@ -33,7 +33,6 @@ const client = new Client({
 	disableMentions: "everyone",
     intents: [
         Intents.FLAGS.GUILDS,
-        Intents.FLAGS.GUILDS,
         Intents.FLAGS.GUILD_MEMBERS,
         Intents.FLAGS.GUILD_EMOJIS_AND_STICKERS,
         Intents.FLAGS.GUILD_INTEGRATIONS,
