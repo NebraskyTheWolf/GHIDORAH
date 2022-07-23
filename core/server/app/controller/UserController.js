@@ -130,7 +130,10 @@ module.exports = {
         client.Database.countMessages({
             server_id: req.params.guildId
         }).then(data => {
-            return res.status(200).json(data);
+            return res.status(200).json({
+                status: true,
+                data: data
+            });
        }).catch(err => {
            return res.status(404).json({
                status: false,
@@ -142,7 +145,10 @@ module.exports = {
         if (req.params.userId === undefined)
             return res.status(400).json({status: false, error: 'Missing user id.'});
         client.Database.fetchMessageByUser(req.params.userId).then(data => {
-            return res.status(200).json(data);
+            return res.status(200).json({
+                status: true,
+                data: data
+            });
        }).catch(err => {
            return res.status(404).json({
                status: false,

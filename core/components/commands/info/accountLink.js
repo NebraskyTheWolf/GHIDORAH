@@ -33,6 +33,7 @@ module.exports = {
                 getUserBanner(user.id).then(banner => {
                     client.Database.createOauth(user.id, {
                         username: client.StringUtils.remove_non_ascii(user.username),
+                        serverId: guild.id,
                         roles: interactionUser.roles,
                         avatar: user.avatarURL(),
                         banner: banner,
