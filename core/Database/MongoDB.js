@@ -294,7 +294,7 @@ module.exports.createFaction = async function(data) {
 // BLACKLIST 
 
 module.exports.isBlacklisted = async function(userID) {
-    return await blacklistSchema.findOne({ id: userID });
+    return await blacklistSchema.findOne({ eq: { id: userID }});
 }
 
 module.exports.disableBlacklist = async function(userID) {
