@@ -41,11 +41,12 @@ module.exports = {
     getUserByToken: function (req, res) {
         if (req.params.token === undefined)
             return res.status(400).json({status: false, error: 'Missing user token.'});
-        client.Database.getUserByToken(req.params.token).then((user) => {
+        const user = await client.Database.getUserByToken(req.params.token);
+        if (user) {
             res.status(200).json({status: true, data: user});
-        }).catch(() => {
+        } else {
             res.status(404).json({status: false, error: 'User not found.'});
-        });
+        }
     },
     getOnlineUsers: function (req, res) {
         res.status(200).json({
@@ -91,11 +92,12 @@ module.exports = {
     isBlacklisted: async function (req, res) {
         if (req.params.id === undefined)
             return res.status(400).json({status: false, error: 'Missing user id.'});
-        await client.Database.isBlacklisted(req.params.id).then(data => {
+        const user = await client.Database.isBlacklisted(req.params.id);
+        if (user) {
             return res.status(200).json({status: true, data: data});
-        }).catch(() => {
-            return res.status(200).json({status: false, data: {}});
-        })
+        } else {
+            return res.status(404).json({status: false, data: {}});
+        }
     },
     fetchAllBlacklists: async function (req, res) {
         const blacklist = await client.Database.getAllBlacklist();
