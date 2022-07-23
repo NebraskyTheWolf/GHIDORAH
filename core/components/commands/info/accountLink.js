@@ -42,77 +42,22 @@ module.exports = {
                         system: user.system,
                         bot: user.bot
                     }).then(result => {
-                        if (result.activated) {
-                            client.api.interactions(interaction.id, interaction.token).callback.post({
+                        client.api.interactions(interaction.id, interaction.token).callback.post({
+                            "data": {
+                                "type": 4,
                                 "data": {
-                                    "type": 4,
-                                    "data": {
-                                        "components": [
-                                            {
-                                            "type": 1,
-                                            "components": [
-                                                {
-                                                "style": 5,
-                                                "label": `Login`,
-                                                "url": `${process.env.DEFAULT_DOMAIN}/login`,
-                                                "disabled": false,
-                                                "emoji": {
-                                                    "id": null,
-                                                    "name": `💛`
-                                                },
-                                                "type": 2
-                                                }
-                                            ]
-                                            }
-                                        ],
-                                        "embeds": [
-                                            {
-                                            "type": "rich",
-                                            "title": `GHIDORAH - Account already linked`,
-                                            "description": `EEP It's look like your account are already linked to the website!`,
-                                            "color": 0xff8c00
-                                            }
-                                        ],
-                                        "flags": 64
-                                    }
+                                    "embeds": [
+                                        {
+                                        "type": "rich",
+                                        "title": `GHIDORAH - Account linked`,
+                                        "description": `You can now login on the dashboard by using this code "${result.key}"`,
+                                        "color": 0xff8c00
+                                        }
+                                    ],
+                                    "flags": 64
                                 }
-                            });
-                        } else {
-                            client.api.interactions(interaction.id, interaction.token).callback.post({
-                                "data": {
-                                    "type": 4,
-                                    "data": {
-                                        "components": [
-                                            {
-                                            "type": 1,
-                                            "components": [
-                                                {
-                                                "style": 5,
-                                                "label": `Register now`,
-                                                "url": `${process.env.DEFAULT_DOMAIN}/register/${result.key}`,
-                                                "disabled": false,
-                                                "emoji": {
-                                                    "id": null,
-                                                    "name": `💛`
-                                                },
-                                                "type": 2
-                                                }
-                                            ]
-                                            }
-                                        ],
-                                        "embeds": [
-                                            {
-                                            "type": "rich",
-                                            "title": `GHIDORAH - Account linked`,
-                                            "description": `You can now create an account on the website with this key "${result.key}" or clicking on the button bellow.`,
-                                            "color": 0xff8c00
-                                            }
-                                        ],
-                                        "flags": 64
-                                    }
-                                }
-                            });
-                        }
+                            }
+                        });
                     });
                 });
            });

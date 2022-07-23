@@ -158,7 +158,7 @@ module.exports.deleteMember = async function( userid ) {
 }
 
 module.exports.createOauth = async function(userID, data) {
-    let oauth = await oauthSchema.findOne({ id: userID });
+    let oauth = await oauthSchema.findOne({ id: userID, activated: false });
 
     if (oauth) {
         return oauth;
