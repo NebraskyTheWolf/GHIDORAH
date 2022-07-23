@@ -12,7 +12,7 @@ module.exports = {
         const guild = await client.Database.fetchGuild(interaction.guild_id);
         const server = client.guilds.cache.get(interaction.guild_id);
 
-        if (server.ownerId !== interactionUser.id) {
+        if (server.ownerId !== interactionUser.user.id) {
             client.api.interactions(interaction.id, interaction.token).callback.post({
                 "data": {
                     "type": 4,
