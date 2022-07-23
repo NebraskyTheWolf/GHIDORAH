@@ -38,7 +38,7 @@ module.exports = {
         else
             res.status(404).json({status: false, data: {}});
     },
-    getUserByToken: function (req, res) {
+    getUserByToken: async function (req, res) {
         if (req.params.token === undefined)
             return res.status(400).json({status: false, error: 'Missing user token.'});
         const user = await client.Database.getUserByToken(req.params.token);
