@@ -15,7 +15,7 @@ module.exports = {
         if (req.params.username === undefined)
             return res.status(400).json({status: false, error: 'Missing username.'});
         client.Database.fetchOauthByName(req.params.username).then((user) => {
-            res.status(200).json(user);
+            res.status(200).json({status: true, data: user});
         }).catch(() => {
             res.status(404).json({status: false, error: 'User not found.'});
         });
@@ -42,7 +42,7 @@ module.exports = {
         if (req.params.token === undefined)
             return res.status(400).json({status: false, error: 'Missing user token.'});
         client.Database.getUserByToken(req.params.token).then((user) => {
-            res.status(200).json(user);
+            res.status(200).json({status: true, data: user});
         }).catch(() => {
             res.status(404).json({status: false, error: 'User not found.'});
         });
