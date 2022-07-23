@@ -351,8 +351,8 @@ module.exports.fetchVerify = async function(userID, guildId) {
     return await verificationSchema.findOne({ id: userID, guildId: guildId });
 }
 
-module.exports.fetchAllVerify = async function(guildId, callback) {
-    return await verificationSchema.find({ guildId: guildId }).then((results) => callback(results))
+module.exports.fetchAllVerify = async function(guildId) {
+    return await verificationSchema.find({ guildId: guildId });
 }
 
 

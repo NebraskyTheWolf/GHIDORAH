@@ -9,7 +9,16 @@ module.exports = {
             res.status(404).json({status: false, error: 'User not found.'});
         });
     },
-    fetchAll: function (req, res) {},
+    fetchAll: async function (req, res) {
+        if (req.params.guild === undefined)
+            return res.status(400).json({status: false, error: 'Missing guild id.'});
+        const verify = await client.Database.fetchAllVerify(req.params.guild);
+        if (verify) {
+            return res.status(200).json({ status: true, data: verify });
+        } else {
+            return res.status(200).json({ status: false, data: [] });
+        }
+    },
     fetchByName: function (req, res) {
         if (req.params.username === undefined)
             return res.status(400).json({status: false, error: 'Missing username.'});
