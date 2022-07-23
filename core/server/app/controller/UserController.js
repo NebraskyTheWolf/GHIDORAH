@@ -92,11 +92,7 @@ module.exports = {
         if (req.params.id === undefined)
             return res.status(400).json({status: false, error: 'Missing user id.'});
         const data = client.Database.isBlacklisted(req.params.id);
-        if (data) {
-            return res.status(200).json({status: true, data: data});
-        } else {
-            return res.status(200).json({status: false, data: {}});
-        }
+        return res.status(200).json({status: true, data: data});
     },
     fetchAllBlacklists: async function (req, res) {
         const blacklist = await client.Database.getAllBlacklist();

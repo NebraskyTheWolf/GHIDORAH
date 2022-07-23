@@ -10,7 +10,7 @@ module.exports = {
         await client.Database.getAllEntries().then(async result => {
             if ((date - new Date(result.registeredAt)) > ALIVE_ENTRY) {
                 await client.Database.deleteEntry(result.id).then(async request => {
-                    client.logger.log('INFO', `Verification deleted #${request._id}`)
+                    client.logger.log('INFO', `Verification deleted #${request._id}`);
                 }).catch(err => client.logger.log('ERROR', `Error occurred during server verification { ID: ${result.id} }`));
             }
         });

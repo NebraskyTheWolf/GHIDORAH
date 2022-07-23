@@ -5,9 +5,7 @@ module.exports = {
         name: "row_verify"
     },
     async execute(interaction, interactionUser, guild) {
-
         const blacklist = await client.Database.isBlacklisted(interactionUser.id);
-
         if (blacklist !== null && blacklist.data.active) {
             await interaction.reply({
                 content: 'You are blacklisted. You can\'t verify.',
@@ -25,7 +23,7 @@ module.exports = {
 
             await interaction.reply({
                 embeds: [embed],
-                ephemeral: true
+                flags: 64
             });
         } else {
             const embed = new MessageEmbed()
@@ -52,7 +50,7 @@ module.exports = {
                         ]
                     }
                 ],
-                ephemeral: true
+                flags: 64
             });
         }
     }
