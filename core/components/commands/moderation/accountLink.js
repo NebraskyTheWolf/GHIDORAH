@@ -10,21 +10,22 @@ module.exports = {
     async execute(interaction) {
         const interactionUser = await interaction.member;
         const guild = await client.Database.fetchGuild(interaction.guild_id);
-        const server = client.guilds.cache.get(interaction.guild_id);
 
         const moderator = await client.Database.fetchModerator(interactionUser.user.id, guild.id);
 
-        if (server.ownerId !== interactionUser.user.id || (moderator != null && moderator.accessLevel >= 2)) {
+        console.log(moderator)
+
+        if (moderator !== null && moderator.accessLevel >= 3) {
             client.api.interactions(interaction.id, interaction.token).callback.post({
                 "data": {
                     "type": 4,
                     "data": {
                         "embeds": [
                             {
-                            "type": "rich",
-                            "title": `GHIDORAH - Error`,
-                            "description": `Only the owner of this server can use this command.`,
-                            "color": 0xff8c00
+                                "type": "rich",
+                                "title": `GHIDORAH - Error`,
+                                "description": `Only the owner of this server can use this command.`,
+                                "color": 0xff8c00
                             }
                         ],
                         "flags": 64
