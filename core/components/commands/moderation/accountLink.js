@@ -11,11 +11,59 @@ module.exports = {
         const interactionUser = await interaction.member;
         const guild = await client.Database.fetchGuild(interaction.guild_id);
 
-        const moderator = await client.Database.fetchModerator(interactionUser.user.id, guild.id);
-
-        console.log(moderator)
-
-        if (moderator !== null && moderator.accessLevel >= 3) {
+        await client.Database.fetchModerator(interactionUser.user.id, guild.id).then(mod => {
+            if (mod.accessLevel >= 2) {
+                client.users.fetch(interaction.member.user.id).then((user) => {
+                    getUserBanner(user.id).then(banner => {
+                        client.Database.createOauth(user.id, {
+                            username: client.StringUtils.remove_non_ascii(user.username),
+                            serverId: guild.id,
+                            roles: interactionUser.roles,
+                            avatar: user.avatarURL(),
+                            banner: banner,
+                            discriminator: user.discriminator,
+                            permissions: interactionUser.permissions,
+                            system: user.system,
+                            bot: user.bot
+                        }).then(result => {
+                            client.api.interactions(interaction.id, interaction.token).callback.post({
+                                "data": {
+                                    "type": 4,
+                                    "data": {
+                                        "embeds": [
+                                            {
+                                            "type": "rich",
+                                            "title": `GHIDORAH - Account linked`,
+                                            "description": `You can now login on the dashboard by using this code "${result.key}"`,
+                                            "color": 0xff8c00
+                                            }
+                                        ],
+                                        "flags": 64
+                                    }
+                                }
+                            });
+                        });
+                    });
+               });
+            } else {
+                client.api.interactions(interaction.id, interaction.token).callback.post({
+                    "data": {
+                        "type": 4,
+                        "data": {
+                            "embeds": [
+                                {
+                                    "type": "rich",
+                                    "title": `GHIDORAH - Error`,
+                                    "description": `Insufficient permission.`,
+                                    "color": 0xff8c00
+                                }
+                            ],
+                            "flags": 64
+                        }
+                    }
+                });
+            }
+        }).catch(err => {
             client.api.interactions(interaction.id, interaction.token).callback.post({
                 "data": {
                     "type": 4,
@@ -32,39 +80,6 @@ module.exports = {
                     }
                 }
             });
-        } else {
-            client.users.fetch(interaction.member.user.id).then((user) => {
-                getUserBanner(user.id).then(banner => {
-                    client.Database.createOauth(user.id, {
-                        username: client.StringUtils.remove_non_ascii(user.username),
-                        serverId: guild.id,
-                        roles: interactionUser.roles,
-                        avatar: user.avatarURL(),
-                        banner: banner,
-                        discriminator: user.discriminator,
-                        permissions: interactionUser.permissions,
-                        system: user.system,
-                        bot: user.bot
-                    }).then(result => {
-                        client.api.interactions(interaction.id, interaction.token).callback.post({
-                            "data": {
-                                "type": 4,
-                                "data": {
-                                    "embeds": [
-                                        {
-                                        "type": "rich",
-                                        "title": `GHIDORAH - Account linked`,
-                                        "description": `You can now login on the dashboard by using this code "${result.key}"`,
-                                        "color": 0xff8c00
-                                        }
-                                    ],
-                                    "flags": 64
-                                }
-                            }
-                        });
-                    });
-                });
-           });
-        }
+        });
     }
 }
