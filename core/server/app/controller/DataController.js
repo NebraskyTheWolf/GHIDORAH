@@ -67,7 +67,7 @@ module.exports = {
     },
     callback: function (req, res) {  },
 
-    fetchStats: function (req, res) {
+    fetchStats: async function (req, res) {
         const messages = await client.Database.countMessagesInt();
     }
 }
