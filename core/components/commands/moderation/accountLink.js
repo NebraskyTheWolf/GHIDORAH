@@ -12,7 +12,9 @@ module.exports = {
         const guild = await client.Database.fetchGuild(interaction.guild_id);
         const server = client.guilds.cache.get(interaction.guild_id);
 
-        if (server.ownerId !== interactionUser.user.id) {
+        const moderator = await client.Database.fetchModerator(interactionUser.user.id, guild.id);
+
+        if (server.ownerId !== interactionUser.user.id || (moderator != null && moderator.accessLevel >= 2)) {
             client.api.interactions(interaction.id, interaction.token).callback.post({
                 "data": {
                     "type": 4,

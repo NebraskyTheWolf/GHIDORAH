@@ -26,6 +26,7 @@ const blacklistSchema = require("./Models/Guild/Moderation/Blacklist");
 const sanctionSchema = require("./Models/Guild/Moderation/Sanctions");
 const usermailSchema = require('./Models/Guild/Moderation/Usermail');
 const modmailSchema = require('./Models/Guild/Moderation/Modmail');
+const moderatorSchema = require('./Models/Guild/Moderation/Moderators');
 
 // EVENTS
 const usereventSchema = require('./Models/Events/Userevent');
@@ -1042,4 +1043,40 @@ module.exports.acceptRules = async function (userId, serverId) {
 
 module.exports.fetchUserRule = async function (userId, serverId) {
     return await userruleSchema.findOne({ userId: userId, serverId: serverId });
+}
+
+// MODERATOR
+
+module.exports.fetchModerator = async function (userId, serverId) {
+    return await moderatorSchema.findOne({ 
+        userId: userId,
+        serverId: serverId
+    });
+}
+
+module.exports.createModerator = async function (userId, serverId, accessLevel = 1) {
+    const moderator = moderatorSchema({
+        userId: userId,
+        serverId: serverId,
+
+        accessLevel: accessLevel,
+
+        registeredAt: Date.now()
+    });
+    moderator.save().catch(err => client.logger.log('ERROR', `Error occurred ${err}`));
+    return moderator;
+}
+
+module.exports.deleteModerator = async function (userId, serverId) {
+    return await moderatorSchema.deleteOne({
+        userId: userId,
+        serverId: serverId
+    });
+}
+
+module.exports.updateModerator = async function (userId, serverId, accessLevel = 1) {
+    return await moderatorSchema.updateOne({ 
+        userId: userId, 
+        serverId: serverId
+    }, { accessLevel: accessLevel }, {});
 }
