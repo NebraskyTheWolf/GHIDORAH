@@ -17,6 +17,7 @@ const socialSchema = require("./Models/Guild/Common/Social");
 const entrySchema = require('./Models/Guild/Common/VerificationEntry');
 const marrySchema = require('./Models/Guild/Common/Marry');
 const history = require('./Models/Guild/Common/History');
+const userruleSchema = require('./Models/Guild/Common/UserRule');
 
 
 //MODERATION
@@ -436,8 +437,8 @@ module.exports.countMessages = async function (options = {}) {
         return await messagesSchema.find({  });
 }
 
-module.exports.countMessagesInt = async function (options = {}) {
-    await messagesSchema.find({ guild: options.server_id, id: options.userId }).count({}, (error, result) => {
+module.exports.countMessagesInt = async function () {
+    await messagesSchema.find({  }).count({  }, (error, result) => {
         if (error) return 0;
         return parseInt(result);
     });
@@ -1024,4 +1025,21 @@ module.exports.createCommit = async function (data) {
     });
     commit.save();
     return commit;
+}
+
+module.exports.acceptRules = async function (userId, serverId) {
+    const rule = userruleSchema({
+        userId: userId,
+        serverId: serverId,
+
+        ruleAccepted: true, 
+
+        registeredAt: Date.now()
+    });
+    rule.save().catch(err => client.logger.log('ERROR', `Error occurred ${err}`));
+    return rule;
+}
+
+module.exports.fetchUserRule = async function (userId, serverId) {
+    return await userruleSchema.findOne({ userId: userId, serverId: serverId });
 }

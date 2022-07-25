@@ -91,6 +91,8 @@ module.exports = {
     'get /case/:id/certificate/:certId': {'function': 'UserController.getCertificate', protected: true},
 
 
+    'get /stats': {'function': 'DataController.fetchStats', protected: false},
+
     // DASHBOARD
 
     // LOGS CONTENT

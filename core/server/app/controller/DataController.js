@@ -65,5 +65,9 @@ module.exports = {
             });
         }
     },
-    callback: function (req, res) {  }
+    callback: function (req, res) {  },
+
+    fetchStats: function (req, res) {
+        const messages = await client.Database.countMessagesInt();
+    }
 }
