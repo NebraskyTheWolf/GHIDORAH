@@ -16,7 +16,7 @@ module.exports = {
                               "style": 3,
                               "label": `Je réserve une place!`,
                               "custom_id": `row_neyaz_reservation`,
-                              "disabled": true,
+                              "disabled": false,
                               "type": 2
                             }
                           ]
@@ -61,7 +61,7 @@ module.exports = {
                               "style": 3,
                               "label": `Je réserve une place!`,
                               "custom_id": `row_neyaz_reservation`,
-                              "disabled": true,
+                              "disabled": false,
                               "type": 2
                             }
                           ]

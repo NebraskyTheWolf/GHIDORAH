@@ -48,6 +48,7 @@ module.exports.sanctions = async function (client, interaction, moderator, guild
                     }
                     break;
                 }
+                
                 client.events.emit('moderationInteraction', client, moderator, guild, member, data);
             }).catch(() => {
                 client.api.interactions(interaction.id, interaction.token).callback.post({
