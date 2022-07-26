@@ -21,6 +21,8 @@ const LevelCalculator = require('./utils/LevelCalculator');
 const PayloadHandler = require('./utils/PayloadHandler');
 const convertor = require('./utils/ImageHandler');
 
+const Moderation = require('./utils/ModerationHelper');
+
 const IsLoaded = false;
 const IsDebug = process.env.DEBUG;
 
@@ -101,6 +103,8 @@ client.Convertor = convertor;
 
 client.version = '3.5.5';
 client.revision = revision;
+
+client.moderationHelper = Moderation;
 
 mongoose.connect(config.MongoDBInfo.host, config.MongoDBInfo.options).then(() => {
     client.logger.log('INFO', 'Connected to MongoDB');
