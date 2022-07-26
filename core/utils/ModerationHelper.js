@@ -16,31 +16,31 @@ module.exports.sanctions = async function (client, interaction, moderator, guild
             await client.Database.createSanction(member.id, guild.id, {
                 username: member.user.username,
                 reason: data.reason,
-                by: moderator.id,
+                by: moderator,
                 expirationDate: -1,
                 type: data.type
-            }).then(result => {
+            }).then(fdata => {
                 client.api.interactions(interaction.id, interaction.token).callback.post({
                     "data": {
                         "type": 4,
                         "data": {
-                            "content": `You warned ${result.username} for ${result.reason}.`,
+                            "content": `You warned ${fdata.username} for ${fdata.reason}.`,
                             "flags": 64
                         }
                     }
                 });
 
                 member.send({
-                    content: `You got warned in ${data.guildName} for ${result.reason}.`
+                    content: `You got warned in ${data.guildName} for ${fdata.reason}.`
                 });
 
-                switch (data.type) {
+                switch (fdata.type) {
                     case 'ban': {
-                        member.ban(data.reason);
+                        member.ban(fdata.reason);
                     }
                     break;
                     case 'kick': {
-                        member.kick(data.reason);
+                        member.kick(fdata.reason);
                     }
                     break;
                     case 'mute': {
