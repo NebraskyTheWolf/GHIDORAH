@@ -6,7 +6,7 @@ module.exports = {
     data: {
         name: "row_modal_neyaz_reservation"
     },
-    async execute(interaction, interactionUser, guild, data) {
+    async execute(interaction, interactionUser, guild) {
         const firstResponse = interaction.fields[0].value;
         const secondResponse = interaction.fields[1].value;
         const thirdResponse = interaction.fields[2].value;
