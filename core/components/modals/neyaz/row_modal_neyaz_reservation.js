@@ -48,51 +48,55 @@ module.exports = {
             .channels.cache.get('1001565591938793612');
 
         apexStats.then(data => {
-            const embed = new MessageEmbed()
-                .setColor("ORANGE")
-                .setTitle("GHIDORAH - Demande de réservation")
-                .setDescription(`Qu'elle et votre TAG Discord?: \`\`\`${firstResponse}\`\`\` Qu'elle et ton pseudo sur Apex?: \`\`\`${secondResponse}\`\`\` Qu'elle rank et tu?: \`\`\`${thirdResponse}\`\`\` Par qu'elle formule êtes vous intérésser?: \`\`\`${fourthResponse}\`\`\``)
-                .addField("Username", `${interaction.user.username}`, true)
-                .addField("Descriminator", `${interaction.user.discriminator}`, true)
-                .addField("ID", `${interaction.user.id}`, true)
-                .addField("Created at", `${moment(interaction.user.createdAt)}`, true)
-                .setThumbnail(`https://cdn.discordapp.com/avatars/${interaction.user.id}/${interaction.user.avatar}.jpeg`);
-            
-            if (data.playerfound) {
-                embed.addField("Current Rank", `${data.globalrank}RP`, true);
-                embed.addField("Main Legend", `${data.legend}`, true);
-                embed.addField("Account Level", `${data.level}`, true);
-                embed.addField("Kills", `${data.kills}`, true);
-                embed.addField("Playtime", `${moment(data.utime)}`, true);
-                embed.addField("Platform", `${data.platform}`, true);
-            } else {
-                embed.addField("Online profile", `Unable to fetch the player profile.`, true);
-            }
+            data.results.forEach(player => {
+                if (player.name === secondResponse) {
+                    const embed = new MessageEmbed()
+                        .setColor("ORANGE")
+                        .setTitle("GHIDORAH - Demande de réservation")
+                        .setDescription(`Qu'elle et votre TAG Discord?: \`\`\`${firstResponse}\`\`\` Qu'elle et ton pseudo sur Apex?: \`\`\`${secondResponse}\`\`\` Qu'elle rank et tu?: \`\`\`${thirdResponse}\`\`\` Par qu'elle formule êtes vous intérésser?: \`\`\`${fourthResponse}\`\`\``)
+                        .addField("Username", `${interaction.user.username}`, true)
+                        .addField("Descriminator", `${interaction.user.discriminator}`, true)
+                        .addField("ID", `${interaction.user.id}`, true)
+                        .addField("Created at", `${moment(interaction.user.createdAt)}`, true)
+                        .setThumbnail(`https://cdn.discordapp.com/avatars/${interaction.user.id}/${interaction.user.avatar}.jpeg`);
+                    
+                    if (data.playerfound) {
+                        embed.addField("Current Rank", `${data.globalrank}RP`, true);
+                        embed.addField("Main Legend", `${data.legend}`, true);
+                        embed.addField("Account Level", `${data.level}`, true);
+                        embed.addField("Kills", `${data.kills}`, true);
+                        embed.addField("Playtime", `${moment(data.utime)}`, true);
+                        embed.addField("Platform", `${data.platform}`, true);
+                    } else {
+                        embed.addField("Online profile", `Unable to fetch the player profile.`, true);
+                    }
 
-            logChannel.send({
-                embeds: [embed],
-                components: [
-                    {
-                        type: 1,
+                    logChannel.send({
+                        embeds: [embed],
                         components: [
                             {
-                                "style": 3,
-                                "label": `Accepter`,
-                                "custom_id": `row_id_reservation_${interaction.user.id}_${guild.id}_accept`,
-                                "disabled": false,
-                                "type": 2
-                            },
-                            {
-                                "style": 4,
-                                "label": `Refuser`,
-                                "custom_id": `row_id_reservation_${interaction.user.id}_${guild.id}_deny`,
-                                "disabled": false,
-                                "type": 2
+                                type: 1,
+                                components: [
+                                    {
+                                        "style": 3,
+                                        "label": `Accepter`,
+                                        "custom_id": `row_id_reservation_${interaction.user.id}_${guild.id}_accept`,
+                                        "disabled": false,
+                                        "type": 2
+                                    },
+                                    {
+                                        "style": 4,
+                                        "label": `Refuser`,
+                                        "custom_id": `row_id_reservation_${interaction.user.id}_${guild.id}_deny`,
+                                        "disabled": false,
+                                        "type": 2
+                                    }
+                                ]
                             }
                         ]
-                    }
-                ]
-            });
+                    });
+                }
+            })
         });
 
         interaction.reply({
