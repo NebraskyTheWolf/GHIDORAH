@@ -11,8 +11,7 @@ module.exports = {
         const secondResponse = interaction.fields[1].value;
         const thirdResponse = interaction.fields[2].value;
         const fourthResponse = interaction.fields[3].value;
-        const fiveResponse = interaction.fields[4].value;
-        const platform = interaction.fields[5].value;
+        const platform = interaction.fields[4].value;
 
         let apexStats = "";
 
@@ -52,7 +51,7 @@ module.exports = {
             const embed = new MessageEmbed()
                 .setColor("ORANGE")
                 .setTitle("GHIDORAH - Demande de réservation")
-                .setDescription(`Qu'elle et votre TAG Discord?: \`\`\`${firstResponse}\`\`\` Qu'elle et ton pseudo sur Apex?: \`\`\`${secondResponse}\`\`\` Qu'elle rank et tu?: \`\`\`${thirdResponse}\`\`\` Par qu'elle formule êtes vous intérésser?: \`\`\`${fourthResponse}\`\`\` Â qu'elle date êtes vous disponibles?: \`\`\`${fiveResponse}\`\`\``)
+                .setDescription(`Qu'elle et votre TAG Discord?: \`\`\`${firstResponse}\`\`\` Qu'elle et ton pseudo sur Apex?: \`\`\`${secondResponse}\`\`\` Qu'elle rank et tu?: \`\`\`${thirdResponse}\`\`\` Par qu'elle formule êtes vous intérésser?: \`\`\`${fourthResponse}\`\`\``)
                 .addField("Username", `${interaction.user.username}`, true)
                 .addField("Descriminator", `${interaction.user.discriminator}`, true)
                 .addField("ID", `${interaction.user.id}`, true)
@@ -94,6 +93,11 @@ module.exports = {
                     }
                 ]
             });
+        });
+
+        interaction.reply({
+            content: 'Demande de réservation envoyer.',
+            flags: 64
         });
     }
 }

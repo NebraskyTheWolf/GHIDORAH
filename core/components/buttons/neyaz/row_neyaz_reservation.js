@@ -42,14 +42,6 @@ module.exports = {
                 .setPlaceholder("Merci d'indiquer la formule ici.")
                 .setRequired(true),
             new TextInputComponent()
-                .setCustomId(`row_id_userVerify_${interaction.user.id}_textActionData_5`)
-                .setStyle("SHORT")
-                .setLabel("Â qu'elle date êtes vous disponibles?")
-                .setMinLength(0)
-                .setMaxLength(4000)
-                .setPlaceholder("Merci de nous donnée au moins deux dates.")
-                .setRequired(true),
-            new TextInputComponent()
                 .setCustomId(`row_id_userVerify_${interaction.user.id}_textActionData_6`)
                 .setStyle("SHORT")
                 .setLabel("Qu'elle et votre platforme de jeu?")
