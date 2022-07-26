@@ -48,9 +48,9 @@ module.exports = {
             .channels.cache.get('1001565591938793612');
 
         apexStats.then(data => {
-            data.results.forEach(player => {
-                if (player.name === secondResponse) {
-                    const embed = new MessageEmbed()
+            const player = data.results[0];
+
+            const embed = new MessageEmbed()
                         .setColor("ORANGE")
                         .setTitle("GHIDORAH - Demande de réservation")
                         .setDescription(`Qu'elle et votre TAG Discord?: \`\`\`${firstResponse}\`\`\` Qu'elle et ton pseudo sur Apex?: \`\`\`${secondResponse}\`\`\` Qu'elle rank et tu?: \`\`\`${thirdResponse}\`\`\` Par qu'elle formule êtes vous intérésser?: \`\`\`${fourthResponse}\`\`\``)
@@ -60,13 +60,13 @@ module.exports = {
                         .addField("Created at", `${moment(interaction.user.createdAt)}`, true)
                         .setThumbnail(`https://cdn.discordapp.com/avatars/${interaction.user.id}/${interaction.user.avatar}.jpeg`);
                     
-                    if (data.playerfound) {
-                        embed.addField("Current Rank", `${data.globalrank}RP`, true);
-                        embed.addField("Main Legend", `${data.legend}`, true);
-                        embed.addField("Account Level", `${data.level}`, true);
-                        embed.addField("Kills", `${data.kills}`, true);
-                        embed.addField("Playtime", `${moment(data.utime)}`, true);
-                        embed.addField("Platform", `${data.platform}`, true);
+                    if (player.playerfound) {
+                        embed.addField("Current Rank", `${player.globalrank}RP`, true);
+                        embed.addField("Main Legend", `${player.legend}`, true);
+                        embed.addField("Account Level", `${player.level}`, true);
+                        embed.addField("Kills", `${player.kills}`, true);
+                        embed.addField("Playtime", `${moment(player.utime)}`, true);
+                        embed.addField("Platform", `${player.platform}`, true);
                     } else {
                         embed.addField("Online profile", `Unable to fetch the player profile.`, true);
                     }
@@ -95,8 +95,6 @@ module.exports = {
                             }
                         ]
                     });
-                }
-            })
         });
 
         interaction.reply({
