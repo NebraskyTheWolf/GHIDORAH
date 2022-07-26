@@ -99,7 +99,8 @@ module.exports = {
 
         interaction.reply({
             content: 'Demande de réservation envoyer.',
-            flags: 64
+            flags: 64,
+            "ephemeral": true
         });
     }
 }
