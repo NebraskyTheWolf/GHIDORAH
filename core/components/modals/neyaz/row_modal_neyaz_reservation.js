@@ -27,8 +27,8 @@ module.exports = {
             platform: platform
         }).then(result => {
             embed.addField("Current Rank", `${result.global.rank.rankScore}RP ( ${result.global.rank.rankName } #${result.global.rank.rankDiv} )`, true);
-            embed.addField("Main Legend", `${result.legends.selected.LegendName}`, true);
             embed.addField("Account Level", `${result.global.level} /-/ ${result.global.toNextLevelPercent}%`, true);
+            embed.addField("Main Legend", `${result.legends.selected.LegendName}`, true);
             embed.addField("Kills", `${result.total.kills}`, true);
             embed.addField("Damages", `${result.total.damage}`, true);
             embed.addField("Playtime", `${moment(player.utime)}`, true);

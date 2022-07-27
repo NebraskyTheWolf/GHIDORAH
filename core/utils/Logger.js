@@ -2,10 +2,10 @@ const consoleColors = require('./ConsoleColor');
 const UI = require('console-ui');
 const ui = new UI({
     inputStream: process.stdin,
-    outputStream: process.stdout,
+    outputStream: null,
     errorStream: process.stderr,
-    writeLevel: 'DEBUG' | 'INFO' | 'WARNING' | 'ERROR',
-    ci: true
+    writeLevel: 'INFO' | 'WARNING' | 'ERROR',
+    ci: false
 });
 ui.writeLevelVisible('DEBUG' || 'INFO' || 'WARNING' || 'ERROR');
 
