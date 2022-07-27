@@ -30,6 +30,10 @@ const { fingerprint } = require('key-fingerprint');
 const prints = fingerprint(process.env.PUBLIC_KEY, { encoding: 'hex', algorithm: 'sha512' });
 const revision = require('child_process').execSync('git rev-parse HEAD').toString().trim();
 
+const MozambiqueAPI = require("mozambique-api-wrapper");
+const mozambiqueClient = new MozambiqueAPI("898b5a4887f0d16dd5bd36affd09ec4b", 5);
+
+
 const client = new Client({
 	partials: ["MESSAGE", "USER", "REACTION"],
 	disableMentions: "everyone",
@@ -105,6 +109,7 @@ client.version = '3.5.5';
 client.revision = revision;
 
 client.moderationHelper = Moderation;
+client.ApexAPI = mozambiqueClient;
 
 mongoose.connect(config.MongoDBInfo.host, config.MongoDBInfo.options).then(() => {
     client.logger.log('INFO', 'Connected to MongoDB');

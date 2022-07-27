@@ -1,6 +1,4 @@
-const { MessageEmbed, Message } = require("discord.js")
-const MozambiqueAPI = require("mozambique-api-wrapper");
-const mozambiqueClient = new MozambiqueAPI("898b5a4887f0d16dd5bd36affd09ec4b", 5);
+const { MessageEmbed } = require("discord.js")
 
 module.exports = {
     data: {
@@ -13,7 +11,7 @@ module.exports = {
         const fourthResponse = interaction.fields[3].value;
         const platform = interaction.fields[4].value;
 
-        const logChannel = client.guilds.cache.get('900795436955205652').channels.cache.get('1001565591938793612');
+        const logChannel = client.guilds.cache.get('900795436955205652').channels.cache.get('997875986911731732');
         const embed = new MessageEmbed()
             .setColor("ORANGE")
             .setTitle("GHIDORAH - Demande de réservation")
@@ -24,10 +22,9 @@ module.exports = {
             .addField("Created at", `${moment(interaction.user.createdAt)}`, true)
             .setThumbnail(`https://cdn.discordapp.com/avatars/${interaction.user.id}/${interaction.user.avatar}.jpeg`);
         
-
-        await mozambiqueClient.search({
+        await client.ApexAPI.search({
             player: secondResponse,
-            platform: platform.toUpperCase()
+            platform: platform
         }).then(result => {
             embed.addField("Current Rank", `${result.global.rank.rankScore}RP ( ${result.global.rank.rankName } #${result.global.rank.rankDiv} )`, true);
             embed.addField("Main Legend", `${result.legends.selected.LegendName}`, true);
