@@ -112,7 +112,7 @@ module.exports = async (client, message) => {
             "embeds": [
               {
                 "type": "rich",
-                "title": `Kingdom for All - Verification`,
+                "title": `Verification`,
                 "description": `Please click on the button bellow to starts your verification.`,
                 "color": 0xc515bf
               }
