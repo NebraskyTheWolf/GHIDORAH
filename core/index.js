@@ -33,6 +33,16 @@ const revision = require('child_process').execSync('git rev-parse HEAD').toStrin
 const MozambiqueAPI = require("mozambique-api-wrapper");
 const mozambiqueClient = new MozambiqueAPI("898b5a4887f0d16dd5bd36affd09ec4b", 5);
 
+const fs = require('fs');
+const util = require('util');
+const logFile = fs.createWriteStream(__dirname + '/ghidorah.log', {flags : 'w'});
+const logStdout = process.stdout;
+
+console.log = function () {
+    logFile.write(util.format.apply(null, arguments) + '\n');
+    logStdout.write(util.format.apply(null, arguments) + '\n');
+}
+console.error = console.log;
 
 const client = new Client({
 	partials: ["MESSAGE", "USER", "REACTION"],

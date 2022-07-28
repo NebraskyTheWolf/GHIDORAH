@@ -5,7 +5,7 @@
 	"description": "Discord-Multi-Purpose Bot",
 	"author": "Leona",
 	"scripts": {
-		"start": "node index.js",
+		"start": "node core/index.js",
 		"format": "prettier --write ."
 	},
 	"engines": {
