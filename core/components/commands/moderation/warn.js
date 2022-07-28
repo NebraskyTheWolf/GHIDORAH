@@ -23,7 +23,7 @@ module.exports = {
         const reason = interaction.data.options[1].value;
         const member = hGuild.members.cache.get(target);
 
-        await client.moderationHelper.sanction(client, interaction, interaction.member.user.id, guild, member, {
+        await client.moderationHelper.sanctions(client, interaction, interaction.member.user.id, guild, member, {
             reason: reason,
             type: 'warn',
             guildName: hGuild.name
