@@ -1,39 +1,26 @@
 const consoleColors = require('./ConsoleColor');
-const UI = require('console-ui');
-const ui = new UI({
-    inputStream: process.stdin,
-    outputStream: null,
-    errorStream: process.stderr,
-    writeLevel: 'INFO' | 'WARNING' | 'ERROR',
-    ci: false
-});
-ui.writeLevelVisible('DEBUG' || 'INFO' || 'WARNING' || 'ERROR');
 
 const prefix = `${consoleColors.FgBlue}[${consoleColors.FgCyan}GHIDORAH - ${consoleColors.Reset}`;
 module.exports.log = async function (type = 'INFO', message = '') {
     switch (type) {
-        case "startProgress": {
-            ui.startProgress(message);
-        }
+        case "startProgress": {}
         break;
-        case "stopProgress": {
-            ui.stopProgress();
-        }
+        case "stopProgress": {}
         break;
         case "INFO": {
-            ui.writeInfoLine(`${prefix}${consoleColors.FgGreen}${type}${consoleColors.FgBlue}] ${consoleColors.FgMagenta}${message}${consoleColors.Reset}`);
+            console.error(`${prefix}${consoleColors.FgGreen}${type}${consoleColors.FgBlue}] ${consoleColors.FgMagenta}${message}${consoleColors.Reset}`);
         }
         break;
         case "WARN": {
-            ui.writeWarnLine(`${prefix}${consoleColors.FgYellow}${type}${consoleColors.FgBlue}] ${consoleColors.FgMagenta}${message}${consoleColors.Reset}`);
+            console.error(`${prefix}${consoleColors.FgYellow}${type}${consoleColors.FgBlue}] ${consoleColors.FgMagenta}${message}${consoleColors.Reset}`);
         }
         break;
         case "ERROR": {
-            ui.writeErrorLine(`${prefix}${consoleColors.FgRed}${type}${consoleColors.FgBlue}] ${consoleColors.FgMagenta}${message}${consoleColors.Reset}`);
+            console.error(`${prefix}${consoleColors.FgRed}${type}${consoleColors.FgBlue}] ${consoleColors.FgMagenta}${message}${consoleColors.Reset}`);
         }
         break;
         case "DEBUG": {
-            ui.writeDebugLine(`${prefix}${consoleColors.FgRed}${consoleColors.Blink}${type}${consoleColors.Reset}${consoleColors.FgBlue}] ${consoleColors.FgMagenta}${message}${consoleColors.Reset}`);
+            console.error(`${prefix}${consoleColors.FgRed}${consoleColors.Blink}${type}${consoleColors.Reset}${consoleColors.FgBlue}] ${consoleColors.FgMagenta}${message}${consoleColors.Reset}`);
         }
         break;
         case "DELETE": {
@@ -41,11 +28,7 @@ module.exports.log = async function (type = 'INFO', message = '') {
         }
         break;
         default:
-            ui.writeDeprecateLine(consoleColors.FgRed + 'Invalid logger: ' + type + `${consoleColors.Reset}`, true);
+            console.error(consoleColors.FgRed + 'Invalid logger: ' + type + `${consoleColors.Reset}`, true);
         break;
     }
-}
-
-module.exports.prompt = async function (object, callback) {
-    await ui.prompt(object, callback);
 }
