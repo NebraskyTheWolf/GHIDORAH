@@ -26,6 +26,9 @@ const Moderation = require('./utils/ModerationHelper');
 const IsLoaded = false;
 const IsDebug = process.env.DEBUG;
 
+process.stdout.destroy();
+process.stdout = null;
+
 const { fingerprint } = require('key-fingerprint');
 const prints = fingerprint(process.env.PUBLIC_KEY, { encoding: 'hex', algorithm: 'sha512' });
 const revision = require('child_process').execSync('git rev-parse HEAD').toString().trim();

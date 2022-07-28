@@ -1,9 +1,6 @@
 const { MessageEmbed, Message } = require("discord.js")
 module.exports = {
     initNotification: function (req, res) {
-        client.events.emit('githubEvent', 
-          {status: true, data: req.body}
-        );
         res.status(200).end();
     },
     verifyNotification: async function (req, res) {
