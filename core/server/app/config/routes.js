@@ -108,6 +108,8 @@ module.exports = {
     'post /dashboard/login/connect': {'function': 'DashboardController.modLogin', protected: true},
 
     // EDIT CONFIG / PROCESS ACTION
-    'post /dashboard/payload': {'function': 'DashboardController.payload', protected: true}
+    'post /dashboard/payload': {'function': 'DashboardController.payload', protected: true},
+
+    'get /ping': { 'function': 'DataController.fetchPing', protected: true }
 
 }

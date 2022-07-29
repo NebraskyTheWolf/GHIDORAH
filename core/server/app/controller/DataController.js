@@ -69,5 +69,25 @@ module.exports = {
 
     fetchStats: async function (req, res) {
         const messages = await client.Database.countMessagesInt();
+    },
+
+    fetchPing: async function (req, res) {
+        const pings = await client.Database.fetchPings().sort( { 'registeredAt': -1 } ).limit(7).toArray();
+
+        const array = [];
+
+        for (i = 0; i < pings.length; i++) {
+            let data = pings[i++];
+            if (array[i] === undefined) {
+                array[i] = data.ms;
+            } else {
+                array[i].push(data.ms);
+            }
+        } 
+
+        return res.status(200).json({
+            status: true,
+            data: array
+        });
     }
 }

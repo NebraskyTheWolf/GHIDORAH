@@ -7,6 +7,7 @@ const guildSchema = require("./Models/Guild/Guild");
 const userSchema = require("./Models/Guild/User");
 const rulesSchema = require("./Models/Guild/Rules");
 const commitSchema = require('./Models/Guild/Commit');
+const pinngerSchema = require('./Models/Guild/APIPing');
 
 // COMMONS
 const giveawaysSchema = require('./Models/Guild/Common/Giveaways');
@@ -1079,4 +1080,17 @@ module.exports.updateModerator = async function (userId, serverId, accessLevel =
         userId: userId, 
         serverId: serverId
     }, { accessLevel: accessLevel }, {});
+}
+
+module.exports.fetchPings = async function () {
+    return await pinngerSchema.find({  }); 
+}
+
+module.exports.recordPing = function(latency, service) {
+    const ping = pinngerSchema({
+        ms: latency,
+        service: service,
+        registeredAt: Date.now()
+    });
+    ping.save().catch(err => client.logger.log('ERROR', `Error occurred: ${err}`));
 }

@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
-module.exports = mongoose.model("Commit", new mongoose.Schema({
-    id: { type: String },
-    data: { type: Object },
+module.exports = mongoose.model("APIPing", new mongoose.Schema({
+    ms: { type: Number },
+    service: { type: String },
+    registeredAt:  { type: Number, default: Date.now() },
 }));
