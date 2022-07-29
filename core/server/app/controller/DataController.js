@@ -72,22 +72,23 @@ module.exports = {
     },
 
     fetchPing: async function (req, res) {
-        const pings = await client.Database.fetchPings();
-
         const array = [];
-
-        for (i = 0; i < pings.length; i++) {
-            let data = pings[i++];
+        await client.Database.fetchPings().then(data => {
             if (array[i] === undefined) {
                 array[i] = data.ms;
             } else {
                 array[i].push(data.ms);
             }
-        } 
-
-        return res.status(200).json({
-            status: true,
-            data: array
+            return res.status(200).json({
+                status: true,
+                data: array
+            });
+        }).catch(err => {
+            return res.status(200).json({
+                status: false,
+                error: err,
+                data: []
+            });
         });
     }
 }
