@@ -1083,7 +1083,7 @@ module.exports.updateModerator = async function (userId, serverId, accessLevel =
 }
 
 module.exports.fetchPings = async function () {
-    return await pinngerSchema.find({  }); 
+    return await pinngerSchema.find().sort( { 'registeredAt': -1 } ).limit(7).toArray();
 }
 
 module.exports.recordPing = function(latency, service) {

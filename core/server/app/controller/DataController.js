@@ -72,7 +72,7 @@ module.exports = {
     },
 
     fetchPing: async function (req, res) {
-        const pings = await client.Database.fetchPings().sort( { 'registeredAt': -1 } ).limit(7).toArray();
+        const pings = await client.Database.fetchPings();
 
         const array = [];
 
