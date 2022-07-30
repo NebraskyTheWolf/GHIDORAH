@@ -1,8 +1,3 @@
-require("discord-banner")(process.env.TOKEN, {
-    cacheTime: 60*60*1000
-});
-const { getUserBanner } = require("discord-banner");
-
 module.exports = {
     getServerByID: function (req, res) {
         if (req.params.guildId === undefined)
@@ -182,11 +177,12 @@ module.exports = {
         if (req.params.guildId === undefined)
             res.status(403).json({status: false, error: 'Invalid guildId.'});
 
-        const entries = await client.Database.countVerify(req.params.guildId);
-        res.status(200).json({
-            status: true,
-            counts: entries
-        });
+        const entries = await client.Database.getAllEntries(req.params.guildId);
+        if (entries) {
+            return res.status(200).json({ status: true, data: entries });
+        } else {
+            return res.status(200).json({ status: false, data: [] });
+        }
     }
     // AJAX CONTROLLER
 };
