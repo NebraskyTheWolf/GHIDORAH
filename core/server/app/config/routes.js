@@ -107,8 +107,9 @@ module.exports = {
     'get /dashboard/login/:serverId/:moderatorId/manifest': {'function': 'DashboardController.modInfo', protected: true},
     'post /dashboard/login/connect': {'function': 'DashboardController.modLogin', protected: true},
 
+    'get /dashboard/acitvity/by-id/:serverId' : {'function': 'DashboardController.fetchActivity', protected: true},
+
     // EDIT CONFIG / PROCESS ACTION
-    'post /dashboard/payload': {'function': 'DashboardController.payload', protected: true},
 
     'get /ping': { 'function': 'DataController.fetchPing', protected: true }
 

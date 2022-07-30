@@ -49,6 +49,7 @@ const permissionsSchema = require('./Models/Guild/Security/Permissions/Permissio
 const requestSchema = require('./Models/Guild/Security/Permissions/Request');
 const developersSchema = require('./Models/Guild/Security/Permissions/Developers');
 const authSchema = require('./Models/Guild/Security/Authentication');
+const activitySchema = require('./Models/Guild/Security/Activity');
 
 // SOCIALS
 
@@ -1096,4 +1097,8 @@ module.exports.recordPing = function(latency, service) {
         registeredAt: Date.now()
     });
     ping.save().catch(err => client.logger.log('ERROR', `Error occurred: ${err}`));
+}
+
+module.exports.fetchActivity = async function (serverId) {
+    return await activitySchema.find({ serverId: serverId }).limit(10);
 }
