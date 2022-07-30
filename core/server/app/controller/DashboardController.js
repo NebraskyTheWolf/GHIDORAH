@@ -14,7 +14,7 @@ module.exports = {
         await client.Database.fetchActivity(req.params.serverId).then(activity => {
             return res.status(200).json({
                 status: true,
-                body: activity
+                data: activity
             });
         }).catch(err => {
             return res.status(500).json({
