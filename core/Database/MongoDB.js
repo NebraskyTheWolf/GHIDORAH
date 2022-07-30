@@ -1100,5 +1100,5 @@ module.exports.recordPing = function(latency, service) {
 }
 
 module.exports.fetchActivity = async function (serverId) {
-    return await activitySchema.find({ serverId: serverId }).limit(10);
+    return await activitySchema.find({ serverId: serverId }, null, { limit: 10 });
 }
