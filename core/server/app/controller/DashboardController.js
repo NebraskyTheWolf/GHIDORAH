@@ -11,9 +11,8 @@ module.exports = {
                 status: false,
                 error: 'ServerID Missing.'
             });
-        
         await client.Database.fetchActivity(req.params.serverId).then(activity => {
-            return res.status(400).json({
+            return res.status(200).json({
                 status: true,
                 body: activity
             });
