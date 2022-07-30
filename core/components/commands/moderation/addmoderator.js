@@ -80,7 +80,7 @@ module.exports = {
                     }
                 });
             } else {
-                await client.Database.createModerator(target, guild.id, permission).then(data => {
+                await client.Database.createModerator(target, guild.id, permission).then(async data => {
                     client.api.interactions(interaction.id, interaction.token).callback.post({
                         "data": {
                             "type": 4,
@@ -97,6 +97,40 @@ module.exports = {
                             }
                         }
                     });
+                    switch (permission) {
+                        case 1:
+                            await client.Database.createActivity(
+                                interactionUser.user.username,
+                                guild.id,
+                                'STAFF_ADDED',
+                                `${target} added as staff.`
+                            );
+                        break;
+                        case 2:
+                            await client.Database.createActivity(
+                                interactionUser.user.username,
+                                guild.id,
+                                'MODERATOR_ADDED',
+                                `${target} added as moderator.`
+                            );
+                        break;
+                        case 3:
+                            await client.Database.createActivity(
+                                interactionUser.user.username,
+                                guild.id,
+                                'ADMINISTRATOR_ADDED',
+                                `${target} added as administrator.`
+                            );
+                        break;
+                        case 4:
+                            await client.Database.createActivity(
+                                interactionUser.user.username,
+                                guild.id,
+                                'COOWNER_ADDED',
+                                `${target} added as CO-OWNER.`
+                            );
+                        break;
+                    }
                 }).catch(err => {
                     client.api.interactions(interaction.id, interaction.token).callback.post({
                         "data": {

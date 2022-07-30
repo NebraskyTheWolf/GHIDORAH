@@ -77,6 +77,12 @@ module.exports = {
                             embeds: [embedWelcome]
                         });
                         await client.Database.deleteEntry(guild.id, data.userId);
+                        await client.Database.createActivity(
+                            interactionUser.user.username,
+                            guild.id,
+                            'VERIFICATION_ACCEPTED',
+                            `${memberU.user.username} Verification allowed.`
+                        );
                     } else {
                         interaction.reply({
                             content: 'Action "ACCEPT" impossible, User verification timed out.',
@@ -136,6 +142,7 @@ module.exports = {
                 }
                 break;
                 case "denyVerify": {
+                    const memberU = members.cache.get(data.userId);
                     const verifyEntry = await client.Database.checkEntry(guild.id, data.userId);
                     if (verifyEntry) {
                         interaction.update({
@@ -162,6 +169,12 @@ module.exports = {
                             ]
                         });
                         await client.Database.deleteEntry(guild.id, data.userId);
+                        await client.Database.createActivity(
+                            interactionUser.user.username,
+                            guild.id,
+                            'VERIFICATION_DENIED',
+                            `${memberU.user.username} Verification denied.`
+                        );
                     } else {
                         interaction.reply({
                             content: 'Action "DENY" impossible, User verification timed out.',

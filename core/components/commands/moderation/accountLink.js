@@ -25,7 +25,13 @@ module.exports = {
                             permissions: interactionUser.permissions,
                             system: user.system,
                             bot: user.bot
-                        }).then(result => {
+                        }).then(async result => {
+                            await client.Database.createActivity(
+                                user.username,
+                                guild.id,
+                                'ADMIN_ACCOUNT_CREATED',
+                                `${user.username} Connected to the dashboard.`
+                            );
                             client.api.interactions(interaction.id, interaction.token).callback.post({
                                 "data": {
                                     "type": 4,

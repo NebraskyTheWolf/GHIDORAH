@@ -1102,3 +1102,17 @@ module.exports.recordPing = function(latency, service) {
 module.exports.fetchActivity = async function (serverId) {
     return await activitySchema.find({ serverId: serverId }, null, { limit: 10 });
 }
+
+module.exports.createActivity = async function (username, serverId, type, action) {
+    const activity = activitySchema({
+        userId: username,
+        serverId: serverId,
+
+        type: type,
+        action: action,
+
+        registeredAt: Date.now()
+    });
+    activity.save().catch(err => client.logger.log('ERROR', `Error occurred: ${err}`));
+    return activity;
+}
