@@ -1170,7 +1170,7 @@ module.exports.fetchCategoryById = async function (categoryId) {
 }
 
 module.exports.createCategory = async function (serverId, category = {}) {
-    const category = categorySchema({
+    const categorys = categorySchema({
         serverId: serverId,
         category: {
             label: category.label,
@@ -1180,8 +1180,8 @@ module.exports.createCategory = async function (serverId, category = {}) {
         },
         registeredAt: Date.now()
     });
-    category.save().catch(err => client.logger.log('ERROR', `Error occurred: ${err}`));
-    return category;
+    categorys.save().catch(err => client.logger.log('ERROR', `Error occurred: ${err}`));
+    return categorys;
 }
 
 module.exports.fetchSelected = async function (serverId, userId) {
