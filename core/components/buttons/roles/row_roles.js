@@ -9,7 +9,7 @@ module.exports = {
 
             const menus = new MessageActionRow();
             await client.Database.fetchRoles(guild.id).then(async roles => {
-                await client.Database.fetchCategoryById(guild.id).then(async category => {
+                await client.Database.fetchCategories(guild.id).then(async category => {
                     menus.addComponents(
                         new MessageSelectMenu()
                             .setCustomId(`row_select_id_${category._id}`)

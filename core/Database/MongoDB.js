@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-
+var mongoose = require('mongoose');
 // GUILDS
 const messagesSchema = require('./Models/Guild/Messages');
 const memberSchema = require("./Models/Guild/Member");
@@ -1139,7 +1139,7 @@ module.exports.fetchRoles = async function (serverId) {
 }
 
 module.exports.fetchRoleById = async function (roleId) {
-    return await rolesSchema.findOne({ _id: ObjectId(roleId) });
+    return await rolesSchema.findOne({ _id: mongoose.Types.ObjectId(roleId) });
 }
 
 module.exports.createRole = async function (serverId, categoryId, role = {}) {
@@ -1166,7 +1166,7 @@ module.exports.fetchCategories = async function (serverId) {
 }
 
 module.exports.fetchCategoryById = async function (categoryId) {
-    return await categorySchema.findOne({ _id: ObjectId(categoryId) });
+    return await categorySchema.findOne({ _id: mongoose.Types.ObjectId(categoryId) });
 }
 
 module.exports.createCategory = async function (serverId, category = {}) {
