@@ -1143,7 +1143,7 @@ module.exports.fetchRoleById = async function (roleId) {
 }
 
 module.exports.createRole = async function (serverId, categoryId, role = {}) {
-    const role = rolesSchema({
+    const roles = rolesSchema({
         serverId: serverId,
         role: {
             categoryId: categoryId,
@@ -1153,8 +1153,8 @@ module.exports.createRole = async function (serverId, categoryId, role = {}) {
 
         registeredAt: Date.now()
     });
-    role.save().catch(err => client.logger.log('ERROR', `Error occurred: ${err}`));
-    return role;
+    roles.save().catch(err => client.logger.log('ERROR', `Error occurred: ${err}`));
+    return roles;
 }
 
 module.exports.fetchCategories = async function (serverId) {
