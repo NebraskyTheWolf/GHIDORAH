@@ -1,4 +1,4 @@
-const { MessageEmbed, MessageActionRow, MessageSelectMenu } = require('discord.js');
+const { MessageActionRow, MessageSelectMenu } = require('discord.js');
 
 module.exports = {
     data: {
@@ -6,28 +6,28 @@ module.exports = {
     },
     async execute(interaction, interactionUser, guild) {
         if (guild.selfroles.active) {
-            const cate = guild.selfroles.config.categories;
 
-            const list = [];
-            cate.forEach(category => {
-                list.push(
-                    new MessageActionRow()
-                        .addComponents([category])
-                );
+            const menus = new MessageActionRow();
+            await client.Database.fetchRoles(guild.id).then(async roles => {
+                await client.Database.fetchCategoryById(guild.id).then(async category => {
+                    menus.addComponents(
+                        new MessageSelectMenu()
+                            .setCustomId(`row_select_id_${category._id}`)
+                            .setPlaceholder(`Select your roles in ${category.category.label}`)
+                            .setMinValues(category.category.min_value)
+                            .setMaxValues(category.category.max_value)
+                    );
+                });
             });
-            const comps = [];
-            list.forEach(cmp => comps.push({
-                type: 1,
-                components: [ cmp ]
-            }));
 
-            console.log(list)
-            console.log(comps)
-
-            interaction.reply({
-                components: [ comps ],
-                flags: 64
-            });
+            await interaction.reply({ embeds: [
+                {
+                    type: "rich",
+                    title: `GHIDORAH - Select your roles`,
+                    description: `Please select your roles in each categories :3`,
+                    color: 0xcd0cad
+                }
+            ], components: [menus] });
         } else {
             interaction.reply({
                 content: 'We\'re sorry but the self roles are disabled.',

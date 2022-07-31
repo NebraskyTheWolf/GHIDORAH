@@ -37,7 +37,7 @@ module.exports = {
 
     // HOOK NOTIFICATION
 
-    'post /notification/hook': {'function': 'WebhookController.initNotification', protected: false},
+    'post /notification/hook': {'function': 'WebhookController.initNotification', protected: true},
     'post /notification/verify': {'function': 'WebhookController.verifyNotification', protected: true},
     'post /notification/register': {'function': 'FurconController.registerEvent', protected: true},
 

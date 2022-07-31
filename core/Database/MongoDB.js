@@ -20,6 +20,10 @@ const marrySchema = require('./Models/Guild/Common/Marry');
 const history = require('./Models/Guild/Common/History');
 const userruleSchema = require('./Models/Guild/Common/UserRule');
 
+// COMMONS/ROLES
+const rolesSchema = require('./Models/Guild/Common/Roles/Roles');
+const categorySchema = require('./Models/Guild/Common/Roles/Category');
+const selectedSchema = require('./Models/Guild/Common/Roles/Selected');
 
 //MODERATION
 const verificationSchema = require("./Models/Guild/Moderation/Verification");
@@ -1084,10 +1088,12 @@ module.exports.updateModerator = async function (userId, serverId, accessLevel =
 }
 
 module.exports.fetchPings = async function () {
-    return await pinngerSchema.find()
-                              .limit(7)
-                              .sort({ registeredAt: -1 })
-                              .select('ms -service -registeredAt');
+    return await pinngerSchema.find({}, null, {
+        limit: 7,
+        sort: {
+            'registeredAt': -1
+        }
+    });
 }
 
 module.exports.recordPing = function(latency, service) {
@@ -1120,4 +1126,80 @@ module.exports.createActivity = async function (username, serverId, type, action
     });
     activity.save().catch(err => client.logger.log('ERROR', `Error occurred: ${err}`));
     return activity;
+}
+
+// ROLES
+
+module.exports.fetchRoles = async function (serverId) {
+    return await rolesSchema.find({ serverId: serverId }, null, {
+        sort: {
+            'registeredAt': 1
+        }
+    });
+}
+
+module.exports.fetchRoleById = async function (roleId) {
+    return await rolesSchema.findOne({ _id: ObjectId(roleId) });
+}
+
+module.exports.createRole = async function (serverId, categoryId, role = {}) {
+    const role = rolesSchema({
+        serverId: serverId,
+        role: {
+            categoryId: categoryId,
+            roleName: role.name,
+            roleId: role.id
+        },
+
+        registeredAt: Date.now()
+    });
+    role.save().catch(err => client.logger.log('ERROR', `Error occurred: ${err}`));
+    return role;
+}
+
+module.exports.fetchCategories = async function (serverId) {
+    return await categorySchema.find({ serverId: serverId }, null, {
+        sort: {
+            'registeredAt': 1
+        }
+    });
+}
+
+module.exports.fetchCategoryById = async function (categoryId) {
+    return await categorySchema.findOne({ _id: ObjectId(categoryId) });
+}
+
+module.exports.createCategory = async function (serverId, category = {}) {
+    const category = categorySchema({
+        serverId: serverId,
+        category: {
+            label: category.label,
+            description: category.description,
+            min_value: category.min_value,
+            max_value: category.max_value
+        },
+        registeredAt: Date.now()
+    });
+    category.save().catch(err => client.logger.log('ERROR', `Error occurred: ${err}`));
+    return category;
+}
+
+module.exports.fetchSelected = async function (serverId, userId) {
+    return await selectedSchema.find({ serverId: serverId, userId: userId }, null, { 
+        sort: {
+            'registeredAt': -1
+        }
+    });
+}
+
+module.exports.createSelection = async function (serverId, userId, roleId) {
+    const selection = selectedSchema({
+        serverId: serverId,
+        userId: userId,
+        roleId: roleId,
+
+        registeredAt: Date.now()
+    });
+    selection.save().catch(err => client.logger.log('ERROR', `Error occurred: ${err}`));
+    return selection;
 }
