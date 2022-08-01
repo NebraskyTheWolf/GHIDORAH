@@ -8,17 +8,16 @@ module.exports = {
         if (guild.selfroles.active) {
 
             const menus = new MessageActionRow();
-            await client.Database.fetchRoles(guild.id).then(async roles => {
-                await client.Database.fetchCategories(guild.id).then(async category => {
-                    menus.addComponents(
-                        new MessageSelectMenu()
-                            .setCustomId(`row_select_id_${category._id}`)
-                            .setPlaceholder(`Select your roles in ${category.category.label}`)
-                            .setMinValues(category.category.min_value)
-                            .setMaxValues(category.category.max_value)
-                    );
-                });
+            await client.Database.fetchCategories(guild.id).then(async category => {
+                menus.addComponents(
+                    new MessageSelectMenu()
+                        .setCustomId(`row_select_id_${category._id}`)
+                        .setPlaceholder(`Select your roles in ${category.category.label}`)
+                        .setMinValues(category.category.min_value)
+                        .setMaxValues(category.category.max_value)
+                );
             });
+            //await client.Database.fetchRoles(guild.id).then(async roles => { });
 
             await interaction.reply({ embeds: [
                 {
