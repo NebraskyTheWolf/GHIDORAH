@@ -9,6 +9,7 @@ module.exports = {
 
             const menus = new MessageActionRow();
             await client.Database.fetchCategories(guild.id).then(async category => {
+                console.log(category);
                 menus.addComponents(
                     new MessageSelectMenu()
                         .setCustomId(`row_select_id_${category._id}`)
@@ -17,6 +18,7 @@ module.exports = {
                         .setMaxValues(category.category.max_value)
                 );
             });
+
             //await client.Database.fetchRoles(guild.id).then(async roles => { });
 
             await interaction.reply({ embeds: [
