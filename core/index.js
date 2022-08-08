@@ -5,6 +5,8 @@ const mongoose = require('mongoose');
 const events = require('events');
 const config = require("../config/config.json");
 
+const server = require('./web/kernel');
+
 const redis = require('redis');
 const redisClient = redis.createClient(config.RedisClient);
 const ModuleManager = require('./components/modules/ModulesManager');
@@ -135,9 +137,7 @@ mongoose.connect(config.MongoDBInfo.host, config.MongoDBInfo.options).then(() =>
     "security"
 ].forEach(x => require(`./handlers/${x}.js`)(client));
 
-[
-     "http"
-].forEach(x => require(`./server/${x}.js`)(client));
+await server.bootloader(process.env.SERVERTYPE, client);
 
 client.ws.on("INTERACTION_CREATE", async interaction => {
     if (!interaction.data.name) {

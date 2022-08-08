@@ -50,7 +50,7 @@ module.exports = {
             res.status(403).json({status: false, error: 'Invalid guildId or undefined.'});
         client.levels.fetchLeaderboard(req.params.guildId, 100).then((data) => {
             client.levels.computeLeaderboard(client, data).then((computed) => {
-                res.status(200).json({status: true, datatable: computed});
+                res.status(200).json({status: true, data: computed});
             });
         }).catch((err) => {
             res.status(404).json({status: false, error: 'Unable to get server data.'});

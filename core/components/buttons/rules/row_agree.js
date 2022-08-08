@@ -18,9 +18,9 @@ module.exports = {
             await interaction.reply({ embeds: [alreadyChecked], ephemeral: true });
         } else {
             const embed = new MessageEmbed()
-            .setColor("ORANGE")
-            .setTitle("GHIDORAH - Rules agreed.")
-            .setDescription("Rules accepted, you can now start your verification.");
+                .setColor("ORANGE")
+                .setTitle("GHIDORAH - Rules agreed.")
+                .setDescription("Rules accepted, you can now start your verification.");
             await client.Database.acceptRules(interactionUser.id, guild.id);
             await interactionUser.roles.add(role);
             await interaction.reply({embeds: [embed], ephemeral: true});
