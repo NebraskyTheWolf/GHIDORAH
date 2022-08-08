@@ -88,8 +88,6 @@ module.exports.bootloader = async function (environement, client) {
 		console.error(err)
 		res.status(500).json({status: false, error: 'An error has occured.'})
 	});
-
-	httpsServer.listen(443).then(() => {
-        client.logger.log('INFO', `Server started.`);
-    });
 }
+
+httpsServer.listen(443);
