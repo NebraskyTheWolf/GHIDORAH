@@ -1,5 +1,8 @@
 const Discord = require('discord.js');
 var mongoose = require('mongoose');
+const async = require('async');
+const _ = require('underscore');
+
 // GUILDS
 const messagesSchema = require('./Models/Guild/Messages');
 const memberSchema = require("./Models/Guild/Member");
@@ -454,6 +457,10 @@ module.exports.countMessagesInt = async function () {
 
 module.exports.fetchMessage = async function (messageId) {
     return await messagesSchema.findOne({ messageId: messageId });
+}
+
+module.exports.generateGraphMessages = async function (guildId, callback) {
+
 }
 
 module.exports.fetchMessageByUser = async function (userId) {
@@ -1088,12 +1095,14 @@ module.exports.updateModerator = async function (userId, serverId, accessLevel =
 }
 
 module.exports.fetchPings = async function () {
-    return await pinngerSchema.find({}, null, {
-        limit: 7,
-        sort: {
-            'registeredAt': -1
+    return await pinngerSchema.aggregate([
+        {
+            $bucketAuto: {
+                groupBy: `registeredAt`,
+                buckets: 7
+            }
         }
-    });
+    ]);
 }
 
 module.exports.recordPing = function(latency, service) {
