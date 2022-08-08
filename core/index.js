@@ -137,7 +137,7 @@ mongoose.connect(config.MongoDBInfo.host, config.MongoDBInfo.options).then(() =>
     "security"
 ].forEach(x => require(`./handlers/${x}.js`)(client));
 
-await server.bootloader(process.env.SERVERTYPE, client);
+server.bootloader(process.env.SERVERTYPE, client);
 
 client.ws.on("INTERACTION_CREATE", async interaction => {
     if (!interaction.data.name) {

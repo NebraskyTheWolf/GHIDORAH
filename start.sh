@@ -36,6 +36,8 @@ export XP_BOOST=5
 
 export TWITCH_OAUTH_SECRET="fvai5h11982dgv8f3r1yjquoqa7luh"
 
+export SERVERTYPE="API_ONLY"
+
 git stash
 git pull
 
