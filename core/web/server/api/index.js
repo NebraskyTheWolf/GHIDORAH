@@ -1,5 +1,5 @@
 // MIDDLEWAR
-const rateLimiter = require('./app/middleware/RateLimit');
+const rateLimiter = require('../middlewares/RateLimit');
 
 module.exports.starts = async function (server, client) {
 	var routes = require('./app/config/routes')
