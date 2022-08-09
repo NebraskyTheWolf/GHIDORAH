@@ -21,6 +21,6 @@ module.exports.starts = async function (server, client) {
 		}
 	  }
 	  // init route
-	  server[method](url, require('./app/controller/' + controller)[action])
+	  server[method](url, require('./app/controllers/' + controller)[action])
 	}
 }
