@@ -15,7 +15,7 @@ module.exports.starts = async function (server, client) {
 		var controller = routes[route].function.split('.')[0]
 		var action = routes[route].function.split('.')[1]
 	
-		if (routes[route].protected) {
+		if (routes[route].protected) { 
 		  server[method](url, rateLimiter, require('./app/controllers/' + controller)[action])
 		  continue
 		}
