@@ -6,7 +6,6 @@ const userSchema = require("./Models/Guild/User");
 const rulesSchema = require("./Models/Guild/Rules");
 
 // COMMONS
-const modulesSchema = require('./Models/Guild/Common/Modules');
 const entrySchema = require('./Models/Guild/Common/VerificationEntry');
 const history = require('./Models/Guild/Common/History');
 const userruleSchema = require('./Models/Guild/Common/UserRule');
@@ -241,33 +240,6 @@ module.exports.updateVerifyData = async function(userID, guildId, data) {
     return await verificationSchema.updateOne({ id: userID, guildId: guildId }, { data: data }, {});
 }
 
-// MODULES MANAGER
-
-module.exports.createServer = async function(guildId) {
-    let module = await modulesSchema.findOne({ guild: guildId });
-
-    if (module) {
-        return module;
-    } else {
-        module = modulesSchema({
-            id: v4(),
-            guild: guildId,
-            
-            modules: [
-                {
-                    id: v4(),
-                    name: 'Core',
-                    description: 'Main loader system',
-                    category: 'System',
-                    status: 'enabled',
-                    option: {}
-                }
-            ]
-        });
-        await module.save().catch((err) => client.logger.log('ERROR', `Error occurred: ${err}`));
-        return module;
-    }
-}
 
 // MESSAGES
 
