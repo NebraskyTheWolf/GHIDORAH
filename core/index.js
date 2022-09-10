@@ -61,7 +61,6 @@ client.Modlog = require('./utils/ModLog');
 
 client.IsLoaded = IsLoaded;
 client.IsDebug = IsDebug;
-client.Convertor = convertor;
 client.version = '5.2.9';
 client.revision = revision;
 client.moderationHelper = Moderation;
