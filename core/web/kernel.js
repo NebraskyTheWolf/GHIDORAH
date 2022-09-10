@@ -73,6 +73,7 @@ module.exports.bootloader = async function (environement, client) {
         case "API_ONLY": {
             await AuthServer.starts(server, client);
             await DataServer.starts(server, client);
+			await ServiceServer.starts(server, client);
         }
         break;
         case "SERVERLESS": {
