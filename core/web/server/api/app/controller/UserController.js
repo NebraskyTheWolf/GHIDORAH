@@ -1,6 +1,3 @@
-const bitfield = require('discord-bitfield-calculator');
-const request = require('request');
-
 module.exports = {
     getUserById: function (req, res) {
         if (req.params.id === undefined)
@@ -74,7 +71,6 @@ module.exports = {
             res.status(404).json({status: false, error: 'User not found.'});
         });
     },
-    addSanction: function (req, res) {},
     fetchUser: function (req, res) {
         if (req.params.id === undefined)
             return res.status(400).json({status: false, error: 'Missing user id.'});
@@ -83,11 +79,6 @@ module.exports = {
         }).catch(() => {
             res.status(404).json({status: false, error: 'User not found.'});
         });
-    },
-    fetchStaff: function (req, res) {},
-    getSanctionById: function (req, res) {
-        if (req.params.id === undefined)
-            return res.status(400).json({status: false, error: 'Missing sanction id.'});
     },
     isBlacklisted: async function (req, res) {
         if (req.params.id === undefined)
@@ -102,14 +93,6 @@ module.exports = {
     fetchAllBlacklists: async function (req, res) {
         const blacklist = await client.Database.getAllBlacklist();
         return res.status(200).json({status: true, data: blacklist});
-    },
-    getUserLevel: function (req, res) {
-        if (req.params.id === undefined)
-            return res.status(400).json({status: false, error: 'Missing user id.'});
-    },
-    getUserPresence: function (req, res) {
-        if (req.params.id === undefined)
-            return res.status(400).json({status: false, error: 'Missing user id.'});
     },
     getTotalMessages: function (req, res) {
         client.Database.countMessages().then(data => {
@@ -182,73 +165,5 @@ module.exports = {
             });
         });
     },
-    getMarriageByUser: async function (req, res) {
-        if (req.body.userId === undefined)
-            return res.status(400).json({status: false, error: 'Missing user id.'});
-        
-        await client.Database.isMarried(req.body.userId, async result => {
-            if (result.status) {
-                res.status(200).json({
-                    status: true,
-                    data: result
-                });
-            } else {
-                res.status(404).json({
-                    status: false,
-                    data: {}
-                });
-            }
-        })
-    },
-    getMarriageById: async function (req, res) {
-        if (req.body.marryId === undefined)
-            return res.status(400).json({status: false, error: 'Missing user id.'});
-        
-        await client.Database.getMarriageByID(req.body.userId, async result => {
-            if (result.status) {
-                res.status(200).json(result);
-            } else {
-                res.status(404).json({
-                    status: false,
-                    data: {}
-                });
-            }
-        });
-    },
-
-    postMarry: async function (req, res) {},
-    updateMarry: async function (req, res) {},
-    deleteMarry: async function (req, res) {},
-
-    getCaseById: async function (req, res) {
-        if (req.params.id === undefined)
-            return res.status(404).json({status: false, error: 'Missing case id.'});
-
-        const cases = await client.Database.getCaseByID(req.params.id);
-
-        if (cases) {
-            return res.status(200).json({ status: true, data: cases });
-        } else {
-            return res.status(200).json({ status: false, data: {  } });
-        }
-    },
-    getCertificate: async function (req, res) {
-        if (req.params.id === undefined || req.params.certId === undefined)
-            return res.status(404).json({status: false, error: 'Missing case id or certificate id.'});
-
-        request({url: `https://maven.skf-studios.com/download/cases/${req.params.id}/certifications/${req.params.certId}.pdf`, encoding: null}, (err, resp, buffer) => {
-            
-            if (err) {
-                res.status(403).json({
-                    status: false,
-                    error: 'Not found.'
-                }).end();
-            } else {
-                res.setHeader('Content-Type', 'application/pdf');
-                res.setHeader('Content-Disposition', `attachment; filename=${req.params.certId}.pdf`);
-                res.status(200).send(buffer);
-            }
-        });
-    }
 }
 

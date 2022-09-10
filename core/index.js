@@ -11,8 +11,6 @@ const redisClient = redis.createClient(config.RedisClient);
 
 const ConsoleColors = require('./utils/ConsoleColor');
 const Logger = require('./utils/Logger');
-const StringUtils = require('./utils/StringUtils');
-const PayloadHandler = require('./utils/PayloadHandler');
 const Moderation = require('./utils/ModerationHelper');
 
 const IsLoaded = false;
@@ -49,34 +47,23 @@ client.Database = require('./Database/MongoDB');
 
 client.consoleColors = ConsoleColors;
 client.logger = Logger;
+client.events = new events.EventEmitter();
+
 client.commands = new Collection();
 client.slcommands = new Collection();
-
-client.twitchCommands = new Collection();
 client.buttons = new Collection();
 client.modals = new Collection();
 client.redis = redisClient;
-
 client.tasks = new Collection();
+client.cancellableTasks = new Collection();
 
 client.Modlog = require('./utils/ModLog');
-const Levels = require("discord-xp");
-Levels.setURL(config.MongoDBInfo.host);
-client.levels = Levels;
 
-client.events = new events.EventEmitter();
-client.StringUtils = StringUtils;
-
-client.mainGuild = client.guilds.cache.get(process.env.DEFAULT_GUILD);
 client.IsLoaded = IsLoaded;
 client.IsDebug = IsDebug;
-client.cancellableTasks = new Collection();
-client.PayloadHandler = PayloadHandler;
-
 client.Convertor = convertor;
 client.version = '5.2.9';
 client.revision = revision;
-
 client.moderationHelper = Moderation;
 
 mongoose.connect(config.MongoDBInfo.host, config.MongoDBInfo.options).then(() => {
