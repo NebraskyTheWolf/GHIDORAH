@@ -24,14 +24,14 @@ module.exports.sanctions = async function (client, interaction, moderator, guild
                     "data": {
                         "type": 4,
                         "data": {
-                            "content": `You warned ${member.user.username} for ${data.reason}.`,
+                            "content": `You ${ fdata.type === 'mute' ? 'muted' : fdata.type === 'ban' ? 'banned' : `${fdata.type}ed`} ${member.user.username} for ${data.reason}.`,
                             "flags": 64
                         }
                     }
                 });
 
                 member.send({
-                    content: `You got warned in ${data.guildName} for ${data.reason}.`
+                    content: `You got ${ fdata.type === 'mute' ? 'muted' : fdata.type === 'ban' ? 'banned' : `${fdata.type}ed`} in ${data.guildName} for ${data.reason}.`
                 });
 
                 switch (fdata.type) {

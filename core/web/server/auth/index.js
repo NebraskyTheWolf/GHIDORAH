@@ -1,4 +1,4 @@
-const rateLimiter = require('../middlewares/RateLimit');
+const authentication = require('../middlewares/Authentication');
 
 module.exports.starts = async function (server, client) {
     var routes = require('./app/config/routes')
@@ -18,7 +18,7 @@ module.exports.starts = async function (server, client) {
 		var action = routes[route].function.split('.')[1]
 	
 		if (routes[route].protected) { 
-		  server[method](url, rateLimiter, require('./app/controllers/' + controller)[action])
+		  server[method](url, authentication, require('./app/controllers/' + controller)[action])
 		  continue
 		}
 	  }

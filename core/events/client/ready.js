@@ -2,8 +2,7 @@ const fs = require("fs");
 module.exports = async client => {
 	const activities = [
 		`Lurking cuties fluffies`,
-		`${client.guilds.cache.reduce((a, b) => a + b.memberCount, 0)} Users`,
-		"By Leona",
+		"By Vakea#0666",
 	];
 
 	client.user.setStatus('dnd');
@@ -49,18 +48,6 @@ module.exports = async client => {
             for (const commands of folder) {
                 const command = require(`../../components/modals/${files}/${commands}`);
 				client.modals.set(command.data.name, command);
-            }
-    }
-
-	const packetsFolder = fs.readdirSync("core/components/packets");
-    for (const files of packetsFolder) {
-        const folder = fs
-			.readdirSync(`core/components/packets/${files}/`)
-			.filter(file => file.endsWith(".js"));
-            for (const commands of folder) {
-                const command = require(`../../components/packets/${files}/${commands}`);
-				client.packets.set(command.packet.name, command);
-				client.redis.subscribe(`${client.config.baseProtocol}/${command.packet.name}`);
             }
     }
 

@@ -1,6 +1,4 @@
 const Discord = require("discord.js");
-const { v4 } = require('uuid');
-const moment = require('moment');
 
 module.exports = {
     name: "blacklist",

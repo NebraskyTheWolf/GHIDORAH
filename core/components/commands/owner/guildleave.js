@@ -1,5 +1,4 @@
 const Discord = require("discord.js");
-const { v4 } = require('uuid');
 
 module.exports = {
     name: "guildleave",
@@ -17,11 +16,6 @@ module.exports = {
             if (result.isDev) {
                 const guildId = interaction.data.options[0].value;
                 await client.guilds.cache.get(guildId).leave();
-        
-                await interaction.reply({
-                    content: "Server left.",
-                    flags: 64
-                })
             } else {
                 let embed = new Discord.MessageEmbed()
                     .setTitle("Permission denied.")

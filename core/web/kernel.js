@@ -16,6 +16,7 @@ const httpsServer = https.createServer(credentials, server);
 // SERVERS IMPORT
 const AuthServer = require('./server/auth/index');
 const DataServer = require('./server/api/index');
+const ServiceServer = require('./server/services/index');
 
 // PUBLIC WEBAPP
 
@@ -23,14 +24,19 @@ const Dashboard = require('./client/dashboard/index');
 const Feedbacks = require('./client/feedback/index');
 const Support = require('./client/support/index');
 
+const engine = require('express-engine-jsx');
+
 module.exports.bootloader = async function (environement, client) {
-    server.use(express.static('public'))
+    server.use(express.static('public'));
+	server.set('view engine', 'jsx');
+	server.engine('jsx', engine);
+
 	server.get("/", async (req, res) => {
 		res.status(200).json({
 			data: {
 				apiVersion: client.version,
 				apiRevision: client.revision,
-				apiAuthor: 'Vakea <contact@ghidorah.uk>',
+				apiAuthor: 'NebraskyTheWolf <farfy.dev@gmail.com>',
 				apiName: 'GHIDORAH',
 				apiSig: client.prints,
 				maintenance: client.IsDebug
@@ -50,13 +56,14 @@ module.exports.bootloader = async function (environement, client) {
 
 		next();
 	});
-
+ 
     client.logger.log('INFO', `Starting WEBAPP to ${environement} mode..`);
 
     switch (environement) {
         case "FULL": {
             await AuthServer.starts(server, client);
             await DataServer.starts(server, client);
+			await ServiceServer.starts(server, client);
 
             await Dashboard.starts(server, client);
             await Feedbacks.starts(server, client);

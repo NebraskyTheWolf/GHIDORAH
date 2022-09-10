@@ -15,5 +15,5 @@ module.exports = {
 
     'post /auth/login': {'function': 'AuthController.authenticate', protected: false},
     'post /auth/register': {'function': 'AuthController.register', protected: false},
-    'get /auth/authorizaton/:oauthKey': {'function': 'AuthController.submit', protected: false},
+    'get /auth/authorizaton/:response_type:/:client_id/:scope/': {'function': 'AuthController.submit', protected: false},
 }

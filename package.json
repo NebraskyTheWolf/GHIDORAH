@@ -3,7 +3,7 @@
 	"version": "1.0.1",
 	"main": "index.js",
 	"description": "Discord-Multi-Purpose Bot",
-	"author": "Leona",
+	"author": "NebraskyTheWolf",
 	"scripts": {
 		"start": "node core/index.js",
 		"format": "prettier --write ."
@@ -11,7 +11,7 @@
 	"engines": {
 		"node": ">=14.x || >=16.x"
 	},
-	"license": "MIT",
+	"license": "GPLv3",
 	"dependencies": {
 		"@discordjs/voice": "^0.10.0",
 		"@hope-ui/solid": "^0.6.7",
@@ -41,6 +41,7 @@
 		"dotenv": "^16.0.0",
 		"enmap": "^5.9.0",
 		"express": "^4.17.3",
+		"express-engine-jsx": "^3.4.3",
 		"express-rate-limit": "^6.4.0",
 		"express-session": "^1.17.3",
 		"ffmpeg-static": "^5.0.0",

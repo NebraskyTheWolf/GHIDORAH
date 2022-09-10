@@ -19,6 +19,10 @@ module.exports.log = async function (type = 'INFO', message = '') {
             console.error(`${prefix}${consoleColors.FgRed}${type}${consoleColors.FgBlue}] ${consoleColors.FgMagenta}${message}${consoleColors.Reset}`);
         }
         break;
+        case "CRITICAL": {
+            console.error(`${prefix}${consoleColors.FgRed}${type}${consoleColors.FgBlue}] ${consoleColors.FgMagenta}${message}${consoleColors.Reset}`);
+        }
+        break;
         case "DEBUG": {
             console.error(`${prefix}${consoleColors.FgRed}${consoleColors.Blink}${type}${consoleColors.Reset}${consoleColors.FgBlue}] ${consoleColors.FgMagenta}${message}${consoleColors.Reset}`);
         }

@@ -1,16 +1,5 @@
 {
-	"prefix": "/",
-	"ownerID": "382918201241108481",
-	"everyoneMention": false,
-	"hostedBy": true,
-	"emoji": {
-		"play": "▶️",
-		"stop": "⏹️",
-		"queue": "📄",
-		"success": "☑️",
-		"repeat": "🔁",
-		"error": "❌"
-	},
+	"ownerID": "",
 	"MongoDBInfo": {
 		"host": "mongodb://localhost:27017/GHIDORAH",
 		"options": {
@@ -18,25 +7,11 @@
         	"useUnifiedTopology": true
 		}
 	},
-	"MinecraftMongoDB": {
-		"host": "mongodb://localhost:27017/SAMAGAMES",
-		"options": {
-			"useNewUrlParser": true,
-        	"useUnifiedTopology": true
-		}
-	},
 	"RedisClient": {
-		"url": "redis://localhost:6379"
+		"url": ""
 	},
-	"protocols": [
-		"security@ghidorah.net/*",
-		"security@ghidorah.net/logging",
-		"security@ghidorah.net/dashboard",
-		"security@ghidorah.net/user",
-		"security@ghidorah.net/search",
-		"security@ghidorah.net/database",
-		"info@ghidorah.net/manifest",
-		"room@ghidorah.net"
-	],
-	"baseProtocol": "security@ghidorah.net"
+	"protocols": [],
+	"baseProtocol": "security@ghidorah.uk",
+
+	"eula": false
 }
