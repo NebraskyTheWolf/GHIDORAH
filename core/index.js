@@ -4,7 +4,7 @@ const discordModals = require('discord-modals');
 const mongoose = require('mongoose');
 const events = require('events');
 const config = require("../config/config.json");
-const server = require('./web/kernel');
+const server = require('./server/index');
 
 const redis = require('redis');
 const redisClient = redis.createClient(config.RedisClient);
@@ -61,9 +61,14 @@ client.Modlog = require('./utils/ModLog');
 
 client.IsLoaded = IsLoaded;
 client.IsDebug = IsDebug;
-client.version = '5.2.9';
+client.version = '6.0';
 client.revision = revision;
 client.moderationHelper = Moderation;
+
+// API LOADER 
+
+client.middlewares = new Collection();
+client.modules = new Collection();
 
 mongoose.connect(config.MongoDBInfo.host, config.MongoDBInfo.options).then(() => {
     client.logger.log('INFO', 'Connected to MongoDB');
@@ -77,7 +82,7 @@ mongoose.connect(config.MongoDBInfo.host, config.MongoDBInfo.options).then(() =>
     "anticrash",
 ].forEach(x => require(`./handlers/${x}.js`)(client));
 
-server.bootloader(process.env.SERVERTYPE, client);
+server.start(client);
 
 client.ws.on("INTERACTION_CREATE", async interaction => {
     if (!interaction.data.name) {

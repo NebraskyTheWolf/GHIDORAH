@@ -7,26 +7,16 @@ const passport = require('passport');
 const fs = require("fs");
 const https = require('https');
 
-const privateKey  = fs.readFileSync('core/web/ssl/server.key', 'utf8');
-const certificate = fs.readFileSync('core/web/ssl/server.crt', 'utf8');
+const privateKey  = fs.readFileSync('core/server/app/config/ssl/server.key', 'utf8');
+const certificate = fs.readFileSync('core/server/app/config/ssl/server.crt', 'utf8');
 const credentials = {key: privateKey, cert: certificate};
 
 const httpsServer = https.createServer(credentials, server);
 
-// SERVERS IMPORT
-const AuthServer = require('./server/auth/index');
-const DataServer = require('./server/api/index');
-const ServiceServer = require('./server/services/index');
-
-// PUBLIC WEBAPP
-
-const Dashboard = require('./client/dashboard/index');
-const Feedbacks = require('./client/feedback/index');
-const Support = require('./client/support/index');
-
+const authentication = require('./app/middlewares/Authentication');
 const engine = require('express-engine-jsx');
 
-module.exports.bootloader = async function (environement, client) {
+module.exports = async function start(client) {
     server.use(express.static('public'));
 	server.set('view engine', 'jsx');
 	server.engine('jsx', engine);
@@ -53,37 +43,36 @@ module.exports.bootloader = async function (environement, client) {
 		res.header('Access-Control-Allow-Origin', '*');
 		res.header('Access-Control-Allow-Methods', 'GET,POST');
 		res.header('Access-Control-Allow-Headers', 'Content-Type');
+		res.header('Server', 'GHIDORAH');
 
 		next();
 	});
  
-    client.logger.log('INFO', `Starting WEBAPP to ${environement} mode..`);
+    client.logger.log('INFO', `Starting WEBAPP..`);
 
-    switch (environement) {
-        case "FULL": {
-            await AuthServer.starts(server, client);
-            await DataServer.starts(server, client);
-			await ServiceServer.starts(server, client);
-
-            await Dashboard.starts(server, client);
-            await Feedbacks.starts(server, client);
-            await Support.starts(server, client);
+    var routes = require('./app/config/routes')
+    for (var route in routes) {
+        if (route.split(' ').length > 1) {
+           var method = route.split(' ')[0]
+           var url = route.split(' ')[1]
+        } else {
+           var method = 'get'
+           var url = route
         }
-        break;
-        case "API_ONLY": {
-            await AuthServer.starts(server, client);
-            await DataServer.starts(server, client);
-			await ServiceServer.starts(server, client);
+        if (typeof routes[route] === 'string') {
+           var controller = routes[route].split('.')[0]
+           var action = routes[route].split('.')[1]
+        } else {
+           var controller = routes[route].function.split('.')[0]
+           var action = routes[route].function.split('.')[1]
+        
+        if (routes[route].protected) {
+            server[method](url, authentication, require('./app/controller/' + controller)[action])
+            continue
+          }
         }
-        break;
-        case "SERVERLESS": {
-            client.logger.log('WARN', `---`);
-            client.logger.log('WARN', `Serverless enabled ALL WEBAPP WILL BE DISABLED!`);
-        }
-        break;
-        default:
-            client.logger.log('INFO', `${environement} not exist. Serverless mode enabled.`);
-        break;
+        // init route
+        server[method](url, require('./app/controller/' + controller)[action])
     }
 
     server.use(function (req, res, next) {
