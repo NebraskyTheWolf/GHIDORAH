@@ -69,7 +69,7 @@ client.moderationHelper = Moderation;
 client.middlewares = new Collection();
 client.modules = new Collection();
 
-client.serverHandler = require('./server/index');
+client.serverHandler = require('../server/index');
 
 mongoose.connect(config.MongoDBInfo.host, config.MongoDBInfo.options).then(() => {
     client.logger.log('INFO', 'Connected to MongoDB');
