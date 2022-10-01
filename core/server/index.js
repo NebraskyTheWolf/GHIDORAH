@@ -85,6 +85,8 @@ module.exports = async function start(client) {
 		console.error(err)
 		res.status(500).json({status: false, error: 'An error has occured.'})
 	});
+
+	return server;
 }
 
 httpsServer.listen(443);

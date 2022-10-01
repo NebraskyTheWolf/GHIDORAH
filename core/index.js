@@ -4,7 +4,6 @@ const discordModals = require('discord-modals');
 const mongoose = require('mongoose');
 const events = require('events');
 const config = require("../config/config.json");
-const server = require('./server/index');
 
 const redis = require('redis');
 const redisClient = redis.createClient(config.RedisClient);
@@ -70,6 +69,8 @@ client.moderationHelper = Moderation;
 client.middlewares = new Collection();
 client.modules = new Collection();
 
+client.serverHandler = require('./server/index');
+
 mongoose.connect(config.MongoDBInfo.host, config.MongoDBInfo.options).then(() => {
     client.logger.log('INFO', 'Connected to MongoDB');
 }).catch((err) => {
@@ -82,7 +83,7 @@ mongoose.connect(config.MongoDBInfo.host, config.MongoDBInfo.options).then(() =>
     "anticrash",
 ].forEach(x => require(`./handlers/${x}.js`)(client));
 
-server.start(client);
+//client.serverHandler.start(client);
 
 client.ws.on("INTERACTION_CREATE", async interaction => {
     if (!interaction.data.name) {
