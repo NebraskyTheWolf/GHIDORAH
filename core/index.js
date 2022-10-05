@@ -83,7 +83,7 @@ mongoose.connect(config.MongoDBInfo.host, config.MongoDBInfo.options).then(() =>
     "anticrash",
 ].forEach(x => require(`./handlers/${x}.js`)(client));
 
-//client.serverHandler.start(client);
+client.serverHandler.start(client);
 
 client.ws.on("INTERACTION_CREATE", async interaction => {
     if (!interaction.data.name) {
