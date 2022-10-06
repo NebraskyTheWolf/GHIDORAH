@@ -7,8 +7,8 @@ const passport = require('passport');
 const fs = require("fs");
 const https = require('https');
 
-const privateKey  = fs.readFileSync('../server/app/config/ssl/server.key', 'utf8');
-const certificate = fs.readFileSync('../server/app/config/ssl/server.crt', 'utf8');
+const privateKey  = fs.readFileSync('server/app/config/ssl/server.key', 'utf8');
+const certificate = fs.readFileSync('server/app/config/ssl/server.crt', 'utf8');
 const credentials = {key: privateKey, cert: certificate};
 
 const httpsServer = https.createServer(credentials, server);
@@ -40,7 +40,7 @@ module.exports = async function start(client) {
 	server.use(passport.session());
 
 	server.use(async function (req, res, next) {
-		res.header('Access-Control-Allow-Origin', '*');
+		res.header('Access-Control-Allow-Origin', '*.ghidorah.uk');
 		res.header('Access-Control-Allow-Methods', 'GET,POST');
 		res.header('Access-Control-Allow-Headers', 'Content-Type');
 		res.header('Server', 'GHIDORAH');
