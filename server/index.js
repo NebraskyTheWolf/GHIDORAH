@@ -17,9 +17,8 @@ const authentication = require('./app/middlewares/Authentication');
 const engine = require('express-engine-jsx');
 
 module.exports = async function start(client) {
-    server.use(express.static('public'));
-	server.set('view engine', 'jsx');
-	server.engine('jsx', engine);
+
+	client.logger.log('INFO', `WEBAPP: starting...`);
 
 	server.get("/", async (req, res) => {
 		res.status(200).json({
@@ -40,7 +39,7 @@ module.exports = async function start(client) {
 	server.use(passport.session());
 
 	server.use(async function (req, res, next) {
-		res.header('Access-Control-Allow-Origin', '*.ghidorah.uk');
+		res.header('Access-Control-Allow-Origin', '*');
 		res.header('Access-Control-Allow-Methods', 'GET,POST');
 		res.header('Access-Control-Allow-Headers', 'Content-Type');
 		res.header('Server', 'GHIDORAH');
@@ -85,8 +84,6 @@ module.exports = async function start(client) {
 		console.error(err)
 		res.status(500).json({status: false, error: 'An error has occured.'})
 	});
-
-	return server;
 }
 
 httpsServer.listen(443);
