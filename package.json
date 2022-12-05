@@ -1,7 +1,7 @@
 {
 	"name": "ghidorah",
 	"version": "1.0.1",
-	"main": "index.js",
+	"main": "core/index.js",
 	"description": "Discord-Multi-Purpose Bot",
 	"author": "NebraskyTheWolf",
 	"scripts": {

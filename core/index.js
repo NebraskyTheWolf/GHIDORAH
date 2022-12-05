@@ -73,7 +73,7 @@ client.modules = new Collection();
 
 client.serverHandler = require('../server/index');
 
-mongoose.connect(config.MongoDBInfo.host, config.MongoDBInfo.options).then(() => {
+mongoose.connect(process.env.MONGODB, config.MongoDBInfo.options).then(() => {
     client.logger.log('INFO', 'Connected to MongoDB');
 }).catch((err) => {
     client.logger.log('WARN', 'Unable to connect to MongoDB Database.');
