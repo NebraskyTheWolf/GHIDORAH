@@ -59,7 +59,7 @@ module.exports = {
                             },
                             {
                               "name": `Author`,
-                              "value": `Vakea#0666`
+                              "value": `RävelløTheFomx#4325`
                             }
                           ]
                         }

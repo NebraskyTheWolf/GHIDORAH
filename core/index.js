@@ -11,6 +11,7 @@ const redisClient = redis.createClient(config.RedisClient);
 const ConsoleColors = require('./utils/ConsoleColor');
 const Logger = require('./utils/Logger');
 const Moderation = require('./utils/ModerationHelper');
+const GameHelper = require('./utils/GameHelper');
 
 const IsLoaded = false;
 const IsDebug = process.env.DEBUG;
@@ -57,6 +58,7 @@ client.tasks = new Collection();
 client.cancellableTasks = new Collection();
 
 client.Modlog = require('./utils/ModLog');
+client.GameHelper = GameHelper;
 
 client.IsLoaded = IsLoaded;
 client.IsDebug = IsDebug;

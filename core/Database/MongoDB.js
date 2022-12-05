@@ -1,3 +1,5 @@
+const mongoose = require("mongoose");
+
 // GUILDS
 const messagesSchema = require('./Models/Guild/Messages');
 const memberSchema = require("./Models/Guild/Member");
@@ -9,6 +11,7 @@ const rulesSchema = require("./Models/Guild/Rules");
 const entrySchema = require('./Models/Guild/Common/VerificationEntry');
 const history = require('./Models/Guild/Common/History');
 const userruleSchema = require('./Models/Guild/Common/UserRule');
+const gameSchema = require('./Models/Guild/Common/Game');
 
 //MODERATION
 const verificationSchema = require("./Models/Guild/Moderation/Verification");
@@ -553,4 +556,30 @@ module.exports.createService = async function (data = {}) {
     });
     service.save().catch(err => client.logger.log('ERROR', `Error occurred: ${err}`))
     return service;
+}
+
+module.exports.fetchAllGames = async function (protocol) {
+    return await gameSchema.find({ protocol: protocol });
+}
+
+module.exports.fetchGame = async function (gameId) {
+    return await gameSchema.findOne({ _id: new mongoose.Types.ObjectId(gameId)});
+}
+
+module.exports.deleteGame = async function (gameId) {
+    return await gameSchema.deleteOne({ _id: new mongoose.Types.ObjectId(gameId)});
+}
+
+module.exports.createGame = async function (gameData = {}) {
+    const game = gameSchema({
+        gameName: gameData.name,
+        protocol: gameData.protocol,
+        serverIp: gameData.ip,
+
+        issuer: gameData.issuer,
+        registeredAt: new Date()
+    });
+    game.save().then((result) => {
+        return result;
+    }).catch((err) => client.logger.log('error', `An error occurred, ${err}`));
 }
